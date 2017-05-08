@@ -1,0 +1,165 @@
+# GameMaker 1.4 Library Extensions Reference
+
+## extension_array
+
+### [array_init](/scripts/extension_array.gml#L4)
+
+##### array_init(length)
+params: real (natural)
+returns: array with size of `length`
+
+##### array_init(height, length)
+params: real (natural), real (natural)
+retruns: array with size `height` * `length`
+### [array_create](/scripts/extension_array.gml#L44)
+
+##### array_create(...)
+params: value...
+returns: creates an array from arguments
+### [array_slice](/scripts/extension_array.gml#L64)
+
+##### array_slice(array, from, to)
+params: array, real (natural), real (natural)
+retruns: portion of `array`. `from` (inclusive), `to` (exclusive). if `from` == `to`, returns 0
+### [array_copy](/scripts/extension_array.gml#L92)
+
+##### array_copy(array)
+params: array
+returns: deep copy of `array`, both 1D and 2D arrays
+### [array_at](/scripts/extension_array.gml#L126)
+
+##### array_at(array, index)
+params: array, real (natural)
+returns: element in `array` at `index` (`array[subindex, index]`)
+### [array_append](/scripts/extension_array.gml#L161)
+
+##### array_append(array, value)
+params: array, value
+results: appends `value` to `array`. arrays are pointers, no need to return array
+
+##### array_append(array, height, value)
+params: array, real (natural), value
+results: appends `value` to `array` at `height`. arrays are pointers, no need to return array
+### [array_equal](/scripts/extension_array.gml#L195)
+
+##### array_equal(array1, array2)
+params: array, array
+returns: true if the content of `array1` and `array2` are equal
+### [array_split](/scripts/extension_array.gml#L234)
+
+##### array_split(string, separator)
+params: string, string
+returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)
+### [array_sub](/scripts/extension_array.gml#L274)
+
+##### array_sub(array, height)
+param: array, real (natural)
+retruns: 1D array from 2D array at position `height`
+### [array_reverse](/scripts/extension_array.gml#L296)
+
+##### array_reverse(array)
+params: array
+results: `array` with items in reverse order
+### [array_find](/scripts/extension_array.gml#L316)
+
+##### array_find(array, value, [nth = 1])
+params: array, real (natural), real (natural)
+returns: nth position where value is found in 1D array. if not found, returns -1
+### [array_count](/scripts/extension_array.gml#L344)
+
+##### array_count(array, value)
+params: array, value
+returns: count of how many of value exists in array
+### [array_exists](/scripts/extension_array.gml#L370)
+
+##### array_exists(array, value)
+params: array, value
+returns: count of how many of value exists in array
+### [array_expand](/scripts/extension_array.gml#L394)
+
+##### array_expand(array, [deep = -1])
+params: array, real (natural)
+returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all
+### [array_length](/scripts/extension_array.gml#L443)
+
+##### array_length(array, [height = 0])
+params: array, real (natural)
+retruns: length of `array`, at height `height`
+### [array_height](/scripts/extension_array.gml#L462)
+
+##### array_height(array)
+params: array
+retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
+### [array_insert](/scripts/extension_array.gml#L474)
+
+##### array_insert(array, position, value)
+params: array, real (natural), value
+returns: `array` with `value` inserted at `array[position]`
+## extension_ds_list
+
+### [ds_list_swap](/scripts/extension_ds_list.gml#L4)
+
+##### ds_list_swap(id, index_1, index_2)
+params: ds_list, real (natural), real (natural)
+results: swaps two elements, `index_1` and `index_2`, in a ds_list
+## extension_misc
+
+### [log](/scripts/extension_misc.gml#L4)
+
+##### log(...)
+params: value...
+results: shorthand for log.
+### [assert](/scripts/extension_misc.gml#L18)
+
+##### assert(comparison, [message])
+params: real (boolean), string
+results: if `comparison` is false, show `message` and exit
+### [noop](/scripts/extension_misc.gml#L42)
+
+##### noop()
+results: nothing. noop is shorthand for "no operation"
+### [type_of](/scripts/extension_misc.gml#L47)
+
+##### type_of(variable)
+value
+retruns: type of argument, as string
+## extension_object
+
+### [object_destroy](/scripts/extension_object.gml#L4)
+
+##### object_destroy(id)
+results: destroys all instances of `id`. can be both object or instance
+## extension_real
+
+### [real_within](/scripts/extension_real.gml#L4)
+
+##### real_within(number, min, max)
+params: real, real, real
+returns: true if number is withing range min/max (inclusive: min <= number <= max)
+### [real_within_exlusive](/scripts/extension_real.gml#L18)
+
+##### real_within_exlusive(number, min, max)
+params: real, real, real
+returns: true if number is withing range min/max (exclusive: min < number < max)
+### [real_is_integer](/scripts/extension_real.gml#L32)
+
+##### real_is_integer(number)
+params: real
+returns: true if `number` is integer (no decimals)
+### [real_is_natural](/scripts/extension_real.gml#L44)
+
+##### real_is_natural(number)
+params: real
+returns: true if number is natural number (integer and greater or equal to 0)
+## extension_string
+
+### [string_text](/scripts/extension_string.gml#L4)
+
+##### string_text(...)
+params: value...
+returns: converts all arguments to string
+### [string_join](/scripts/extension_string.gml#L39)
+
+##### string_join(array, joiner)
+params: array, string
+returns: string with items in `array` joined by `joiner`
