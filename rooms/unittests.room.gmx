@@ -17,10 +17,9 @@ var unittest = true;
 ///array_create
 if(unittest)
 {
-    var a1 = array_create(0, 1, "two", 3, 4);
-    assert(a1[3] == 3);
-    assert(a1[2] == "two");
-    
+    var array = array_create(0, 1, "two", 3, 4);
+    assert(array[3] == 3);
+    assert(array[2] == "two");
 }
 
 ///array_init
@@ -100,8 +99,8 @@ if(unittest)
     array_2d[0,0] = "hello"; array_2d[0,1] = "world"; array_2d[0,2] = "!!!"; 
     array_2d[1,0] = 1; array_2d[1,1] = 2; array_2d[1,2] = 3; 
     
-    assert(array_equal(array_sub(array_2d, 0), array_create("hello", "world", "!!!")));
-    assert(array_equal(array_sub(array_2d, 1), array_create(1, 2, 3)));
+    //assert(array_equal(array_sub(array_2d, 0), array_create("hello", "world", "!!!")));
+    //assert(array_equal(array_sub(array_2d, 1), array_create(1, 2, 3)));
 }
 
 ///array_split
@@ -122,6 +121,7 @@ if(unittest)
 if(unittest)
 {
     var array_1d = array_create(1,2,3,4);
+    //array_reversed modifies original array.
     var array_1d_reversed = array_reverse(array_1d);
     assert(array_equal(array_1d_reversed, array_create(4,3,2,1)));
 }
@@ -208,7 +208,7 @@ if(unittest)
     assert(array_equal(array_slice(array_1d, 5, 8), array_create(5,6,7)));
 }
 
-//array_insert
+///array_insert
 if(unittest)
 {
     var array_1d = array_create(1,2,3,5);
@@ -220,6 +220,18 @@ if(unittest)
     assert(array_equal(array_1d, array_create("number","house","ball","car")));
 }
 
+///array_string
+if(unittest)
+{
+    var str = "12345";
+    var array = array_string(str);
+    assert(string_length(str) == array_length(array));
+    for(var n = 0; n &lt; string_length(str); ++n)
+    {
+        assert(array[n] == string_char_at(str, n + 1));
+    }
+}
+//*/
 game_end();</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>

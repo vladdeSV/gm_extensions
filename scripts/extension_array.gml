@@ -50,7 +50,7 @@ else if(argument_count == 2)
 if(argument_count == 0) return 0;
 
 //array from arguments
-var return_array = 0;
+var return_array = array_init(argument_count);
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
@@ -71,11 +71,12 @@ var from = argument1;
 var to = argument2;
 
 assert(is_array(array) && array_height(array) == 1, "array_slice(...): `array` must be 1D array.");
+var length = array_length(array);
+
 assert(real_is_natural(from) && real_is_natural(to), "array_slice(...): `from` and `to` must be natural numbers.");
 assert(from <= to, string_text("array_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
 assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: [", from, " .. ", to, "], `array` is [0 .. ", length, "]."));
 
-var length = array_length(array);
 
 //if slice of length 0, return 0
 if(from == to) return 0;
@@ -99,7 +100,7 @@ var array = argument0;
 
 assert(is_array(array), "array_copy(...): `array` must be array.");
 
-var copy = array_init(array_height(array), array_length(array));
+var copy = 0;
 
 //iterate over array height (height is 1 if array is 1D)
 for(var i = 0; i < array_height_2d(array); ++i)
@@ -282,12 +283,12 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
-var length = array_length_2d(array, subindex);
+var length = array_length_2d(array, height);
 var sub_array = array_init(length);
 
 for(var n = 0; n < length; ++n)
 {
-    sub_array[n] = array[@subindex, n];
+    sub_array[n] = array[@height, n];
 }
 
 return sub_array;
@@ -298,19 +299,20 @@ return sub_array;
 //params: array
 //results: `array` with items in reverse order
 
-var array = array_copy(argument0);
+var array = argument0;
 
 assert(is_array(array), "array_reverse(...): `array` must be array.");
 
-var length = array_length_1d(array);
-var temp = 0;
+var array = array_copy(array);
+var length = array_length(array);
+var return_array = array_init(length);
 
-for(var n = 0; n < floor(length/2); ++n)
+for(var i = 0; i < length; ++i)
 {
-    temp = array[@n];
-    array[@n] = array[@(length - 1 - n)];
-    array[@(length - 1 - n)] = temp;
+    return_array[i] = array[@(length - 1 - i)];
 }
+
+return return_array;
 
 
 #define array_find
@@ -500,6 +502,24 @@ for(var i = 0; i <= length; ++i)
     {
         return_array[i] = array[@i];
     }
+}
+
+return return_array;
+#define array_string
+///array_string(string)
+//params: string
+//retruns: array with each item as string characters
+
+var str = argument0;
+
+assert(is_string(str), "array_string(...): `string` must be string.");
+
+var str_length = string_length(str);
+var return_array = array_init(str_length);
+
+for(var i = 0; i < str_length; ++i)
+{
+    return_array[i] = string_char_at(str, i + 1);
 }
 
 return return_array;

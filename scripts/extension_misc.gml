@@ -21,7 +21,7 @@ show_debug_message(string_text(array));
 //results: if `comparison` is false, show `message` and exit
 
 //if arguments are not 1 or 2, exit.
-if(!real_within(argument_count, 1, 2))
+if(!(1 <= argument_count && argument_count <= 2))
 {
     show_message("ASSERTION ERROR: Wrong assertion argument count.");
     game_end();
