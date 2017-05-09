@@ -14,11 +14,9 @@ void main()
     output.writeln("#define gm_extensions\n///Game Maker 1.4 Library Extensions\n");
 
     File reference = File("reference.md", "w"); reference.writeln("# GameMaker 1.4 Library Extensions Reference\n## Reference\n");
-
-    auto scripts = dirEntries("scripts/", "extension_*.gml", SpanMode.shallow);
-
+    
     //bad, initial loop to create list of references
-    foreach(script; scripts)
+    foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
         auto fileName = script.name.split("/")[$-1];
         reference.writeln("### ", fileName.split(".")[0], "\n");
@@ -36,7 +34,7 @@ void main()
         reference.writeln();
     }
 
-    foreach(script; scripts)
+    foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
         auto lines = readText(script.name).replace("\r\n", "\n").split("\n");
         foreach(line; lines)
