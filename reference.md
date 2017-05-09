@@ -3,7 +3,6 @@
 
 ### extension_array
 
-1. [extension_array](#extension_array)
 1. [array_init](#array_init)
 1. [array_create](#array_create)
 1. [array_slice](#array_slice)
@@ -25,12 +24,10 @@
 
 ### extension_ds_list
 
-1. [extension_ds_list](#extension_ds_list)
 1. [ds_list_swap](#ds_list_swap)
 
 ### extension_misc
 
-1. [extension_misc](#extension_misc)
 1. [log](#log)
 1. [assert](#assert)
 1. [noop](#noop)
@@ -38,12 +35,10 @@
 
 ### extension_object
 
-1. [extension_object](#extension_object)
 1. [object_destroy](#object_destroy)
 
 ### extension_real
 
-1. [extension_real](#extension_real)
 1. [real_within](#real_within)
 1. [real_within_exlusive](#real_within_exlusive)
 1. [real_is_integer](#real_is_integer)
@@ -51,7 +46,6 @@
 
 ### extension_string
 
-1. [extension_string](#extension_string)
 1. [string_text](#string_text)
 1. [string_join](#string_join)
 
