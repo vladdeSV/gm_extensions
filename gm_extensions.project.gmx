@@ -16,6 +16,7 @@
     <script>scripts\extension_ds_list.gml</script>
     <script>scripts\extension_misc.gml</script>
   </scripts>
+  <objects name="objects"/>
   <rooms name="rooms">
     <room>rooms\unittests</room>
   </rooms>

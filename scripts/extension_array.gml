@@ -41,12 +41,11 @@ else if(argument_count == 2)
 }
 
 #define array_create
-///array_create(...)
-//params: value...
+///array_create(arg, ...)
+//params: value, value...
 //returns: creates an array from arguments
 
-//if no arguments, return 0
-if(argument_count == 0) return 0;
+assert(argument_count > 0, "array_create: At least one argument must be provided.");
 
 //array from arguments
 var return_array = array_init(argument_count);
