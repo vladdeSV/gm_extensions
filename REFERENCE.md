@@ -63,29 +63,29 @@ retruns: array with size `height` * `length`
 
 ### [array_create](/scripts/extension_array.gml#L44)
 
-##### array_create(...)
-params: value...
+##### array_create(arg, ...)
+params: value, value...
 returns: creates an array from arguments
 
-### [array_slice](/scripts/extension_array.gml#L63)
+### [array_slice](/scripts/extension_array.gml#L62)
 
 ##### array_slice(array, from, to)
 params: array, real (natural), real (natural)
 retruns: portion of `array`. `from` (inclusive), `to` (exclusive). if `from` == `to`, returns 0
 
-### [array_copy](/scripts/extension_array.gml#L91)
+### [array_copy](/scripts/extension_array.gml#L90)
 
 ##### array_copy(array)
 params: array
 returns: deep copy of `array`, both 1D and 2D arrays
 
-### [array_at](/scripts/extension_array.gml#L124)
+### [array_at](/scripts/extension_array.gml#L123)
 
 ##### array_at(array, index)
 params: array, real (natural)
 returns: element in `array` at `index` (`array[subindex, index]`)
 
-### [array_append](/scripts/extension_array.gml#L158)
+### [array_append](/scripts/extension_array.gml#L157)
 
 ##### array_append(array, value)
 params: array, value
@@ -95,73 +95,73 @@ results: appends `value` to `array`. arrays are pointers, no need to return arra
 params: array, real (natural), value
 results: appends `value` to `array` at `height`. arrays are pointers, no need to return array
 
-### [array_equal](/scripts/extension_array.gml#L191)
+### [array_equal](/scripts/extension_array.gml#L190)
 
 ##### array_equal(array1, array2)
 params: array, array
 returns: true if the content of `array1` and `array2` are equal
 
-### [array_split](/scripts/extension_array.gml#L229)
+### [array_split](/scripts/extension_array.gml#L228)
 
 ##### array_split(string, separator)
 params: string, string
 returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)
 
-### [array_sub](/scripts/extension_array.gml#L268)
+### [array_sub](/scripts/extension_array.gml#L267)
 
 ##### array_sub(array, height)
 param: array, real (natural)
 retruns: 1D array from 2D array at position `height`
 
-### [array_reverse](/scripts/extension_array.gml#L289)
+### [array_reverse](/scripts/extension_array.gml#L288)
 
 ##### array_reverse(array)
 params: array
 results: `array` with items in reverse order
 
-### [array_find](/scripts/extension_array.gml#L309)
+### [array_find](/scripts/extension_array.gml#L308)
 
 ##### array_find(array, value, [nth = 1])
 params: array, real (natural), real (natural)
 returns: nth position where value is found in 1D array. if not found, returns -1
 
-### [array_count](/scripts/extension_array.gml#L336)
+### [array_count](/scripts/extension_array.gml#L335)
 
 ##### array_count(array, value)
 params: array, value
 returns: count of how many of value exists in array
 
-### [array_exists](/scripts/extension_array.gml#L361)
+### [array_exists](/scripts/extension_array.gml#L360)
 
 ##### array_exists(array, value)
 params: array, value
 returns: count of how many of value exists in array
 
-### [array_expand](/scripts/extension_array.gml#L384)
+### [array_expand](/scripts/extension_array.gml#L383)
 
 ##### array_expand(array, [deep = -1])
 params: array, real (natural)
 returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all
 
-### [array_length](/scripts/extension_array.gml#L432)
+### [array_length](/scripts/extension_array.gml#L431)
 
 ##### array_length(array, [height = 0])
 params: array, real (natural)
 retruns: length of `array`, at height `height`
 
-### [array_height](/scripts/extension_array.gml#L450)
+### [array_height](/scripts/extension_array.gml#L449)
 
 ##### array_height(array)
 params: array
 retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
 
-### [array_insert](/scripts/extension_array.gml#L461)
+### [array_insert](/scripts/extension_array.gml#L460)
 
 ##### array_insert(array, position, value)
 params: array, real (natural), value
 returns: `array` with `value` inserted at `array[position]`
 
-### [array_string](/scripts/extension_array.gml#L494)
+### [array_string](/scripts/extension_array.gml#L493)
 
 ##### array_string(string)
 params: string
