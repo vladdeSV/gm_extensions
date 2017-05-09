@@ -1,6 +1,8 @@
 # GameMaker 1.4 Library Extensions
 This library aims to add missing features from the standard GameMaker 1.4 library.
 
+There are currently **30 (and growing) scripts** for general purpose usage!
+
 ### Resources
 * Check out the [REFERENCE](REFERENCE.md)!
 * If you want to contribute, checkout [CONTRIBUTING](CONTRIBUTING.md).
