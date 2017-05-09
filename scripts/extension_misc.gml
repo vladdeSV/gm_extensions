@@ -4,7 +4,7 @@
 #define log
 ///log(...)
 //params: value...
-//results: shorthand for log.
+//results: shorthand for `show_debug_message`
 
 var array = 0;
 for(var i = 0; i < argument_count; ++i)
@@ -13,7 +13,6 @@ for(var i = 0; i < argument_count; ++i)
 }
 
 show_debug_message(string_text(array));
-
 
 #define assert
 ///assert(comparison, [message])
@@ -38,11 +37,9 @@ else if(argument[0] == false)
     game_end();
 }
 
-
 #define noop
 ///noop()
 //results: nothing. noop is shorthand for "no operation"
-
 
 #define type_of
 ///type_of(variable)

@@ -20,16 +20,23 @@ void main()
     {
         auto content = readText(script.name).replace("\r\n", "\n");
 
-        output.write(content);
+        auto lines = content.split("\n");
+        foreach(line; lines)
+        {
+            if(!line.canFind("extension_"))
+            {
+                output.writeln(line);
+            }
+        }
         
         auto fileName = script.name.split("/")[$-1];
         reference.writeln("## ", fileName.split(".")[0], "\n");
-        auto lines = content.split("\n");
+
         for(int i = 0; i < lines.length; ++i)
         {
             if(lines[i].canFind("#define ") && !lines[i].canFind("extension_"))
             {
-                reference.writeln("### [", lines[i][8 .. $], "](/scripts/", fileName, "#L", i+1, ")");
+                reference.writeln("### [", lines[i][8 .. $], "](/scripts/", fileName, "#L", i+2, ")");
 
                 while(lines[++i].canFind("//"))
                 {
@@ -44,6 +51,8 @@ void main()
                         reference.writeln(line[2 .. $]);
                     }
                 }
+
+                reference.writeln();
             }
         }
     }

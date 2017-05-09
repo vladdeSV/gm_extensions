@@ -1,7 +1,6 @@
 #define gm_extensions
 ///Game Maker 1.4 Library Extensions
 
-#define extension_array
 
 
 #define array_init
@@ -43,7 +42,6 @@ else if(argument_count == 2)
     return array;
 }
 
-
 #define array_create
 ///array_create(...)
 //params: value...
@@ -53,7 +51,7 @@ else if(argument_count == 2)
 if(argument_count == 0) return 0;
 
 //array from arguments
-var return_array = 0;
+var return_array = array_init(argument_count);
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
@@ -62,7 +60,6 @@ for(var i = 0; i < argument_count; ++i)
 }
 
 return return_array;
-
 
 #define array_slice
 ///array_slice(array, from, to)
@@ -74,11 +71,12 @@ var from = argument1;
 var to = argument2;
 
 assert(is_array(array) && array_height(array) == 1, "array_slice(...): `array` must be 1D array.");
+var length = array_length(array);
+
 assert(real_is_natural(from) && real_is_natural(to), "array_slice(...): `from` and `to` must be natural numbers.");
 assert(from <= to, string_text("array_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
 assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: [", from, " .. ", to, "], `array` is [0 .. ", length, "]."));
 
-var length = array_length(array);
 
 //if slice of length 0, return 0
 if(from == to) return 0;
@@ -91,7 +89,6 @@ for(var i = from; i < to; ++i)
 
 return return_array;
 
-
 #define array_copy
 ///array_copy(array)
 //params: array
@@ -102,7 +99,7 @@ var array = argument0;
 
 assert(is_array(array), "array_copy(...): `array` must be array.");
 
-var copy = array_init(array_height(array), array_length(array));
+var copy = 0;
 
 //iterate over array height (height is 1 if array is 1D)
 for(var i = 0; i < array_height_2d(array); ++i)
@@ -124,7 +121,6 @@ for(var i = 0; i < array_height_2d(array); ++i)
 }
 
 return copy;
-
 
 #define array_at
 ///array_at(array, index)
@@ -160,7 +156,6 @@ else if(argument_count == 3)
     return array[@height, index];
 }
 
-
 #define array_append
 ///array_append(array, value)
 //params: array, value
@@ -193,7 +188,6 @@ else if(argument_count == 3)
     
     array[array_length(array, height)] = value;
 }
-
 
 #define array_equal
 ///array_equal(array1, array2)
@@ -232,7 +226,6 @@ for(var h = 0; h < height; ++h)
 }
 
 return true;
-
 
 #define array_split
 ///array_split(string, separator)
@@ -273,7 +266,6 @@ for(var i = 1; i <= source_length + 1; ++i)
 
 return splits;
 
-
 #define array_sub
 ///array_sub(array, height)
 //param: array, real (natural)
@@ -285,36 +277,35 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
-var length = array_length_2d(array, subindex);
+var length = array_length_2d(array, height);
 var sub_array = array_init(length);
 
 for(var n = 0; n < length; ++n)
 {
-    sub_array[n] = array[@subindex, n];
+    sub_array[n] = array[@height, n];
 }
 
 return sub_array;
-
 
 #define array_reverse
 ///array_reverse(array)
 //params: array
 //results: `array` with items in reverse order
 
-var array = array_copy(argument0);
+var array = argument0;
 
 assert(is_array(array), "array_reverse(...): `array` must be array.");
 
-var length = array_length_1d(array);
-var temp = 0;
+var array = array_copy(array);
+var length = array_length(array);
+var return_array = array_init(length);
 
-for(var n = 0; n < floor(length/2); ++n)
+for(var i = 0; i < length; ++i)
 {
-    temp = array[@n];
-    array[@n] = array[@(length - 1 - n)];
-    array[@(length - 1 - n)] = temp;
+    return_array[i] = array[@(length - 1 - i)];
 }
 
+return return_array;
 
 #define array_find
 ///array_find(array, value, [nth = 1])
@@ -343,7 +334,6 @@ for(var n = 0; n < length; ++n)
 
 return -1;
 
-
 #define array_count
 ///array_count(array, value)
 //params: array, value
@@ -369,7 +359,6 @@ for(var h = 0; h < height; ++h)
 
 return count;
 
-
 #define array_exists
 ///array_exists(array, value)
 //params: array, value
@@ -392,7 +381,6 @@ for(var h = 0; h < height; ++h)
 }
 
 return false;
-
 
 #define array_expand
 ///array_expand(array, [deep = -1])
@@ -442,7 +430,6 @@ for(var i = 0; i < al; ++i)
 
 return return_array;
 
-
 #define array_length
 ///array_length(array, [height = 0])
 //params: array, real (natural)
@@ -461,7 +448,6 @@ assert(real_is_natural(height), "array_length(...): `height` must be natural num
 
 return array_length_2d(array, height);
 
-
 #define array_height
 ///array_height(array)
 //params: array
@@ -472,7 +458,6 @@ var array = argument0;
 assert(is_array(array), "array_height(...): `array` must be array.");
 
 return array_height_2d(array);
-
 
 #define array_insert
 ///array_insert(array, position, value)
@@ -506,7 +491,26 @@ for(var i = 0; i <= length; ++i)
 }
 
 return return_array;
-#define extension_ds_list
+
+#define array_string
+///array_string(string)
+//params: string
+//retruns: array with each item as string characters
+
+var str = argument0;
+
+assert(is_string(str), "array_string(...): `string` must be string.");
+
+var str_length = string_length(str);
+var return_array = array_init(str_length);
+
+for(var i = 0; i < str_length; ++i)
+{
+    return_array[i] = string_char_at(str, i + 1);
+}
+
+return return_array;
+
 
 
 #define ds_list_swap
@@ -524,13 +528,12 @@ assert(real_is_natural(index_1) && real_is_natural(index_2), "ds_list_swap(...):
 var temp = ds_list_find_value(argument0, argument1);
 ds_list_replace(argument0, argument1, ds_list_find_value(argument0, argument2));
 ds_list_replace(argument0, argument2, temp);
-#define extension_misc
 
 
 #define log
 ///log(...)
 //params: value...
-//results: shorthand for log.
+//results: shorthand for `show_debug_message`
 
 var array = 0;
 for(var i = 0; i < argument_count; ++i)
@@ -540,14 +543,13 @@ for(var i = 0; i < argument_count; ++i)
 
 show_debug_message(string_text(array));
 
-
 #define assert
 ///assert(comparison, [message])
 //params: real (boolean), string
 //results: if `comparison` is false, show `message` and exit
 
 //if arguments are not 1 or 2, exit.
-if(!real_within(argument_count, 1, 2))
+if(!(1 <= argument_count && argument_count <= 2))
 {
     show_message("ASSERTION ERROR: Wrong assertion argument count.");
     game_end();
@@ -564,11 +566,9 @@ else if(argument[0] == false)
     game_end();
 }
 
-
 #define noop
 ///noop()
 //results: nothing. noop is shorthand for "no operation"
-
 
 #define type_of
 ///type_of(variable)
@@ -623,7 +623,6 @@ else if(is_vec4(variable))
 }
 
 return "unknown";
-#define extension_object
 
 
 #define object_destroy
@@ -631,7 +630,6 @@ return "unknown";
 //results: destroys all instances of `id`. can be both object or instance
 
 with(argument0) instance_destroy();
-#define extension_real
 
 
 #define real_within
@@ -645,8 +643,7 @@ var maximum = argument2;
 
 assert(is_real(number) && is_real(minimum) && is_real(maximum), "`number`, `minimum`, and `maximum` must be numbers.");
 
-return (minimum <= number && number <= maximum)
-
+return ((minimum <= number) && (number <= maximum));
 
 #define real_within_exlusive
 ///real_within_exlusive(number, min, max)
@@ -659,8 +656,7 @@ var maximum = argument2;
 
 assert(is_real(number) && is_real(minimum) && is_real(maximum), "`number`, `minimum`, and `maximum` must be numbers.");
 
-return minimum < number && number < maximum;
-
+return ((minimum < number) && (number < maximum));
 
 #define real_is_integer
 ///real_is_integer(number)
@@ -673,7 +669,6 @@ assert(is_real(number), "real_is_integer(...): `number` must be number.");
 
 return (number mod 1 == 0);
 
-
 #define real_is_natural
 ///real_is_natural(number)
 //params: real
@@ -683,8 +678,8 @@ var number = argument0;
 
 assert(is_real(number), "real_is_natural(...): `number` must be number.");
 
-return real_is_integer(number) && number >= 0;
-#define extension_string
+return (real_is_integer(number) && number >= 0);
+
 
 
 #define string_text
@@ -720,7 +715,6 @@ for(var n = 0; n < argument_count; ++n)
 }
 
 return text;
-
 
 #define string_join
 ///string_join(array, joiner)

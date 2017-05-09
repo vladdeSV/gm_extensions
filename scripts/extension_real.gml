@@ -12,8 +12,7 @@ var maximum = argument2;
 
 assert(is_real(number) && is_real(minimum) && is_real(maximum), "`number`, `minimum`, and `maximum` must be numbers.");
 
-return (minimum <= number && number <= maximum)
-
+return ((minimum <= number) && (number <= maximum));
 
 #define real_within_exlusive
 ///real_within_exlusive(number, min, max)
@@ -26,8 +25,7 @@ var maximum = argument2;
 
 assert(is_real(number) && is_real(minimum) && is_real(maximum), "`number`, `minimum`, and `maximum` must be numbers.");
 
-return minimum < number && number < maximum;
-
+return ((minimum < number) && (number < maximum));
 
 #define real_is_integer
 ///real_is_integer(number)
@@ -40,7 +38,6 @@ assert(is_real(number), "real_is_integer(...): `number` must be number.");
 
 return (number mod 1 == 0);
 
-
 #define real_is_natural
 ///real_is_natural(number)
 //params: real
@@ -50,4 +47,4 @@ var number = argument0;
 
 assert(is_real(number), "real_is_natural(...): `number` must be number.");
 
-return real_is_integer(number) && number >= 0;
+return (real_is_integer(number) && number >= 0);

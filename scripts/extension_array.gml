@@ -40,7 +40,6 @@ else if(argument_count == 2)
     return array;
 }
 
-
 #define array_create
 ///array_create(...)
 //params: value...
@@ -59,7 +58,6 @@ for(var i = 0; i < argument_count; ++i)
 }
 
 return return_array;
-
 
 #define array_slice
 ///array_slice(array, from, to)
@@ -88,7 +86,6 @@ for(var i = from; i < to; ++i)
 }
 
 return return_array;
-
 
 #define array_copy
 ///array_copy(array)
@@ -122,7 +119,6 @@ for(var i = 0; i < array_height_2d(array); ++i)
 }
 
 return copy;
-
 
 #define array_at
 ///array_at(array, index)
@@ -158,7 +154,6 @@ else if(argument_count == 3)
     return array[@height, index];
 }
 
-
 #define array_append
 ///array_append(array, value)
 //params: array, value
@@ -191,7 +186,6 @@ else if(argument_count == 3)
     
     array[array_length(array, height)] = value;
 }
-
 
 #define array_equal
 ///array_equal(array1, array2)
@@ -230,7 +224,6 @@ for(var h = 0; h < height; ++h)
 }
 
 return true;
-
 
 #define array_split
 ///array_split(string, separator)
@@ -271,7 +264,6 @@ for(var i = 1; i <= source_length + 1; ++i)
 
 return splits;
 
-
 #define array_sub
 ///array_sub(array, height)
 //param: array, real (natural)
@@ -293,7 +285,6 @@ for(var n = 0; n < length; ++n)
 
 return sub_array;
 
-
 #define array_reverse
 ///array_reverse(array)
 //params: array
@@ -313,7 +304,6 @@ for(var i = 0; i < length; ++i)
 }
 
 return return_array;
-
 
 #define array_find
 ///array_find(array, value, [nth = 1])
@@ -342,7 +332,6 @@ for(var n = 0; n < length; ++n)
 
 return -1;
 
-
 #define array_count
 ///array_count(array, value)
 //params: array, value
@@ -368,7 +357,6 @@ for(var h = 0; h < height; ++h)
 
 return count;
 
-
 #define array_exists
 ///array_exists(array, value)
 //params: array, value
@@ -391,7 +379,6 @@ for(var h = 0; h < height; ++h)
 }
 
 return false;
-
 
 #define array_expand
 ///array_expand(array, [deep = -1])
@@ -441,7 +428,6 @@ for(var i = 0; i < al; ++i)
 
 return return_array;
 
-
 #define array_length
 ///array_length(array, [height = 0])
 //params: array, real (natural)
@@ -460,7 +446,6 @@ assert(real_is_natural(height), "array_length(...): `height` must be natural num
 
 return array_length_2d(array, height);
 
-
 #define array_height
 ///array_height(array)
 //params: array
@@ -471,7 +456,6 @@ var array = argument0;
 assert(is_array(array), "array_height(...): `array` must be array.");
 
 return array_height_2d(array);
-
 
 #define array_insert
 ///array_insert(array, position, value)
@@ -505,6 +489,7 @@ for(var i = 0; i <= length; ++i)
 }
 
 return return_array;
+
 #define array_string
 ///array_string(string)
 //params: string

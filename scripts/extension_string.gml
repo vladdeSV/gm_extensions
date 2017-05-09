@@ -35,7 +35,6 @@ for(var n = 0; n < argument_count; ++n)
 
 return text;
 
-
 #define string_join
 ///string_join(array, joiner)
 //params: array, string
