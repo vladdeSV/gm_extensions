@@ -36,7 +36,7 @@ var number = argument0;
 
 assert(is_real(number), "real_is_integer(...): `number` must be number.");
 
-return (number mod 1 == 0);
+return ((number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)
