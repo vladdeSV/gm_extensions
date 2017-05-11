@@ -193,12 +193,12 @@ results: shorthand for `show_debug_message`
 params: real (boolean), string  
 results: if `comparison` is false, show `message` and exit  
 
-### [noop](/scripts/extension_misc.gml#L41)
+### [noop](/scripts/extension_misc.gml#L43)
 
 ##### noop()
 results: nothing. noop is shorthand for "no operation"  
 
-### [type_of](/scripts/extension_misc.gml#L45)
+### [type_of](/scripts/extension_misc.gml#L47)
 
 ##### type_of(variable)
 value  
