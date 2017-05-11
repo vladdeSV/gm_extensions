@@ -11,7 +11,7 @@
 //params: real (natural), real (natural)
 //retruns: array with size `height` * `length`
 
-assert(real_within(argument_count, 1, 2), string_text("array_init(...): Incorrect argument count. Expected: 1 or 2, got ", argument_count, "."));
+_gme_arguments(array_init, argument_count, 1, 2);
 
 if(argument_count == 1)
 {
@@ -125,12 +125,11 @@ return copy;
 ///array_at(array, index)
 //params: array, real (natural)
 //returns: element in `array` at `index` (`array[subindex, index]`)
-
 ///array_at(array, height, index)
 //params: array, real (natural), real (natural)
 //returns: element in `array` at `height, index` (`array[height, index]`)
 
-assert(real_within(argument_count, 2, 3), string_text("array_at(...): Incorrect argument count. Expected: 2 or 3, got ", argument_count, "."));
+_gme_arguments(array_at, argument_count, 2, 3);
 
 if(argument_count == 2)
 {
@@ -163,7 +162,7 @@ else if(argument_count == 3)
 //params: array, real (natural), value
 //results: appends `value` to `array` at `height`. arrays are pointers, no need to return array
 
-assert(real_within(argument_count, 2, 3), "array_append(...): Incorrect argument count. Expected: 2 or 3, got " + string(argument_count));
+_gme_arguments(array_append, argument_count, 2, 3);
 
 if(argument_count == 2)
 {
@@ -308,10 +307,10 @@ return return_array;
 
 #define array_find
 ///array_find(array, value, [nth = 1])
-//params: array, real (natural), real (natural)
+//params: array, real (natural), [real (natural)]
 //returns: nth position where value is found in 1D array. if not found, returns -1
 
-assert(real_within(argument_count, 2, 3), "array_find(...): Incorrect argument count. Expected: 2 or 3, got " + string(argument_count));
+_gme_arguments(array_find, argument_count, 2, 3);
 
 var array = argument[0];
 var value = argument[1];
@@ -383,10 +382,10 @@ return false;
 
 #define array_expand
 ///array_expand(array, [deep = -1])
-//params: array, real (natural)
+//params: array, [real (natural)]
 //returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all
 
-assert(real_within(argument_count,1,2), "array_expand(...): Incorrect argument count. Expected: 1 or 2, got " + string(argument_count));
+_gme_arguments(array_expand, argument_count, 1, 2);
 
 var array = argument[0];
 var deep = -1;
@@ -431,8 +430,10 @@ return return_array;
 
 #define array_length
 ///array_length(array, [height = 0])
-//params: array, real (natural)
+//params: array, [real (natural)]
 //retruns: length of `array`, at height `height`
+
+_gme_arguments(array_length, argument_count, 1, 2);
 
 var array = argument[0];
 var height = 0;
@@ -511,7 +512,6 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 
 
-
 #define ds_list_swap
 ///ds_list_swap(id, index_1, index_2)
 //params: ds_list, real (natural), real (natural)
@@ -527,6 +527,40 @@ assert(real_is_natural(index_1) && real_is_natural(index_2), "ds_list_swap(...):
 var temp = ds_list_find_value(argument0, argument1);
 ds_list_replace(argument0, argument1, ds_list_find_value(argument0, argument2));
 ds_list_replace(argument0, argument2, temp);
+
+
+#define _gme_arguments
+///_gme_arguments(script, argument_count, count, counts...)
+//params: script, real (natural), real(natural), real(natural)...
+
+if(argument_count < 4) assert(0, "_gme_arguments(...): Wrong argument count: expected 4 or more, got " + string(argument_count) + ".");
+
+var script = argument[0];
+var arg_count = argument[1];
+
+var l = argument_count - 2;
+var str = "";
+
+for(var i = 0; i < l; ++i)
+{
+    var c = argument[2 + i];
+    if(arg_count == c)
+    {
+        exit;
+    }
+    
+    if(i != l - 1)
+    {
+        str += string(c) + ",";
+    }
+    else
+    {
+        str += " or " + string(c);
+    }
+}
+
+assert(0, string(script_get_name(script)) + "(...): Incorrect argument count. Expected: " + str + ", got " + string(argument_count) + ".");
+
 
 
 #define log
@@ -666,7 +700,7 @@ var number = argument0;
 
 assert(is_real(number), "real_is_integer(...): `number` must be number.");
 
-return (number mod 1 == 0);
+return ((number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)
@@ -678,7 +712,6 @@ var number = argument0;
 assert(is_real(number), "real_is_natural(...): `number` must be number.");
 
 return (real_is_integer(number) && number >= 0);
-
 
 
 #define string_text

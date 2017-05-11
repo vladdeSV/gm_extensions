@@ -1,5 +1,5 @@
 #define extension_array
-array_init()
+
 
 #define array_init
 ///array_init(length)
