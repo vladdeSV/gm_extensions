@@ -18,6 +18,11 @@ void main()
     //bad, initial loop to create list of references
     foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
+        if(script.name.split("/")[$ - 1] == "extension_gme.gml")
+        {
+            continue;
+        }
+        
         auto fileName = script.name.split("/")[$-1];
         reference.writeln("### ", fileName.split(".")[0], "\n");
 
@@ -52,7 +57,7 @@ void main()
         {
             continue;
         }
-        
+
         auto fileName = script.name.split("/")[$-1];
         reference.writeln("## ", fileName.split(".")[0], "\n");
 

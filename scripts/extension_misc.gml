@@ -22,19 +22,21 @@ show_debug_message(string_text(array));
 //if arguments are not 1 or 2, exit.
 if(!(1 <= argument_count && argument_count <= 2))
 {
-    show_message("ASSERTION ERROR: Wrong assertion argument count.");
-    game_end();
+    show_error("ASSERTION ERROR: Wrong assertion argument count.", true);
 }
 
 //if `comparison` did not succeed
 else if(argument[0] == false)
 {
     //show `message`. if only one argument provided, show default message
-    if(argument_count == 1) { show_message("Assertion failed!"); }
-    else { show_message("ASSERTION ERROR: " + argument[1]); }
-    
-    //end, as something went wrong
-    game_end();
+    if(argument_count == 1)
+    {
+        show_error("Assertion failed!", true);
+    }
+    else
+    {
+        show_error("ASSERTION ERROR: " + argument[1], true);
+    }
 }
 
 #define noop

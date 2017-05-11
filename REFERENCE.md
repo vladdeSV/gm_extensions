@@ -26,10 +26,6 @@
 
 1. [ds_list_swap](#ds_list_swap)
 
-### extension_gme
-
-1. [_gme_arguments](#_gme_arguments)
-
 ### extension_misc
 
 1. [log](#log)
