@@ -1,5 +1,9 @@
 # Changelog
 
+### current
+**Changes**
+* Fixed newlines in `REFERENCE.md`.
+
 ### v1.0.1
 **Changes**
 * `array_at(array, height, index)` overload not available in REFERENCE.md, fixes #1.
