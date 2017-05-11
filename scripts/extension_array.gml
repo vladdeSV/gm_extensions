@@ -291,20 +291,38 @@ return sub_array;
 _gme_arguments(array_reverse, argument_count, 1, 2);
 
 var array = argument[0];
-var inplace = argument[1];
-
-assert(is_array(array), "array_reverse(...): `array` must be array.");
-
-var array = array_copy(array);
-var length = array_length(array);
-var return_array = array_init(length);
-
-for(var i = 0; i < length; ++i)
+var inplace = false;
+if(argument_count == 2)
 {
-    return_array[i] = array[@(length - 1 - i)];
+    inplace = argument[1];
 }
 
-return return_array;
+assert(is_array(array) && array_height(array) == 1, "array_reverse(...): `array` must be 1D array.");
+assert(real_is_natural(inplace), "array_reverse(...): `inplace` must be bool.");
+
+var length = array_length(array);
+
+if(inplace)
+{
+    for(var n = 0; n < floor(length/2); ++n)
+    {
+        var temp = array[@n];
+        array[@n] = array[@(length - 1 - n)];
+        array[@(length - 1 - n)] = temp;
+    }
+}
+else
+{
+    var array = array_copy(array);
+    var return_array = array_init(length);
+    
+    for(var i = 0; i < length; ++i)
+    {
+        return_array[i] = array[@(length - 1 - i)];
+    }
+    
+    return return_array;
+}
 
 #define array_find
 ///array_find(array, value, [nth = 1])
@@ -461,37 +479,42 @@ assert(is_array(array), "array_height(...): `array` must be array.");
 return array_height_2d(array);
 
 #define array_insert
-///array_insert(array, position, value)
-//params: array, real (natural), value
-//returns: `array` with `value` inserted at `array[position]`
+///array_insert(array, position, value, [inplace = false])
+//params: array, real (natural), value, [real (bool)]
+//returns: `array` with `value` inserted at `array[position]`. modifies original if `inplace` == true
 
-var array = argument0;
-var position = argument1;
-var value = argument2;
+var array = argument[0];
+var position = argument[1];
+var value = argument[2];
+var inplace = false; if(argument_count == 4) inplace = argument[3];
 
 assert(is_array(array) && array_height(array) == 1, "array_insert(...): Array must be provided");
 assert(is_real(position) and ((position mod 1) == 0) and position >= 0, "array_insert(...): `position` must be positive integer");
-
+assert(real_is_natural(inplace), "array_insert(...): `inplace` must be bool.");
 var length = array_length(array);
+assert(real_within(position, 0, length), string_text("array_insert(...): `position` must be between 0 and ", length, ", but `position` == ", position, "."));
 
-var return_array = array_init(length);
-for(var i = 0; i <= length; ++i)
+//if not modifying original, copy array
+if(!inplace)
 {
-    if(i == position)
+    array = array_copy(array);
+}
+
+var half_end = array_slice(array, position, length);
+if(is_array(half_end))
+{
+    //shift array one step left
+    for(var i = length; i > position; --i)
     {
-        return_array[i] = value;
-    }
-    else if(i > position)
-    {
-        return_array[i] = array[@(i - 1)];
-    }
-    else
-    {
-        return_array[i] = array[@i];
+        array[@i] = array[@(i - 1)];
     }
 }
 
-return return_array;
+array[@position] = value;
+
+//if not modifying original, return array
+if(!inplace) return array;
+
 
 #define array_string
 ///array_string(string)
