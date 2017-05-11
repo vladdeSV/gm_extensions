@@ -284,11 +284,14 @@ for(var n = 0; n < length; ++n)
 return sub_array;
 
 #define array_reverse
-///array_reverse(array)
-//params: array
-//results: `array` with items in reverse order
+///array_reverse(array, [inplace = false])
+//params: array, [real (bool)]
+//results: `array` with items in reverse order. modifies original array if `inplace` == true
 
-var array = argument0;
+_gme_arguments(array_reverse, argument_count, 1, 2);
+
+var array = argument[0];
+var inplace = argument[1];
 
 assert(is_array(array), "array_reverse(...): `array` must be array.");
 
