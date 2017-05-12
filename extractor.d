@@ -34,6 +34,8 @@ void main()
         reference.writeln();
     }
 
+    reference.writeln("\n---\n");
+
     foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
         //write to output file
