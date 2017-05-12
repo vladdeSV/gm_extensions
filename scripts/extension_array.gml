@@ -1,5 +1,8 @@
 #define extension_array
-
+enum _gme_array
+{
+    array_empty = "_gme_array_empty",
+}
 
 #define array_init
 ///array_init(length)
@@ -18,7 +21,15 @@ if(argument_count == 1)
     assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
     
     var array = 0;
-    array[length - 1] = 0;
+    
+    if(length > 0)
+    {
+        array[length - 1] = 0;
+    }
+    else
+    {
+        array[1,0] = _gme_array.array_empty;
+    }
     
     return array;
     
@@ -45,8 +56,6 @@ else if(argument_count == 2)
 //params: value, value...
 //returns: creates an array from arguments
 
-assert(argument_count > 0, "array_create: At least one argument must be provided.");
-
 //array from arguments
 var return_array = array_init(argument_count);
 
@@ -67,7 +76,7 @@ var array = argument0;
 var from = argument1;
 var to = argument2;
 
-assert(is_array(array) && array_height(array) == 1, "array_slice(...): `array` must be 1D array.");
+assert(is_array(array) && array_is_1d(array), "array_slice(...): `array` must be 1D array.");
 var length = array_length(array);
 
 assert(real_is_natural(from) && real_is_natural(to), "array_slice(...): `from` and `to` must be natural numbers.");
@@ -508,3 +517,76 @@ for(var i = 0; i < str_length; ++i)
 }
 
 return return_array;
+#define array_sort
+///array_sort(array, [ascending = true, inplace = false])
+//params: array, real (bool), real (bool)
+//retruns: array with elements sorted. all items in `array` must be same type
+
+_gme_arguments(array_sort, argument_count, 1, 2, 3);
+
+var array = argument[0];
+var ascending = true;
+var inplace = false;
+
+if(argument_count >= 2) ascending = argument[1];
+if(argument_count >= 3) inplace = argument[2];
+
+assert(is_array(array) && array_height(array) == 1, "array_sort(...): `array` must be 1D array.");
+assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
+assert(real_is_natural(inplace), "array_sort(...): `inplace` must be bool.");
+
+//check array all same type
+var array_type = type_of(array[0]);
+var length = array_length(array);
+for(var i = 0; i < length; ++i)
+{
+    var type = type_of(array[i]);
+    assert(array_type == type, string_text("array_sort(...): All types in array must be the same. ", array[i], " at poition ", i, " is of type ", type, "."));
+}
+
+//
+if(is_string(array[0]))
+{
+
+}
+//is real
+else
+{
+    
+}
+
+#define array_is_1d
+///array_is_1d(array)
+//params: array
+//retruns: true if `array` height == 1, or array length == 0
+
+var array = argument0;
+
+assert(is_array(array), "array_is_1d(...): `array` must be array.");
+
+/* the only way to create an "empty" 1D array, aka length of 0, is to have inproperly inited 2D array.
+
+var array = 0;
+array[1, 0] = "foo";
+
+*/
+
+return
+(
+    //if 1D array (array[0,n] == array[n])
+    array_height_2d(array) == 1
+    
+    ||
+    
+    //gm_extensions approach of empty 1D array
+    (
+        //if 1D array length == 0 (means array is 2D w/ height > 1)
+        array_length_2d(array, 0) == 0 &&
+        
+        //check array height == 2 (special case for gm_extensions)
+        array_height_2d(array) == 2 &&
+        
+        //if height == 2, then first position in 2D array must be initialized.
+        array[1,0] == _gme_array.array_empty
+    )
+);
