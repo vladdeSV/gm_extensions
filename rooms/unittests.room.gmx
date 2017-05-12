@@ -242,6 +242,17 @@ if(unittest)
         assert(array[n] == string_char_at(str, n + 1));
     }
 }
+
+///quick_sort
+if(unittest)
+{
+    var unsorted = array_create(5,2,4,1,3);
+    var sorted = quick_sort(unsorted);
+    
+    log(sorted);
+    assert(array_equal(sorted, array_create(5,4,3,2,1)));
+}
+
 //*/
 game_end();</code>
   <enableViews>0</enableViews>
@@ -260,8 +271,8 @@ game_end();</code>
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>1</page>
-    <xoffset>-175</xoffset>
-    <yoffset>-192</yoffset>
+    <xoffset>-211</xoffset>
+    <yoffset>-135</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>

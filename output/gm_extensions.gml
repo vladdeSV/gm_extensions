@@ -9,7 +9,7 @@
 
 var array = argument0;
 
-assert(is_array(array) && array_height(array) == 1, "quick_sort(...): `array` must be 1D array.");
+assert(is_array(array), "quick_sort(...): `array` must be 1D array.");
 
 var length = array_length(array);
 for(var i = 0; i < length; ++i)
@@ -17,9 +17,13 @@ for(var i = 0; i < length; ++i)
     assert(is_real(array[i]), "quick_sort(...): All items in `array` must be reals.");
 }
 
-if(length == 1)
+if(length == 0)
 {
-    return array;
+    return array_init(0);
+}
+else if(length == 1)
+{
+    return array_copy(array);
 }
 else if(length == 2)
 {
@@ -34,6 +38,41 @@ else if(length == 2)
         return array_create(b, a);
     }
 }
+else
+{
+    var lhs = array_init(0);
+    var mid = array_init(0);
+    var rhs = array_init(0);
+    var pivot_pos = floor(length/2);
+    var pivot = array[pivot_pos];
+    
+    for(var i = 0; i < length; ++i)
+    {
+        var value = array[i];
+        if(value > pivot)
+        {
+            lhs[array_length(lhs)] = value;
+        }
+        else if(value == pivot)
+        {
+            mid[array_length(mid)] = value;
+        }
+        else if(value < pivot)
+        {
+            rhs[array_length(rhs)] = value;
+        }
+    }
+    
+    //if empty array has content, remove "empty" identifier.
+    lhs = array_sub(lhs,0);
+    mid = array_sub(mid,0);
+    rhs = array_sub(rhs,0);
+    
+    var ret = array_create(quick_sort(lhs), mid, quick_sort(rhs));
+    
+    return array_expand(ret);
+}
+
 
 
 #define array_init
@@ -72,7 +111,7 @@ if(length > 0)
 }
 else
 {
-    array[height,0] = _gme.array_empty;
+    array[height,0] = gme.array_empty;
 }
 
 return array;
@@ -214,8 +253,10 @@ if(argument_count == 2)
     
     assert(is_array(array), "array_append(...): `array` must be array.");
     assert(array_height(array) == 1, "array_append(...): `array` must be 1D");
+    var length = array_length(array);
+    assert(length > 0, "array_append(...): `array` must be initialized in order to append.");
     
-    array[array_length(array)] = value;
+    array[length] = value;
 
 }
 else if(argument_count == 3)
@@ -226,8 +267,10 @@ else if(argument_count == 3)
     
     assert(is_array(array), "array_append(...): `array` must be array.");
     assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
-    
-    array[array_length(array, height)] = value;
+    var length = array_length(array, height);
+    assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
+ 
+    array[height, length] = value;
 }
 
 #define array_equal
@@ -317,6 +360,8 @@ var height = argument1;
 
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
+
+if(array_is_empty(array)) return array_init(0);
 
 var length = array_length_2d(array, height);
 var sub_array = array_init(length);
@@ -510,7 +555,6 @@ if(argument_count == 2)
     height = argument[1];
 }
 
-assert(is_array(array), "array_length(...): `array` must be array.");
 assert(real_is_natural(height), "array_length(...): `height` must be natural number.");
 
 return array_length_2d(array, height);
@@ -521,8 +565,6 @@ return array_length_2d(array, height);
 //retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
 
 var array = argument0;
-
-assert(is_array(array), "array_height(...): `array` must be array.");
 
 var height = array_height_2d(array);
 
@@ -590,7 +632,7 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 #define array_sort
 ///array_sort(array, [ascending = true, inplace = false])
-//params: array, real (bool), real (bool)
+//params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
@@ -661,7 +703,7 @@ assert(is_array(array), "array_is_empty(...): `array` must be array.");
 var height = array_height_2d(array);
 if(height < 2) return false;
 
-if(array[height - 1, 0] != _gme.array_empty)
+if(array[height - 1, 0] != gme.array_empty)
 {
     return false;
 }

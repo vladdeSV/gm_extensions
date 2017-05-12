@@ -1,5 +1,5 @@
 #define _gme
-enum _gme
+enum gme
 {
     array_empty,
 }

@@ -117,91 +117,91 @@ results: appends `value` to `array`. arrays are pointers, no need to return arra
 params: array, real (natural), value  
 results: appends `value` to `array` at `height`. arrays are pointers, no need to return array  
 
-### [array_equal](/scripts/extension_array.gml#L199)
+### [array_equal](/scripts/extension_array.gml#L203)
 
 ##### array_equal(array1, array2)
 params: array, array  
 returns: true if the content of `array1` and `array2` are equal  
 
-### [array_split](/scripts/extension_array.gml#L237)
+### [array_split](/scripts/extension_array.gml#L241)
 
 ##### array_split(string, separator)
 params: string, string  
 returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)  
 
-### [array_sub](/scripts/extension_array.gml#L276)
+### [array_sub](/scripts/extension_array.gml#L280)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L297)
+### [array_reverse](/scripts/extension_array.gml#L303)
 
 ##### array_reverse(array, [inplace = false])
 params: array, [real (bool)]  
 results: `array` with items in reverse order. modifies original array if `inplace` == true  
 
-### [array_find](/scripts/extension_array.gml#L338)
+### [array_find](/scripts/extension_array.gml#L344)
 
 ##### array_find(array, value, [nth = 1])
 params: array, real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L365)
+### [array_count](/scripts/extension_array.gml#L371)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L390)
+### [array_exists](/scripts/extension_array.gml#L396)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L413)
+### [array_expand](/scripts/extension_array.gml#L419)
 
 ##### array_expand(array, [deep = -1])
 params: array, [real (natural)]  
 returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all  
 
-### [array_length](/scripts/extension_array.gml#L464)
+### [array_length](/scripts/extension_array.gml#L470)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L484)
+### [array_height](/scripts/extension_array.gml#L489)
 
 ##### array_height(array)
 params: array  
 retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.  
 
-### [array_insert](/scripts/extension_array.gml#L499)
+### [array_insert](/scripts/extension_array.gml#L502)
 
 ##### array_insert(array, position, value, [inplace = false])
 params: array, real (natural), value, [real (bool)]  
 returns: `array` with `value` inserted at `array[position]`. modifies original if `inplace` == true  
 
-### [array_string](/scripts/extension_array.gml#L539)
+### [array_string](/scripts/extension_array.gml#L542)
 
 ##### array_string(string)
 params: string  
 retruns: array with each item as string characters  
 
-### [array_sort](/scripts/extension_array.gml#L557)
+### [array_sort](/scripts/extension_array.gml#L560)
 
 ##### array_sort(array, [ascending = true, inplace = false])
-params: array, real (bool), real (bool)  
+params: array, [real (bool), real (bool)]  
 retruns: array with elements sorted. all items in `array` must be same type  
 
-### [array_is_1d](/scripts/extension_array.gml#L595)
+### [array_is_1d](/scripts/extension_array.gml#L598)
 
 ##### array_is_1d(array)
 params: array  
 retruns: true if `array` height == 1, or `array` == empty 1D array  
 
-### [array_is_empty](/scripts/extension_array.gml#L618)
+### [array_is_empty](/scripts/extension_array.gml#L621)
 
 ##### array_is_empty(array)
 params: array  

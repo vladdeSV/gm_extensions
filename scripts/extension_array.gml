@@ -37,7 +37,7 @@ if(length > 0)
 }
 else
 {
-    array[height,0] = _gme.array_empty;
+    array[height,0] = gme.array_empty;
 }
 
 return array;
@@ -287,6 +287,8 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
+if(array_is_empty(array)) return array_init(0);
+
 var length = array_length_2d(array, height);
 var sub_array = array_init(length);
 
@@ -479,7 +481,6 @@ if(argument_count == 2)
     height = argument[1];
 }
 
-assert(is_array(array), "array_length(...): `array` must be array.");
 assert(real_is_natural(height), "array_length(...): `height` must be natural number.");
 
 return array_length_2d(array, height);
@@ -490,8 +491,6 @@ return array_length_2d(array, height);
 //retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
 
 var array = argument0;
-
-assert(is_array(array), "array_height(...): `array` must be array.");
 
 var height = array_height_2d(array);
 
@@ -630,7 +629,7 @@ assert(is_array(array), "array_is_empty(...): `array` must be array.");
 var height = array_height_2d(array);
 if(height < 2) return false;
 
-if(array[height - 1, 0] != _gme.array_empty)
+if(array[height - 1, 0] != gme.array_empty)
 {
     return false;
 }
