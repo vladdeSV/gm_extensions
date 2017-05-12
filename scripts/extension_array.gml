@@ -18,7 +18,15 @@ if(argument_count == 1)
     assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
     
     var array = 0;
-    array[length - 1] = 0;
+    
+    if(length > 0)
+    {
+        array[length - 1] = 0;
+    }
+    else
+    {
+        array[1,0] = _gme.array_empty;
+    }
     
     return array;
     
@@ -45,8 +53,6 @@ else if(argument_count == 2)
 //params: value, value...
 //returns: creates an array from arguments
 
-assert(argument_count > 0, "array_create: At least one argument must be provided.");
-
 //array from arguments
 var return_array = array_init(argument_count);
 
@@ -67,13 +73,12 @@ var array = argument0;
 var from = argument1;
 var to = argument2;
 
-assert(is_array(array) && array_height(array) == 1, "array_slice(...): `array` must be 1D array.");
+assert(is_array(array) && array_is_1d(array), "array_slice(...): `array` must be 1D array.");
 var length = array_length(array);
 
 assert(real_is_natural(from) && real_is_natural(to), "array_slice(...): `from` and `to` must be natural numbers.");
 assert(from <= to, string_text("array_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
 assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: [", from, " .. ", to, "], `array` is [0 .. ", length, "]."));
-
 
 //if slice of length 0, return 0
 if(from == to) return 0;
@@ -297,7 +302,7 @@ if(argument_count == 2)
     inplace = argument[1];
 }
 
-assert(is_array(array) && array_height(array) == 1, "array_reverse(...): `array` must be 1D array.");
+assert(is_array(array) && array_is_1d(array), "array_reverse(...): `array` must be 1D array.");
 assert(real_is_natural(inplace), "array_reverse(...): `inplace` must be bool.");
 
 var length = array_length(array);
@@ -335,13 +340,13 @@ var array = argument[0];
 var value = argument[1];
 var nth = 1;
 
-assert(is_array(argument[0]) && array_height_2d(argument[0]) == 1, "array_find(...): 1D array must be provided.");
-
 if(argument_count == 3)
 {
     nth = argument[2];
-    assert(real_is_natural(nth) && nth > 0, "array_find(...): `nth` must be natural number greater than 0.");
 }
+
+assert(is_array(array) && array_is_1d(array), "array_find(...): `array` must be 1D array.");
+assert(real_is_natural(nth) && nth > 0, "array_find(...): `nth` must be natural number greater than 0.");
 
 var length = array_length_1d(array);
 for(var n = 0; n < length; ++n)
@@ -359,7 +364,7 @@ return -1;
 var array = argument0;
 var value = argument1;
 
-assert(is_array(array), "array_count(...): Array must be provided.");
+assert(is_array(array), "array_count(...): `array` must be array.");
 
 var height = array_height_2d(array);
 
@@ -384,7 +389,7 @@ return count;
 var array = argument0;
 var value = argument1;
 
-assert(is_array(array), "array_exists(...): Array must be provided.");
+assert(is_array(array), "array_exists(...): `array` must be array.");
 
 var height = array_height_2d(array);
 
@@ -414,7 +419,7 @@ if(argument_count == 2)
     deep = argument[1];
 }
 
-assert(is_array(array) && array_height_2d(array) == 1, "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
+assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
 assert(is_real(deep) && (deep >= -1) && (deep mod 1 == 0), "array_expand(...): `deep` must be natural number or -1.");
 
 var al = array_length_1d(array);
@@ -486,9 +491,11 @@ return array_height_2d(array);
 var array = argument[0];
 var position = argument[1];
 var value = argument[2];
-var inplace = false; if(argument_count == 4) inplace = argument[3];
+var inplace = false;
 
-assert(is_array(array) && array_height(array) == 1, "array_insert(...): Array must be provided");
+if(argument_count == 4) inplace = argument[3];
+
+assert(is_array(array) && array_is_1d(array), "array_insert(...): `array` must be 1D array.");
 assert(is_real(position) and ((position mod 1) == 0) and position >= 0, "array_insert(...): `position` must be positive integer");
 assert(real_is_natural(inplace), "array_insert(...): `inplace` must be bool.");
 var length = array_length(array);
@@ -534,3 +541,104 @@ for(var i = 0; i < str_length; ++i)
 }
 
 return return_array;
+#define array_sort
+///array_sort(array, [ascending = true, inplace = false])
+//params: array, real (bool), real (bool)
+//retruns: array with elements sorted. all items in `array` must be same type
+
+_gme_arguments(array_sort, argument_count, 1, 2, 3);
+
+var array = argument[0];
+var ascending = true;
+var inplace = false;
+
+if(argument_count >= 2) ascending = argument[1];
+if(argument_count >= 3) inplace = argument[2];
+
+assert(is_array(array) && array_is_1d(array), "array_sort(...): `array` must be 1D array.");
+assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
+assert(real_is_natural(inplace), "array_sort(...): `inplace` must be bool.");
+
+//check array all same type
+var array_type = type_of(array[0]);
+var length = array_length(array);
+for(var i = 0; i < length; ++i)
+{
+    var type = type_of(array[i]);
+    assert(array_type == type, string_text("array_sort(...): All types in array must be the same. ", array[i], " at poition ", i, " is of type ", type, "."));
+}
+
+//
+if(is_string(array[0]))
+{
+
+}
+//is real
+else
+{
+    
+}
+
+#define array_is_1d
+///array_is_1d(array)
+//params: array
+//retruns: true if `array` height == 1, or array length == 0
+
+var array = argument0;
+
+assert(is_array(array), "array_is_1d(...): `array` must be array.");
+
+return
+(
+    //if 1D array (array[0,n] == array[n])
+    array_height_2d(array) == 1
+    
+    ||
+    
+    //special check to see if array is empty
+    (
+        array_height_2d(array) == 2 &&
+        array_is_empty(array)
+    )
+);
+
+#define array_is_empty
+///array_is_empty(array)
+//params: array
+//returns: true if array is "empty" (by gm_extensoins definition)
+
+var array = argument0;
+
+assert(is_array(array), "array_is_empty(...): `array` must be array.");
+
+var height = array_height_2d(array);
+
+if(array[height - 1] != _gme.array_empty)
+{
+    return false;
+}
+
+for(var h = 0; h < height - 1; ++i)
+{
+    if(array_length_2d(array, h) != 0)
+    {
+        return false;
+    }
+}
+
+return true;
+
+/*
+//gm_extensions approach of empty 1D array
+return
+(
+    //if 1D array length == 0 (means array is 2D w/ height > 1)
+    array_length_2d(array, 0) == 0 &&
+    
+    //check array height == 2 (special case for gm_extensions)
+    array_height_2d(array) == 2 &&
+    
+    //if height == 2, then first position in 2D array must be initialized.
+    array[1,0] == _gme.array_empty
+)
+*/

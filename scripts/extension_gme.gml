@@ -1,5 +1,8 @@
 #define extension_gme
-
+enum _gme
+{
+    array_empty = "_gme_array_empty",
+}
 
 #define _gme_arguments
 ///_gme_arguments(script, argument_count, count1, count2, counts...)
