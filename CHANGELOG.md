@@ -3,6 +3,7 @@
 ### v1.1.0
 **Changes**
 * Some `array_*` functions now have optional parameter `inplace`. If true, function modifies original array.
+* Added support for *empty* arrays (as defined by `gm_extensions`).
 
 ### v1.0.1
 **Changes**
