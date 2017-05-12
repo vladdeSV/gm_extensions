@@ -489,7 +489,11 @@ var array = argument0;
 
 assert(is_array(array), "array_height(...): `array` must be array.");
 
-return array_height_2d(array);
+var height = array_height_2d(array);
+
+if(array_is_empty(array)) --height;
+
+return height;
 
 #define array_insert
 ///array_insert(array, position, value, [inplace = false])
