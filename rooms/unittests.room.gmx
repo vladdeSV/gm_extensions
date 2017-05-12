@@ -123,6 +123,10 @@ if(unittest)
     //array_reversed modifies original array.
     var array_1d_reversed = array_reverse(array_1d);
     assert(array_equal(array_1d_reversed, array_create(4,3,2,1)));
+    
+    //modify original, reverse back array
+    array_reverse(array_1d_reversed, true);
+    assert(array_equal(array_1d_reversed, array_1d));
 }
 
 ///array_find
@@ -215,7 +219,8 @@ if(unittest)
     assert(array_equal(array_1d, array_create(1,2,3,4,5)));
     
     array_1d = array_create("house", "ball", "car");
-    array_1d = array_insert(array_1d, 0, "number");
+    //modify original
+    array_insert(array_1d, 0, "number", true);
     assert(array_equal(array_1d, array_create("number","house","ball","car")));
 }
 
@@ -248,7 +253,7 @@ game_end();</code>
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>1</page>
-    <xoffset>-170</xoffset>
+    <xoffset>-175</xoffset>
     <yoffset>-192</yoffset>
   </makerSettings>
   <backgrounds>

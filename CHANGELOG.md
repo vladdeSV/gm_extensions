@@ -1,5 +1,9 @@
 # Changelog
 
+### v1.1.0
+**Changes**
+* Some `array_*` functions now have optional parameter `inplace`. If true, function modifies original array.
+
 ### v1.0.1
 **Changes**
 * `array_at(array, height, index)` overload not available in REFERENCE.md, fixes #1.
