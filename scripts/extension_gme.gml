@@ -2,10 +2,10 @@
 
 
 #define _gme_arguments
-///_gme_arguments(script, argument_count, count, counts...)
-//params: script, real (natural), real(natural), real(natural)...
+///_gme_arguments(script, argument_count, count1, count2, counts...)
+//params: script, real (natural), real(natural), real(natural), real(natural)...
 
-if(argument_count < 4) assert(0, "_gme_arguments(...): Wrong argument count: expected 4 or more, got " + string(argument_count) + ".");
+if(argument_count < 4) assert(0, "_gme_arguments(...): Incorrect argument count: expected 4 or more, got " + string(argument_count) + ".");
 
 var script = argument[0];
 var arg_count = argument[1];
