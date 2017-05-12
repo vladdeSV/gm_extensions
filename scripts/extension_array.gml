@@ -179,8 +179,10 @@ if(argument_count == 2)
     
     assert(is_array(array), "array_append(...): `array` must be array.");
     assert(array_height(array) == 1, "array_append(...): `array` must be 1D");
+    var length = array_length(array);
+    assert(length > 0, "array_append(...): `array` must be initialized in order to append.");
     
-    array[array_length(array)] = value;
+    array[length] = value;
 
 }
 else if(argument_count == 3)
@@ -191,8 +193,10 @@ else if(argument_count == 3)
     
     assert(is_array(array), "array_append(...): `array` must be array.");
     assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
-    
-    array[array_length(array, height)] = value;
+    var length = array_length(array, height);
+    assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
+ 
+    array[height, length] = value;
 }
 
 #define array_equal

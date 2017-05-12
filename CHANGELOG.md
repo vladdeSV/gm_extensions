@@ -1,12 +1,11 @@
 # Changelog
 
 ### v1.1.0
-**Changes**
 * Some `array_*` functions now have optional parameter `inplace`. If true, function modifies original array.
 * Added support for *empty* arrays (as defined by `gm_extensions`).
+* Fix: `array_at(height, index)` now appends correctly.
 
 ### v1.0.1
-**Changes**
 * `array_at(array, height, index)` overload not available in REFERENCE.md, fixes #1.
 * Added `extension_gme`, which is inteded to provide `gm_extensions` specific functions.
     * Functions with optional arguments, or overloads should use new function `_gme_arguments(script, argument_count, count, counts...)`.

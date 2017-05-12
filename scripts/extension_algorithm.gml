@@ -32,3 +32,9 @@ else if(length == 2)
         return array_create(b, a);
     }
 }
+else
+{
+    var lhs = 0;
+    var rhs = 0;
+    var pivot = 0;
+}
