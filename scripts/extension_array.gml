@@ -594,7 +594,7 @@ else
 #define array_is_1d
 ///array_is_1d(array)
 //params: array
-//retruns: true if `array` height == 1, or array length == 0
+//retruns: true if `array` height == 1, or `array` == empty 1D array
 
 var array = argument0;
 
