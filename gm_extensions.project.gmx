@@ -15,7 +15,7 @@
     <script>scripts\extension_real.gml</script>
     <script>scripts\extension_ds_list.gml</script>
     <script>scripts\extension_misc.gml</script>
-    <script>scripts\extension_gme.gml</script>
+    <script>scripts\_gme.gml</script>
     <script>scripts\extension_algorithm.gml</script>
   </scripts>
   <rooms name="rooms">

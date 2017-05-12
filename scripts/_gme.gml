@@ -1,4 +1,4 @@
-#define extension_gme
+#define _gme
 enum _gme
 {
     array_empty,
