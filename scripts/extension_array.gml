@@ -559,7 +559,7 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 #define array_sort
 ///array_sort(array, [ascending = true, inplace = false])
-//params: array, real (bool), real (bool)
+//params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
