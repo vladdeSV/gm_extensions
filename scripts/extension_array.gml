@@ -4,49 +4,43 @@
 #define array_init
 ///array_init(length)
 //params: real (natural)
-//returns: array with size of `length`
+//returns: array with `length` items
 ///array_init(height, length)
 //params: real (natural), real (natural)
-//retruns: array with size `height` * `length`
+//retruns: array with `height` * `length` items
 
 _gme_arguments(array_init, argument_count, 1, 2);
 
+var height = 1;
+var length = 1;
+
 if(argument_count == 1)
 {
-    var length = argument[0];
-    
-    assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
-    
-    var array = 0;
-    
-    if(length > 0)
-    {
-        array[length - 1] = 0;
-    }
-    else
-    {
-        array[1,0] = _gme.array_empty;
-    }
-    
-    return array;
-    
+    length = argument[0];
 }
 else if(argument_count == 2)
 {
-    var height = argument[0];
-    var length = argument[1];
+    height = argument[0];
+    length = argument[1];
+}    
     
-    assert(real_is_natural(height), "array_init(...): `height` must be natural number.");
-    assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
-    
-    var array = 0;
+assert(real_is_natural(height) && height > 0, "array_init(...): `height` must be natural number greater than 0.");
+assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
+
+var array = 0;
+if(length > 0)
+{
     for(var h = 0; h < height; ++h)
     {
         array[h, length - 1] = 0;
     }
-    
-    return array;
 }
+else
+{
+    array[height,0] = _gme.array_empty;
+}
+
+return array;
 
 #define array_create
 ///array_create(arg, ...)
@@ -54,13 +48,24 @@ else if(argument_count == 2)
 //returns: creates an array from arguments
 
 //array from arguments
-var return_array = array_init(argument_count);
+var return_array = 0;
+var offset = 0;
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
 {
-    return_array[i] = argument[i];
+    var arg = argument[i];
+    if(is_array(arg) && array_is_empty(arg))
+    {
+        --offset;
+        continue;
+    }
+    
+    return_array[i + offset] = arg;
 }
+
+//if no parameters were entered, return empty array
+if(return_array == 0) return array_init(0);
 
 return return_array;
 
@@ -422,6 +427,9 @@ if(argument_count == 2)
 assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
 assert(is_real(deep) && (deep >= -1) && (deep mod 1 == 0), "array_expand(...): `deep` must be natural number or -1.");
 
+//if array is empty
+if(array_is_empty(array)) return array_init(0);
+
 var al = array_length_1d(array);
 var return_array = 0;
 var offset = 0;
@@ -612,13 +620,14 @@ var array = argument0;
 assert(is_array(array), "array_is_empty(...): `array` must be array.");
 
 var height = array_height_2d(array);
+if(height < 2) return false;
 
-if(array[height - 1] != _gme.array_empty)
+if(array[height - 1, 0] != _gme.array_empty)
 {
     return false;
 }
 
-for(var h = 0; h < height - 1; ++i)
+for(var h = 0; h < height - 1; ++h)
 {
     if(array_length_2d(array, h) != 0)
     {

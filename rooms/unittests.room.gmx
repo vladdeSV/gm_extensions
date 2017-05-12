@@ -14,14 +14,6 @@
 //if-syntax is used to categorize tests
 var unittest = true;
 
-///array_create
-if(unittest)
-{
-    var array = array_create(0, 1, "two", 3, 4);
-    assert(array[3] == 3);
-    assert(array[2] == "two");
-}
-
 ///array_init
 if(unittest)
 {
@@ -34,6 +26,21 @@ if(unittest)
     assert(array_2d[0,1] == 0);
     assert(array_2d[1,0] == 0);
     assert(array_2d[1,1] == 0);
+    
+    var array_empty = array_init(0);
+    assert(array_length(array_empty) == 0);
+}
+
+///array_create
+if(unittest)
+{
+    var array = array_create(0, 1, "two", 3, 4);
+    assert(array[3] == 3);
+    assert(array[2] == "two");
+    
+    var array = array_create(array_init(0), 4, array_create());
+    assert(array_length(array) == 1);
+    assert(array[0] == 4);
 }
 
 ///array_equal
