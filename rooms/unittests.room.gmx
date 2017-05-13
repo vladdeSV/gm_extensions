@@ -243,13 +243,28 @@ if(unittest)
     }
 }
 
+///array_sort
+if(unittest)
+{
+    var array = array_create(5,2,4,1,3);
+    
+    var sorted = array_sort(array);
+    assert(array_equal(sorted, array_create(5,4,3,2,1)));
+    
+    sorted = array_sort(array, true);
+    assert(array_equal(sorted, array_create(1,2,3,4,5)));
+    
+    //modify original array
+    array_sort(array, false, true);
+    assert(array_equal(array, array_create(5,4,3,2,1)));
+}
+
 ///quick_sort
 if(unittest)
 {
     var unsorted = array_create(5,2,4,1,3);
     var sorted = quick_sort(unsorted);
-    
-    log(sorted);
+
     assert(array_equal(sorted, array_create(5,4,3,2,1)));
 }
 

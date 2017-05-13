@@ -557,14 +557,14 @@ for(var i = 0; i < str_length; ++i)
 
 return return_array;
 #define array_sort
-///array_sort(array, [ascending = true, inplace = false])
+///array_sort(array, [ascending = false, inplace = false])
 //params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
 
 var array = argument[0];
-var ascending = true;
+var ascending = false;
 var inplace = false;
 
 if(argument_count >= 2) ascending = argument[1];
@@ -586,12 +586,26 @@ for(var i = 0; i < length; ++i)
 //
 if(is_string(array[0]))
 {
-
+    log("WARNING: sorting strings is not yet implemented.");
+    return array;
 }
 //is real
 else
 {
+    var sorted = quick_sort(array);
+    if(ascending) array_reverse(sorted, true);
     
+    if(inplace)
+    {
+        for(var i = 0; i < length; ++i)
+        {
+            array[@i] = sorted[i];
+        }
+    }
+    else
+    {
+        return sorted;
+    }
 }
 
 #define array_is_1d
