@@ -9,13 +9,13 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\_gme.gml</script>
     <script>scripts\extension_array.gml</script>
     <script>scripts\extension_string.gml</script>
     <script>scripts\extension_object.gml</script>
     <script>scripts\extension_real.gml</script>
     <script>scripts\extension_ds_list.gml</script>
     <script>scripts\extension_misc.gml</script>
-    <script>scripts\_gme.gml</script>
     <script>scripts\extension_algorithm.gml</script>
   </scripts>
   <rooms name="rooms">

@@ -25,19 +25,12 @@ else if(argument_count == 2)
 }    
     
 assert(real_is_natural(height) && height > 0, "array_init(...): `height` must be natural number greater than 0.");
-assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
+assert(real_is_natural(length) && length > 0, "array_init(...): `length` must be natural number greater than 0.");
 
 var array = 0;
-if(length > 0)
+for(var h = 0; h < height; ++h)
 {
-    for(var h = 0; h < height; ++h)
-    {
-        array[h, length - 1] = 0;
-    }
-}
-else
-{
-    array[height,0] = gme.array_empty;
+    array[h, length - 1] = 0;
 }
 
 return array;
@@ -48,24 +41,13 @@ return array;
 //returns: creates an array from arguments
 
 //array from arguments
-var return_array = 0;
-var offset = 0;
+var return_array = array_init(argument_count);;
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
 {
-    var arg = argument[i];
-    if(is_array(arg) && array_is_empty(arg))
-    {
-        --offset;
-        continue;
-    }
-    
-    return_array[i + offset] = arg;
+    return_array[i] = argument[i];
 }
-
-//if no parameters were entered, return empty array
-if(return_array == 0) return array_init(0);
 
 return return_array;
 
@@ -287,8 +269,6 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
-if(array_is_empty(array)) return array_init(0);
-
 var length = array_length_2d(array, height);
 var sub_array = array_init(length);
 
@@ -433,9 +413,6 @@ if(argument_count == 2)
 assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
 assert(is_real(deep) && (deep >= -1) && (deep mod 1 == 0), "array_expand(...): `deep` must be natural number or -1.");
 
-//if array is empty
-if(array_is_empty(array)) return array_init(0);
-
 var al = array_length_1d(array);
 var return_array = 0;
 var offset = 0;
@@ -484,16 +461,10 @@ return array_length_2d(array, height);
 
 #define array_height
 ///array_height(array)
-//params: array
-//retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
+//params: value
+//retruns: height of `array`
 
-var array = argument0;
-
-var height = array_height_2d(array);
-
-if(array_is_empty(array)) --height;
-
-return height;
+return array_height_2d(argument0);
 
 #define array_insert
 ///array_insert(array, position, value, [inplace = false])
@@ -607,65 +578,8 @@ else
 
 #define array_is_1d
 ///array_is_1d(array)
-//params: array
-//retruns: true if `array` height == 1, or `array` == empty 1D array
+//params: value
+//retruns: true if `array` height == 1.
 
-var array = argument0;
-
-assert(is_array(array), "array_is_1d(...): `array` must be array.");
-
-return
-(
-    //if 1D array (array[0,n] == array[n])
-    array_height_2d(array) == 1
-    
-    ||
-    
-    //special check to see if array is empty
-    (
-        array_height_2d(array) == 2 &&
-        array_is_empty(array)
-    )
-);
-
-#define array_is_empty
-///array_is_empty(array)
-//params: array
-//returns: true if array is "empty" (by gm_extensoins definition)
-
-var array = argument0;
-
-assert(is_array(array), "array_is_empty(...): `array` must be array.");
-
-var height = array_height_2d(array);
-if(height < 2) return false;
-
-if(array[height - 1, 0] != gme.array_empty)
-{
-    return false;
-}
-
-for(var h = 0; h < height - 1; ++h)
-{
-    if(array_length_2d(array, h) != 0)
-    {
-        return false;
-    }
-}
-
-return true;
-
-/*
-//gm_extensions approach of empty 1D array
-return
-(
-    //if 1D array length == 0 (means array is 2D w/ height > 1)
-    array_length_2d(array, 0) == 0 &&
-    
-    //check array height == 2 (special case for gm_extensions)
-    array_height_2d(array) == 2 &&
-    
-    //if height == 2, then first position in 2D array must be initialized.
-    array[1,0] == _gme.array_empty
-)
-*/
+//if 1D array (array[0,n] == array[n])
+return (array_height_2d(argument0) == 1);

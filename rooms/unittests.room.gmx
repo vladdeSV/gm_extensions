@@ -26,9 +26,6 @@ if(unittest)
     assert(array_2d[0,1] == 0);
     assert(array_2d[1,0] == 0);
     assert(array_2d[1,1] == 0);
-    
-    var array_empty = array_init(0);
-    assert(array_length(array_empty) == 0);
 }
 
 ///array_create
@@ -37,10 +34,6 @@ if(unittest)
     var array = array_create(0, 1, "two", 3, 4);
     assert(array[3] == 3);
     assert(array[2] == "two");
-    
-    var array = array_create(array_init(0), 4, array_create());
-    assert(array_length(array) == 1);
-    assert(array[0] == 4);
 }
 
 ///array_equal
@@ -286,8 +279,8 @@ game_end();</code>
     <deleteUnderlyingObj>0</deleteUnderlyingObj>
     <deleteUnderlyingTiles>-1</deleteUnderlyingTiles>
     <page>1</page>
-    <xoffset>-211</xoffset>
-    <yoffset>-135</yoffset>
+    <xoffset>-233</xoffset>
+    <yoffset>-190</yoffset>
   </makerSettings>
   <backgrounds>
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>

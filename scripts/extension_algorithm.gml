@@ -34,9 +34,9 @@ else if(length == 2)
 }
 else
 {
-    var lhs = array_init(0);
-    var mid = array_init(0);
-    var rhs = array_init(0);
+    var lhs = 0;
+    var mid = 0;
+    var rhs = 0;
     var pivot_pos = floor(length/2);
     var pivot = array[pivot_pos];
     
@@ -57,12 +57,25 @@ else
         }
     }
     
-    //if empty array has content, remove "empty" identifier.
-    lhs = array_sub(lhs,0);
-    mid = array_sub(mid,0);
-    rhs = array_sub(rhs,0);
+    if(is_array(lhs)) lhs = quick_sort(lhs);
+    if(is_array(rhs)) rhs = quick_sort(rhs);
     
-    var ret = array_create(quick_sort(lhs), mid, quick_sort(rhs));
+    var return_array = 0;
     
-    return array_expand(ret);
+    for(var i = 0; i < array_length(lhs); ++i)
+    {
+        return_array[array_length(return_array)] = lhs[i];
+    }
+    
+    for(var i = 0; i < array_length(mid); ++i)
+    {
+        return_array[array_length(return_array)] = mid[i];
+    }
+    
+    for(var i = 0; i < array_length(rhs); ++i)
+    {
+        return_array[array_length(return_array)] = rhs[i];
+    }
+    
+    return array_expand(return_array);
 }
