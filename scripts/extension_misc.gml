@@ -94,5 +94,29 @@ else if(is_vec4(variable))
 {
     return "vec4";
 }
+else if(ds_exists(variable, ds_type_map))
+{
+    return "ds_type_map";
+}
+else if(ds_exists(variable, ds_type_list))
+{
+    return "ds_type_list";
+}
+else if(ds_exists(variable, ds_type_stack))
+{
+    return "ds_type_stack";
+}
+else if(ds_exists(variable, ds_type_grid))
+{
+    return "ds_type_grid";
+}
+else if(ds_exists(variable, ds_type_queue))
+{
+    return "ds_type_queue";
+}
+else if(ds_exists(variable, ds_type_priority))
+{
+    return "ds_type_priority";
+}
 
 return "unknown";

@@ -178,7 +178,7 @@ if(argument_count == 2)
     var value = argument[1];
     
     assert(is_array(array), "array_append(...): `array` must be array.");
-    assert(array_height(array) == 1, "array_append(...): `array` must be 1D");
+    assert(array_is_1d(array) == 1, "array_append(...): `array` must be 1D");
     var length = array_length(array);
     assert(length > 0, "array_append(...): `array` must be initialized in order to append.");
     
@@ -476,10 +476,7 @@ _gme_arguments(array_length, argument_count, 1, 2);
 var array = argument[0];
 var height = 0;
 
-if(argument_count == 2)
-{
-    height = argument[1];
-}
+if(argument_count == 2) height = argument[1];
 
 assert(real_is_natural(height), "array_length(...): `height` must be natural number.");
 

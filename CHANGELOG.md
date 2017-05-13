@@ -3,6 +3,7 @@
 ### v1.1.0
 * Some `array_*` functions now have optional parameter `inplace`. If true, function modifies original array.
 * Added support for *empty* arrays (as defined by `gm_extensions`).
+* Fix: `type_of(variable)` now supports data structures (`ds_*`).
 * Fix: `array_at(height, index)` now appends correctly.
 
 ### v1.0.1

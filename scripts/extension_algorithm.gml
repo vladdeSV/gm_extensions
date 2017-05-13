@@ -15,13 +15,9 @@ for(var i = 0; i < length; ++i)
     assert(is_real(array[i]), "quick_sort(...): All items in `array` must be reals.");
 }
 
-if(length == 0)
+if(length == 0 || length == 1)
 {
-    return array_init(0);
-}
-else if(length == 1)
-{
-    return array_copy(array);
+    return array;
 }
 else if(length == 2)
 {
