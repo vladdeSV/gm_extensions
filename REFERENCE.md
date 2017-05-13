@@ -27,7 +27,6 @@
 1. [array_string](#array_string)
 1. [array_sort](#array_sort)
 1. [array_is_1d](#array_is_1d)
-1. [array_is_empty](#array_is_empty)
 
 ### extension_ds_list
 
@@ -63,6 +62,10 @@
 
 ### [quick_sort](/scripts/extension_algorithm.gml#L4)
 
+##### quick_sort(numbers...)
+params: real...  
+returns: array of reals sorted  
+
 ##### quick_sort(array)
 params: array (real)  
 returns: array of reals sorted  
@@ -79,25 +82,25 @@ returns: array with `length` items
 params: real (natural), real (natural)  
 retruns: array with `height` * `length` items  
 
-### [array_create](/scripts/extension_array.gml#L46)
+### [array_create](/scripts/extension_array.gml#L39)
 
 ##### array_create(arg, ...)
 params: value, value...  
 returns: creates an array from arguments  
 
-### [array_slice](/scripts/extension_array.gml#L73)
+### [array_slice](/scripts/extension_array.gml#L55)
 
 ##### array_slice(array, from, to)
 params: array, real (natural), real (natural)  
 retruns: portion of `array`. `from` (inclusive), `to` (exclusive). if `from` == `to`, returns 0  
 
-### [array_copy](/scripts/extension_array.gml#L100)
+### [array_copy](/scripts/extension_array.gml#L82)
 
 ##### array_copy(array)
 params: array  
 returns: deep copy of `array`, both 1D and 2D arrays  
 
-### [array_at](/scripts/extension_array.gml#L133)
+### [array_at](/scripts/extension_array.gml#L115)
 
 ##### array_at(array, index)
 params: array, real (natural)  
@@ -107,7 +110,7 @@ returns: element in `array` at `index` (`array[subindex, index]`)
 params: array, real (natural), real (natural)  
 returns: element in `array` at `height, index` (`array[height, index]`)  
 
-### [array_append](/scripts/extension_array.gml#L166)
+### [array_append](/scripts/extension_array.gml#L148)
 
 ##### array_append(array, value)
 params: array, value  
@@ -117,95 +120,89 @@ results: appends `value` to `array`. arrays are pointers, no need to return arra
 params: array, real (natural), value  
 results: appends `value` to `array` at `height`. arrays are pointers, no need to return array  
 
-### [array_equal](/scripts/extension_array.gml#L203)
+### [array_equal](/scripts/extension_array.gml#L185)
 
 ##### array_equal(array1, array2)
 params: array, array  
 returns: true if the content of `array1` and `array2` are equal  
 
-### [array_split](/scripts/extension_array.gml#L241)
+### [array_split](/scripts/extension_array.gml#L223)
 
 ##### array_split(string, separator)
 params: string, string  
 returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)  
 
-### [array_sub](/scripts/extension_array.gml#L280)
+### [array_sub](/scripts/extension_array.gml#L262)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L303)
+### [array_reverse](/scripts/extension_array.gml#L283)
 
 ##### array_reverse(array, [inplace = false])
 params: array, [real (bool)]  
 results: `array` with items in reverse order. modifies original array if `inplace` == true  
 
-### [array_find](/scripts/extension_array.gml#L344)
+### [array_find](/scripts/extension_array.gml#L324)
 
 ##### array_find(array, value, [nth = 1])
 params: array, real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L371)
+### [array_count](/scripts/extension_array.gml#L351)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L396)
+### [array_exists](/scripts/extension_array.gml#L376)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L419)
+### [array_expand](/scripts/extension_array.gml#L399)
 
 ##### array_expand(array, [deep = -1])
 params: array, [real (natural)]  
 returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all  
 
-### [array_length](/scripts/extension_array.gml#L470)
+### [array_length](/scripts/extension_array.gml#L447)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L489)
+### [array_height](/scripts/extension_array.gml#L463)
 
 ##### array_height(array)
-params: array  
-retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.  
+params: value  
+retruns: height of `array`  
 
-### [array_insert](/scripts/extension_array.gml#L502)
+### [array_insert](/scripts/extension_array.gml#L470)
 
 ##### array_insert(array, position, value, [inplace = false])
 params: array, real (natural), value, [real (bool)]  
 returns: `array` with `value` inserted at `array[position]`. modifies original if `inplace` == true  
 
-### [array_string](/scripts/extension_array.gml#L542)
+### [array_string](/scripts/extension_array.gml#L510)
 
 ##### array_string(string)
 params: string  
 retruns: array with each item as string characters  
 
-### [array_sort](/scripts/extension_array.gml#L560)
+### [array_sort](/scripts/extension_array.gml#L528)
 
-##### array_sort(array, [ascending = true, inplace = false])
+##### array_sort(array, [ascending = false, inplace = false])
 params: array, [real (bool), real (bool)]  
 retruns: array with elements sorted. all items in `array` must be same type  
 
-### [array_is_1d](/scripts/extension_array.gml#L598)
+### [array_is_1d](/scripts/extension_array.gml#L580)
 
 ##### array_is_1d(array)
-params: array  
-retruns: true if `array` height == 1, or `array` == empty 1D array  
-
-### [array_is_empty](/scripts/extension_array.gml#L621)
-
-##### array_is_empty(array)
-params: array  
-returns: true if array is "empty" (by gm_extensoins definition)  
+params: value  
+retruns: true if `array` height == 1.  
 
 ## extension_ds_list
 

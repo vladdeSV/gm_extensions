@@ -3,74 +3,103 @@
 
 
 #define quick_sort
+///quick_sort(numbers...)
+//params: real...
+//returns: array of reals sorted
 ///quick_sort(array)
 //params: array (real)
 //returns: array of reals sorted
 
-var array = argument0;
+assert(argument_count > 0, "quick_sort(...): Arguments must be provided.");
 
-assert(is_array(array), "quick_sort(...): `array` must be 1D array.");
-
-var length = array_length(array);
-for(var i = 0; i < length; ++i)
+if(argument_count == 1 && is_array(argument[0]))
 {
-    assert(is_real(array[i]), "quick_sort(...): All items in `array` must be reals.");
-}
-
-if(length == 0)
-{
-    return array_init(0);
-}
-else if(length == 1)
-{
-    return array_copy(array);
-}
-else if(length == 2)
-{
-    var a = array[0];
-    var b = array[1];
-    if(a > b)
+    var array = argument0;
+    
+    assert(is_array(array), "quick_sort(...): `array` must be 1D array.");
+    
+    var length = array_length(array);
+    for(var i = 0; i < length; ++i)
     {
-        return array_create(a, b);
+        assert(is_real(array[i]), "quick_sort(...): All items in `array` must be reals.");
+    }
+    
+    if(length == 0 || length == 1)
+    {
+        return array;
+    }
+    else if(length == 2)
+    {
+        var a = array[0];
+        var b = array[1];
+        if(a > b)
+        {
+            return array_create(a, b);
+        }
+        else
+        {
+            return array_create(b, a);
+        }
     }
     else
     {
-        return array_create(b, a);
+        var lhs = 0;
+        var mid = 0;
+        var rhs = 0;
+        var pivot_pos = floor(length/2);
+        var pivot = array[pivot_pos];
+        
+        for(var i = 0; i < length; ++i)
+        {
+            var value = array[i];
+            if(value > pivot)
+            {
+                lhs[array_length(lhs)] = value;
+            }
+            else if(value == pivot)
+            {
+                mid[array_length(mid)] = value;
+            }
+            else if(value < pivot)
+            {
+                rhs[array_length(rhs)] = value;
+            }
+        }
+        
+        if(is_array(lhs)) lhs = quick_sort(lhs);
+        if(is_array(rhs)) rhs = quick_sort(rhs);
+        
+        var return_array = 0;
+        
+        for(var i = 0; i < array_length(lhs); ++i)
+        {
+            return_array[array_length(return_array)] = lhs[i];
+        }
+        
+        for(var i = 0; i < array_length(mid); ++i)
+        {
+            return_array[array_length(return_array)] = mid[i];
+        }
+        
+        for(var i = 0; i < array_length(rhs); ++i)
+        {
+            return_array[array_length(return_array)] = rhs[i];
+        }
+        
+        return array_expand(return_array);
     }
 }
 else
 {
-    var lhs = array_init(0);
-    var mid = array_init(0);
-    var rhs = array_init(0);
-    var pivot_pos = floor(length/2);
-    var pivot = array[pivot_pos];
-    
-    for(var i = 0; i < length; ++i)
+    var sorting_array = array_init(argument_count);
+    for(var i = 0; i < argument_count; ++i)
     {
-        var value = array[i];
-        if(value > pivot)
-        {
-            lhs[array_length(lhs)] = value;
-        }
-        else if(value == pivot)
-        {
-            mid[array_length(mid)] = value;
-        }
-        else if(value < pivot)
-        {
-            rhs[array_length(rhs)] = value;
-        }
+        var arg = argument[i];
+        assert(is_real(arg), "quick_sort(...): All arguments must be reals.");
+        sorting_array[i] = arg;
     }
     
-    //if empty array has content, remove "empty" identifier.
-    lhs = array_sub(lhs,0);
-    mid = array_sub(mid,0);
-    rhs = array_sub(rhs,0);
-    
-    var ret = array_create(quick_sort(lhs), mid, quick_sort(rhs));
-    
-    return array_expand(ret);
+    return quick_sort(sorting_array);
 }
 
 
@@ -99,19 +128,12 @@ else if(argument_count == 2)
 }    
     
 assert(real_is_natural(height) && height > 0, "array_init(...): `height` must be natural number greater than 0.");
-assert(real_is_natural(length), "array_init(...): `length` must be natural number.");
+assert(real_is_natural(length) && length > 0, "array_init(...): `length` must be natural number greater than 0.");
 
 var array = 0;
-if(length > 0)
+for(var h = 0; h < height; ++h)
 {
-    for(var h = 0; h < height; ++h)
-    {
-        array[h, length - 1] = 0;
-    }
-}
-else
-{
-    array[height,0] = gme.array_empty;
+    array[h, length - 1] = 0;
 }
 
 return array;
@@ -122,24 +144,13 @@ return array;
 //returns: creates an array from arguments
 
 //array from arguments
-var return_array = 0;
-var offset = 0;
+var return_array = array_init(argument_count);;
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
 {
-    var arg = argument[i];
-    if(is_array(arg) && array_is_empty(arg))
-    {
-        --offset;
-        continue;
-    }
-    
-    return_array[i + offset] = arg;
+    return_array[i] = argument[i];
 }
-
-//if no parameters were entered, return empty array
-if(return_array == 0) return array_init(0);
 
 return return_array;
 
@@ -252,7 +263,7 @@ if(argument_count == 2)
     var value = argument[1];
     
     assert(is_array(array), "array_append(...): `array` must be array.");
-    assert(array_height(array) == 1, "array_append(...): `array` must be 1D");
+    assert(array_is_1d(array) == 1, "array_append(...): `array` must be 1D");
     var length = array_length(array);
     assert(length > 0, "array_append(...): `array` must be initialized in order to append.");
     
@@ -360,8 +371,6 @@ var height = argument1;
 
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
-
-if(array_is_empty(array)) return array_init(0);
 
 var length = array_length_2d(array, height);
 var sub_array = array_init(length);
@@ -507,9 +516,6 @@ if(argument_count == 2)
 assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
 assert(is_real(deep) && (deep >= -1) && (deep mod 1 == 0), "array_expand(...): `deep` must be natural number or -1.");
 
-//if array is empty
-if(array_is_empty(array)) return array_init(0);
-
 var al = array_length_1d(array);
 var return_array = 0;
 var offset = 0;
@@ -550,10 +556,7 @@ _gme_arguments(array_length, argument_count, 1, 2);
 var array = argument[0];
 var height = 0;
 
-if(argument_count == 2)
-{
-    height = argument[1];
-}
+if(argument_count == 2) height = argument[1];
 
 assert(real_is_natural(height), "array_length(...): `height` must be natural number.");
 
@@ -561,16 +564,10 @@ return array_length_2d(array, height);
 
 #define array_height
 ///array_height(array)
-//params: array
-//retruns: height of `array`. note: all arrays have a height, including 1D arrays which have the height of 1.
+//params: value
+//retruns: height of `array`
 
-var array = argument0;
-
-var height = array_height_2d(array);
-
-if(array_is_empty(array)) --height;
-
-return height;
+return array_height_2d(argument0);
 
 #define array_insert
 ///array_insert(array, position, value, [inplace = false])
@@ -631,14 +628,14 @@ for(var i = 0; i < str_length; ++i)
 
 return return_array;
 #define array_sort
-///array_sort(array, [ascending = true, inplace = false])
+///array_sort(array, [ascending = false, inplace = false])
 //params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
 
 var array = argument[0];
-var ascending = true;
+var ascending = false;
 var inplace = false;
 
 if(argument_count >= 2) ascending = argument[1];
@@ -660,78 +657,35 @@ for(var i = 0; i < length; ++i)
 //
 if(is_string(array[0]))
 {
-
+    log("WARNING: sorting strings is not yet implemented.");
+    return array;
 }
 //is real
 else
 {
+    var sorted = quick_sort(array);
+    if(ascending) array_reverse(sorted, true);
     
+    if(inplace)
+    {
+        for(var i = 0; i < length; ++i)
+        {
+            array[@i] = sorted[i];
+        }
+    }
+    else
+    {
+        return sorted;
+    }
 }
 
 #define array_is_1d
 ///array_is_1d(array)
-//params: array
-//retruns: true if `array` height == 1, or `array` == empty 1D array
+//params: value
+//retruns: true if `array` height == 1.
 
-var array = argument0;
-
-assert(is_array(array), "array_is_1d(...): `array` must be array.");
-
-return
-(
-    //if 1D array (array[0,n] == array[n])
-    array_height_2d(array) == 1
-    
-    ||
-    
-    //special check to see if array is empty
-    (
-        array_height_2d(array) == 2 &&
-        array_is_empty(array)
-    )
-);
-
-#define array_is_empty
-///array_is_empty(array)
-//params: array
-//returns: true if array is "empty" (by gm_extensoins definition)
-
-var array = argument0;
-
-assert(is_array(array), "array_is_empty(...): `array` must be array.");
-
-var height = array_height_2d(array);
-if(height < 2) return false;
-
-if(array[height - 1, 0] != gme.array_empty)
-{
-    return false;
-}
-
-for(var h = 0; h < height - 1; ++h)
-{
-    if(array_length_2d(array, h) != 0)
-    {
-        return false;
-    }
-}
-
-return true;
-
-/*
-//gm_extensions approach of empty 1D array
-return
-(
-    //if 1D array length == 0 (means array is 2D w/ height > 1)
-    array_length_2d(array, 0) == 0 &&
-    
-    //check array height == 2 (special case for gm_extensions)
-    array_height_2d(array) == 2 &&
-    
-    //if height == 2, then first position in 2D array must be initialized.
-    array[1,0] == _gme.array_empty
-)
-*/
+//if 1D array (array[0,n] == array[n])
+return (array_height_2d(argument0) == 1);
 
 
 
@@ -844,6 +798,30 @@ else if(is_vec3(variable))
 else if(is_vec4(variable))
 {
     return "vec4";
+}
+else if(ds_exists(variable, ds_type_map))
+{
+    return "ds_type_map";
+}
+else if(ds_exists(variable, ds_type_list))
+{
+    return "ds_type_list";
+}
+else if(ds_exists(variable, ds_type_stack))
+{
+    return "ds_type_stack";
+}
+else if(ds_exists(variable, ds_type_grid))
+{
+    return "ds_type_grid";
+}
+else if(ds_exists(variable, ds_type_queue))
+{
+    return "ds_type_queue";
+}
+else if(ds_exists(variable, ds_type_priority))
+{
+    return "ds_type_priority";
 }
 
 return "unknown";
