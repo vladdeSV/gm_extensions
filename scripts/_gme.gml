@@ -1,8 +1,4 @@
 #define _gme
-enum gme
-{
-    array_empty,
-}
 
 #define _gme_arguments
 ///_gme_arguments(script, argument_count, count1, count2, counts...)
@@ -23,7 +19,7 @@ for(var i = 0; i < l; ++i)
     {
         exit;
     }
-    
+
     if(i != l - 1)
     {
         str += string(c) + ",";

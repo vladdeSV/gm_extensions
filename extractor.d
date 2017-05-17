@@ -36,8 +36,9 @@ void main()
 
     reference.writeln("\n---\n");
 
-    foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
+    foreach(script; dirEntries("scripts/", "*.gml", SpanMode.shallow))
     {
+
         //write to output file
         auto lines = readText(script.name).replace("\r\n", "\n").split("\n");
         foreach(line; lines)
@@ -47,15 +48,16 @@ void main()
                 output.writeln(line);
             }
         }
-        
+
         //write to reference
 
-        if(script.name.split("/")[$ - 1] == "extension_gme.gml")
+        if(script.name.split("/")[$ - 1] == "_gme.gml")
         {
             continue;
         }
 
         auto fileName = script.name.split("/")[$-1];
+
         reference.writeln("## ", fileName.split(".")[0], "\n");
 
         for(int i = 0; i < lines.length; ++i)
