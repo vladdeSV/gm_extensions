@@ -1,5 +1,6 @@
 #define extension_algorithm
 
+
 #define quick_sort
 ///quick_sort(numbers...)
 //params: real...
@@ -14,15 +15,18 @@ if(argument_count == 1 && is_array(argument[0]))
 {
     var array = argument0;
     
-    assert(is_array(array), "quick_sort(...): `array` must be 1D array.");
+    assert(is_array(array) && array_is_1d(array), "quick_sort(...): `array` must be 1D array.");
     
     var length = array_length(array);
+    if(length == 0) return array;
+    
+    var array_type = type_of(array[0]);
     for(var i = 0; i < length; ++i)
     {
-        assert(is_real(array[i]), "quick_sort(...): All items in `array` must be reals.");
+        assert(type_of(array[i]) == array_type, "quick_sort(...): All items in `array` must be of same type.");
     }
     
-    if(length == 0 || length == 1)
+    if(length == 1)
     {
         return array;
     }
@@ -30,14 +34,8 @@ if(argument_count == 1 && is_array(argument[0]))
     {
         var a = array[0];
         var b = array[1];
-        if(a > b)
-        {
-            return array_create(a, b);
-        }
-        else
-        {
-            return array_create(b, a);
-        }
+        if(a > b) return array_create(a, b);
+        else      return array_create(b, a);
     }
     else
     {
@@ -92,9 +90,7 @@ else
     var sorting_array = array_init(argument_count);
     for(var i = 0; i < argument_count; ++i)
     {
-        var arg = argument[i];
-        assert(is_real(arg), "quick_sort(...): All arguments must be reals.");
-        sorting_array[i] = arg;
+        sorting_array[i] = argument[i];
     }
     
     return quick_sort(sorting_array);
