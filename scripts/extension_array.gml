@@ -583,3 +583,24 @@ else
 
 //if 1D array (array[0,n] == array[n])
 return (array_height_2d(argument0) == 1);
+#define array_replace
+///array_replace(array, index, value, [inplace = false])
+//params: array, real (natural), value, [real (bool)]
+//returns: array with `index`th elememt replaced by `value`
+
+_gme_arguments(array_replace, argument_count, 3, 4);
+
+var array = argument[0];
+var index = argument[1];
+var value = argument[2];
+var inplace = false; if(argument_count == 4) inplace = argument[3];
+
+assert(is_array(array), "array_replace(...): `array` must be array.");
+assert(real_is_natural(index), "array_replace(...): `index` must be natural number.");
+assert(real_is_natural(inplace), "array_replace(...): `inplace` must be natural number.");
+
+if(!inplace) array = array_copy(array);
+
+array[@ index] = value;
+
+if(!inplace) return array;

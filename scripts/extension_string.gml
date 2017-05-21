@@ -43,7 +43,7 @@ return text;
 var array = argument0;
 var joiner = argument1;
 
-assert(is_array(array) && array_height_2d(array) == 1, "string_join(...): `array` must be 1D array.");
+assert(is_array(array) && array_is_1d(array), "string_join(...): `array` must be 1D array.");
 assert(is_string(joiner), "string_join(...): `joiner` must be string.");
 
 var length = array_length_1d(array);

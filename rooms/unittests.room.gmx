@@ -252,6 +252,91 @@ if(unittest)
     assert(array_equal(array, array_create(5,4,3,2,1)));
 }
 
+///array_is_1d
+if(unittest)
+{
+    var array = array_init(4);
+    assert(array_is_1d(array));
+    
+    array = array_init(3, 2);
+    assert(!array_is_1d(array));
+    
+    array = array_init(1, 5);
+    assert(array_is_1d(array));
+}
+
+///array_replace
+if(unittest)
+{
+    var array = array_create("banana", "pineapple", "lumberjack");
+    array = array_replace(array, 1, 42);
+    assert(array_equal(array, array_create("banana", 42, "lumberjack")));
+    
+    array = array_create("one", "two", "three");
+    array_replace(array, 2, 3, true);
+    assert(array_equal(array, array_create("one", "two", 3)));
+}
+
+///real_within
+if(unittest)
+{
+    assert( real_within(7,    5, 10));
+    assert( real_within(8.65, 5, 10));
+    assert( real_within(5,    5, 10));
+    assert( real_within(10,   5, 10));
+    assert(!real_within(15,   5, 10));
+    assert(!real_within(3,    5, 10));
+}
+
+//real_within_exclusive
+if(unittest)
+{
+    assert( real_within_exlusive(7,    5, 10));
+    assert( real_within_exlusive(8.65, 5, 10));
+    assert(!real_within_exlusive(5,    5, 10));
+    assert(!real_within_exlusive(10,   5, 10));
+    assert(!real_within_exlusive(15,   5, 10));
+    assert(!real_within_exlusive(3,    5, 10));
+}
+
+///real_is_integer
+if(unittest)
+{
+    assert( real_is_integer(-4));
+    assert( real_is_integer(0));
+    assert( real_is_integer(3));
+    assert(!real_is_integer(1.25));
+}
+
+///real_is_natural
+if(unittest)
+{
+    assert(!real_is_natural(-4));
+    assert( real_is_natural(0));
+    assert( real_is_natural(3));
+    assert(!real_is_natural(1.25));
+}
+
+///string_text
+if(unittest)
+{
+    assert(string_text("hello ", 42, " number") == "hello 42 number");
+    assert(string_text("an array: ", array_create(1,"two",3)) == "an array: [1, two, 3]");
+}
+
+///string_join
+if(unittest)
+{
+    assert(string_join(array_create(4,"three",2,1), ", ") == "4, three, 2, 1");
+    assert(string_join(array_create("old","folks","home"), " ~ ") == "old ~ folks ~ home");
+}
+
+///ds_list_swap
+if(unittest)
+{
+    //someday...
+}
+
 ///quick_sort
 if(unittest)
 {
@@ -268,8 +353,8 @@ game_end();</code>
   <clearDisplayBuffer>0</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>1024</w>
-    <h>600</h>
+    <w>1936</w>
+    <h>1066</h>
     <showGrid>-1</showGrid>
     <showObjects>-1</showObjects>
     <showTiles>-1</showTiles>

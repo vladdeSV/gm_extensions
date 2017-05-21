@@ -1,7 +1,8 @@
 # Changelog
 
 ### v1.1.0
-* Some `array_*` functions now have optional parameter `inplace`. If true, function modifies original array.
+* Add: `array_is_1d(...)`, `array_sort(...)` (and `quick_sort(...)`), `array_replace(...)`.
+* Some `array_*()` functions now have optional parameter `inplace`. If true, function modifies original array.
 * Fix: `type_of(variable)` now supports data structures (`ds_*`).
 * Fix: `array_at(height, index)` now appends correctly.
 
