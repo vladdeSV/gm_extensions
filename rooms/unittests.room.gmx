@@ -10,7 +10,11 @@
   <persistent>0</persistent>
   <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>///unittests
+  <code>var a = array_create("c","ba","a");
+show_message(array_sort(a));
+
+
+///unittests
 //if-syntax is used to categorize tests
 var unittest = true;
 
@@ -353,8 +357,8 @@ game_end();</code>
   <clearDisplayBuffer>0</clearDisplayBuffer>
   <makerSettings>
     <isSet>-1</isSet>
-    <w>1936</w>
-    <h>1066</h>
+    <w>870</w>
+    <h>600</h>
     <showGrid>-1</showGrid>
     <showObjects>-1</showObjects>
     <showTiles>-1</showTiles>

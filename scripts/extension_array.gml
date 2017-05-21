@@ -529,6 +529,8 @@ return return_array;
 //params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
+//this is the messiest code so far :(
+
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
 
 var array = argument[0];
@@ -544,22 +546,83 @@ assert(real_is_natural(inplace), "array_sort(...): `inplace` must be bool.");
 
 //check array all same type
 var array_type = type_of(array[0]);
+var max_string_length = 0;
 var length = array_length(array);
 for(var i = 0; i < length; ++i)
 {
     var type = type_of(array[i]);
     assert(array_type == type, string_text("array_sort(...): All types in array must be the same. ", array[i], " at poition ", i, " is of type ", type, "."));
+    
+    if(array_type = "string")
+    {
+        max_string_length = max(max_string_length, string_length(array[i]));
+    }
 }
 
 //
-if(is_string(array[0]))
+if(array_type == "string")
 {
-    log("WARNING: sorting strings is not yet implemented.");
-    return array;
+    if(!inplace) array = array_copy(array);    
+
+    //RADIX Sort ('string' Edition)
+    var bucket = 0; //array
+    
+    //init all char positions
+    var jnd = string_join(array, "");
+    var min_byte = -1;
+    
+    for(var i = 0; i < string_length(jnd); ++i)
+    {
+        if(min_byte == -1)
+        {
+            min_byte = string_byte_at(jnd, i + 1);
+        }
+        else
+        {
+            min_byte = min(min_byte, string_byte_at(jnd, i + 1));
+        }
+    }
+    
+    for(var i = 0; i < max_string_length; ++i)
+    {
+        for(var n = 0; n < length; ++n)
+        {
+            var item = array[n];
+            var byte = -1;
+            var pos = string_length(item) - i;
+            
+            if(pos < 1)
+            {
+                byte = min_byte;
+            }
+            else
+            {
+                byte = string_byte_at(item, pos);
+            }
+            
+            bucket[byte, array_length(bucket, byte)] = item;
+        }
+        
+        var m = 0;
+        for(var yy = 0; yy < array_height(bucket); ++yy)
+        {
+            for(var xx = 0; xx < array_length(bucket, yy); ++xx)
+            {
+                array[m++] = bucket[@ yy,xx];
+                log("ge");
+            }
+        }
+        
+        //reset bucket (bad_code.png)
+        bucket = 0;
+    }
+
+    if(!inplace) return array;
 }
 //is real
 else
 {
+    //Quick Sort
     var sorted = quick_sort(array);
     if(ascending) array_reverse(sorted, true);
     
