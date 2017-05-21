@@ -562,8 +562,8 @@ for(var i = 0; i < length; ++i)
 //
 if(array_type == "string")
 {
-    if(!inplace) array = array_copy(array);    
-
+    if(!inplace) array = array_copy(array);
+    
     //RADIX Sort ('string' Edition)
     var bucket = 0; //array
     
@@ -589,9 +589,9 @@ if(array_type == "string")
         {
             var item = array[n];
             var byte = -1;
-            var pos = string_length(item) - i;
+            var pos = i + 1;
             
-            if(pos < 1)
+            if(pos >= max_string_length)
             {
                 byte = min_byte;
             }
@@ -613,7 +613,6 @@ if(array_type == "string")
             }
         }
         
-        //reset bucket (bad_code.png)
         bucket = 0;
     }
 

@@ -10,7 +10,7 @@
   <persistent>0</persistent>
   <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>var a = array_create("c","ba","a");
+  <code>var a = array_create("b","abc","cbd");
 show_message(array_sort(a));
 
 
