@@ -6,13 +6,19 @@
 //params: value...
 //results: shorthand for `show_debug_message`
 
+if(argument_count == 0)
+{
+    show_debug_message("");
+    exit;
+}
+
 var array = 0;
 for(var i = 0; i < argument_count; ++i)
 {
     array[i] = argument[i];
 }
 
-show_debug_message(string_text(array));
+show_debug_message(string_join(array, ", "));
 
 #define assert
 ///assert(comparison, [message])

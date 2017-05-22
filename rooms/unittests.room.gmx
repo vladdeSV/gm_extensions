@@ -10,9 +10,34 @@
   <persistent>0</persistent>
   <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>var a = array_create("b","abc","cbd");
-show_message(array_sort(a));
-
+  <code>//show_message("");
+show_message
+(
+    radix_sort_string
+    (
+        array_create
+        (
+            "aaa",
+            "aa",
+            "acb",
+            "bca",
+            "cca",
+            "abca",
+            "a",
+            "bb",
+            
+            "c",
+            "bab",
+            "bdb",
+            "ca",
+            "aa",
+            "aa",
+            "daa",
+            "d"
+        ),
+        0
+    )
+);
 
 ///unittests
 //if-syntax is used to categorize tests
@@ -254,6 +279,10 @@ if(unittest)
     //modify original array
     array_sort(array, false, true);
     assert(array_equal(array, array_create(5,4,3,2,1)));
+    
+    //array = array_create("banana", "apple", "asteroid");
+    //assert(array_equal(array_sort(array), array_create("apple", "asteroid", "banana")));
+    
 }
 
 ///array_is_1d

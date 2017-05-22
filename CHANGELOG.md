@@ -1,10 +1,11 @@
 # Changelog
 
 ### v1.1.0
-* Add: `array_is_1d(...)`, `array_sort(...)` (and `quick_sort(...)`), `array_replace(...)`.
+* Add: `array_is_1d(...)`, `array_sort(...)` (and `quick_sort(...)`, `radix_sort_string(...)`), `array_replace(...)`, `array_swap(...)`.
 * Some `array_*()` functions now have optional parameter `inplace`. If true, function modifies original array.
 * Fix: `type_of(variable)` now supports data structures (`ds_*`).
 * Fix: `array_at(height, index)` now appends correctly.
+* Fix: `log(...)` now properly displays text.
 
 ### v1.0.1
 * `array_at(array, height, index)` overload not available in REFERENCE.md, fixes #1.

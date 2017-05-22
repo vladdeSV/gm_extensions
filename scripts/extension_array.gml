@@ -157,29 +157,23 @@ _gme_arguments(array_append, argument_count, 2, 3);
 if(argument_count == 2)
 {
     var array = argument[0];
+    var height = 1;
     var value = argument[1];
-    
-    assert(is_array(array), "array_append(...): `array` must be array.");
-    assert(array_is_1d(array) == 1, "array_append(...): `array` must be 1D");
-    var length = array_length(array);
-    assert(length > 0, "array_append(...): `array` must be initialized in order to append.");
-    
-    array[length] = value;
-
 }
 else if(argument_count == 3)
 {
     var array = argument[0];
     var height = argument[1];
     var value = argument[2];
-    
-    assert(is_array(array), "array_append(...): `array` must be array.");
-    assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
-    var length = array_length(array, height);
-    assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
- 
-    array[height, length] = value;
 }
+
+assert(is_array(array), "array_append(...): `array` must be array.");
+assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
+var length = array_length(array, height);
+assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
+
+array[height, length] = value;
+
 
 #define array_equal
 ///array_equal(array1, array2)
@@ -562,6 +556,7 @@ for(var i = 0; i < length; ++i)
 //
 if(array_type == "string")
 {
+    /*
     if(!inplace) array = array_copy(array);
     
     //RADIX Sort ('string' Edition)
@@ -617,6 +612,9 @@ if(array_type == "string")
     }
 
     if(!inplace) return array;
+    */
+    log("");
+    return array;
 }
 //is real
 else
@@ -664,5 +662,28 @@ assert(real_is_natural(inplace), "array_replace(...): `inplace` must be natural 
 if(!inplace) array = array_copy(array);
 
 array[@ index] = value;
+
+if(!inplace) return array;
+#define array_swap
+///array_swap(array, index1, index2, [inplace = false])
+//params: array (1D), real (natural), real (natural), [real (bool)]
+//returns: array with items at `index1` and `index2` swapped. if inplace, `array` is modified.
+
+_gme_arguments(array_swap, argument_count, 3, 4);
+
+var array = argument[0];
+var index1 = argument[1];
+var index2 = argument[2];
+var inplace = false; if(argument_count == 4) inplace = argument[3];
+
+assert(is_array(array), "array_swap(...): `array` must be array.");
+assert(real_is_natural(index1) && real_is_natural(index1), "array_swap(...): `index1` and `index2` must be natural numbers.");
+assert(real_is_natural(inplace), "array_swap(...): `inplace` must be bool.");
+
+if(!inplace) array = array_copy(array);
+
+var temp = array[@index2];
+array[@index2] = array[@index1];
+array[@index1] = temp;
 
 if(!inplace) return array;
