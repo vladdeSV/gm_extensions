@@ -519,7 +519,7 @@ for(var i = 0; i < str_length; ++i)
 
 return return_array;
 #define array_sort
-///array_sort(array, [ascending = false, inplace = false])
+///array_sort(array, [ascending = true, inplace = false])
 //params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
@@ -528,7 +528,7 @@ return return_array;
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
 
 var array = argument[0];
-var ascending = false;
+var ascending = true;
 var inplace = false;
 
 if(argument_count >= 2) ascending = argument[1];
@@ -553,87 +553,31 @@ for(var i = 0; i < length; ++i)
     }
 }
 
-//
+//sorted array
+var sorted = 0;
+
 if(array_type == "string")
 {
-    /*
-    if(!inplace) array = array_copy(array);
-    
     //RADIX Sort ('string' Edition)
-    var bucket = 0; //array
-    
-    //init all char positions
-    var jnd = string_join(array, "");
-    var min_byte = -1;
-    
-    for(var i = 0; i < string_length(jnd); ++i)
-    {
-        if(min_byte == -1)
-        {
-            min_byte = string_byte_at(jnd, i + 1);
-        }
-        else
-        {
-            min_byte = min(min_byte, string_byte_at(jnd, i + 1));
-        }
-    }
-    
-    for(var i = 0; i < max_string_length; ++i)
-    {
-        for(var n = 0; n < length; ++n)
-        {
-            var item = array[n];
-            var byte = -1;
-            var pos = i + 1;
-            
-            if(pos >= max_string_length)
-            {
-                byte = min_byte;
-            }
-            else
-            {
-                byte = string_byte_at(item, pos);
-            }
-            
-            bucket[byte, array_length(bucket, byte)] = item;
-        }
-        
-        var m = 0;
-        for(var yy = 0; yy < array_height(bucket); ++yy)
-        {
-            for(var xx = 0; xx < array_length(bucket, yy); ++xx)
-            {
-                array[m++] = bucket[@ yy,xx];
-                log("ge");
-            }
-        }
-        
-        bucket = 0;
-    }
-
-    if(!inplace) return array;
-    */
-    log("");
-    return array;
+    sorted = radix_sort_string(array, 0);
 }
-//is real
 else
 {
     //Quick Sort
-    var sorted = quick_sort(array);
+    sorted = quick_sort(array);
     if(ascending) array_reverse(sorted, true);
-    
-    if(inplace)
+}
+
+if(inplace)
+{
+    for(var i = 0; i < length; ++i)
     {
-        for(var i = 0; i < length; ++i)
-        {
-            array[@i] = sorted[i];
-        }
+        array[@i] = sorted[i];
     }
-    else
-    {
-        return sorted;
-    }
+}
+else
+{
+    return sorted;
 }
 
 #define array_is_1d
