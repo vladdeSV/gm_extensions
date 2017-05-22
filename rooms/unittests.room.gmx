@@ -10,35 +10,7 @@
   <persistent>0</persistent>
   <colour>16777215</colour>
   <showcolour>-1</showcolour>
-  <code>//show_message("");
-/*show_message
-(
-    radix_sort_string
-    (
-        array_create
-        (
-            "aaa",
-            "aa",
-            "acb",
-            "bca",
-            "cca",
-            "abca",
-            "a",
-            "bb",
-            "c",
-            "bab",
-            "bdb",
-            "ca",
-            "aa",
-            "aa",
-            "daa",
-            "d"
-        ),
-        0
-    )
-);*/
-
-///unittests
+  <code>///unittests
 //if-syntax is used to categorize tests
 var unittest = true;
 
