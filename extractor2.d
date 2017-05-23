@@ -12,6 +12,7 @@ import std.experimental.logger : log, logf;
 //find all script files
 //store function name, and its overloads
 
+/*
 struct Category
 {
     string category;
@@ -33,10 +34,11 @@ struct Function
     string params;
     string comment;
 }
+*/
 
 void main()
 {
-    Category[] categories;
+    //Category[] categories;
 
     //init files
     File output = File("output/gm_extensions.gml", "w");

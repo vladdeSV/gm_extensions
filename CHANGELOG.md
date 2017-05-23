@@ -1,7 +1,8 @@
 # Changelog
 
 ### v1.1.0
-* Add: Some `array_*()` functions now have optional parameter `inplace`. If true, function modifies original array.
+* Change: `extensions_gme` -> `_gme`
+* Change: Some `array_*()` functions now have optional parameter `inplace`. If true, function modifies original array.
 * Add: `array_is_1d(...)`, `array_sort(...)`, `radix_sort_string(...)`), `array_replace(...)`, `array_swap(...)`.
     * `array_sort(...)` sorts reals by size, strings alphabetically.
 * Fix: `type_of(variable)` now supports data structures (`ds_*`).

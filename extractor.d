@@ -64,7 +64,7 @@ void main()
         {
             if(lines[i].canFind("#define ") && !lines[i].canFind("extension_"))
             {
-                reference.writeln("### [", lines[i][8 .. $], "](/scripts/", fileName, "#L", i+2, ")");
+                reference.writeln("### [", lines[i][8 .. $], "](/scripts/", fileName, "#L", i+1, ")");
 
                 while(lines[++i].canFind("//"))
                 {

@@ -157,7 +157,7 @@ _gme_arguments(array_append, argument_count, 2, 3);
 if(argument_count == 2)
 {
     var array = argument[0];
-    var height = 1;
+    var height = 0;
     var value = argument[1];
 }
 else if(argument_count == 3)
@@ -172,7 +172,7 @@ assert(real_is_natural(height), "array_append(...): `height` must be natural num
 var length = array_length(array, height);
 assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
 
-array[height, length] = value;
+array[@height, length] = value;
 
 
 #define array_equal
@@ -523,8 +523,6 @@ return return_array;
 //params: array, [real (bool), real (bool)]
 //retruns: array with elements sorted. all items in `array` must be same type
 
-//this is the messiest code so far :(
-
 _gme_arguments(array_sort, argument_count, 1, 2, 3);
 
 var array = argument[0];
@@ -559,12 +557,12 @@ var sorted = 0;
 if(array_type == "string")
 {
     //RADIX Sort ('string' Edition)
-    sorted = radix_sort_string(array, 0);
+    sorted = _gme_radix_sort_string(array, 0);
 }
 else
 {
     //Quick Sort
-    sorted = quick_sort(array);
+    sorted = _gme_quick_sort(array);
     if(ascending) array_reverse(sorted, true);
 }
 
@@ -580,13 +578,6 @@ else
     return sorted;
 }
 
-#define array_is_1d
-///array_is_1d(array)
-//params: value
-//retruns: true if `array` height == 1.
-
-//if 1D array (array[0,n] == array[n])
-return (array_height_2d(argument0) == 1);
 #define array_replace
 ///array_replace(array, index, value, [inplace = false])
 //params: array, real (natural), value, [real (bool)]
@@ -608,26 +599,49 @@ if(!inplace) array = array_copy(array);
 array[@ index] = value;
 
 if(!inplace) return array;
+
 #define array_swap
-///array_swap(array, index1, index2, [inplace = false])
-//params: array (1D), real (natural), real (natural), [real (bool)]
-//returns: array with items at `index1` and `index2` swapped. if inplace, `array` is modified.
+///array_swap_item(array, index1, index2)
+//params: array, real (natural), real (natural)
+//results: modifies `array` by switching items at `index1` and `index2`
+///array_swap_item(array, height, index1, index2)
+//params: array, real (natural), real (natural), real (natural)
+//results: modifies `array` at `height` by switching items at `index1` and `index2`
 
 _gme_arguments(array_swap, argument_count, 3, 4);
 
-var array = argument[0];
-var index1 = argument[1];
-var index2 = argument[2];
-var inplace = false; if(argument_count == 4) inplace = argument[3];
+var array;
+var height = 0;
+var index1;
+var index2;
+
+if(argument_count == 3)
+{
+    array = argument[0];
+    index1 = argument[1];
+    index2 = argument[2];
+}
+else if(argument_count == 4)
+{
+    array = argument[0];
+    height = argument[1];
+    index1 = argument[2];
+    index2 = argument[3];
+}
 
 assert(is_array(array), "array_swap(...): `array` must be array.");
-assert(real_is_natural(index1) && real_is_natural(index1), "array_swap(...): `index1` and `index2` must be natural numbers.");
-assert(real_is_natural(inplace), "array_swap(...): `inplace` must be bool.");
+assert(real_is_natural(height), "array_swap(...): `height` must be natural number.");
+assert(real_is_natural(index1), "array_swap(...): `index1` must be natural number.");
+assert(real_is_natural(index2), "array_swap(...): `index2` must be natural number.");
 
-if(!inplace) array = array_copy(array);
+var temp = array[@height, index2];
+array[@height, index2] = array[@height, index1];
+array[@height, index1] = temp;
 
-var temp = array[@index2];
-array[@index2] = array[@index1];
-array[@index1] = temp;
+#define array_is_1d
+///array_is_1d(array)
+//params: value
+//retruns: true if `array` height == 1.
 
-if(!inplace) return array;
+//if 1D array (array[0,n] == array[n])
+return (array_height_2d(argument0) == 1);

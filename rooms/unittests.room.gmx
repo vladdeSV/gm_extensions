@@ -67,6 +67,12 @@ if(unittest)
     assert(array_at(array_2d, 4, 2) == 3);
 }
 
+///array_append
+if(unittest)
+{
+    
+}
+
 ///array_copy
 if(unittest)
 {
@@ -339,15 +345,6 @@ if(unittest)
 if(unittest)
 {
     //someday...
-}
-
-///quick_sort
-if(unittest)
-{
-    var unsorted = array_create(5,2,4,1,3);
-    var sorted = quick_sort(unsorted);
-
-    assert(array_equal(sorted, array_create(5,4,3,2,1)));
 }
 
 //*/
