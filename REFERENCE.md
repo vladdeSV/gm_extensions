@@ -100,73 +100,75 @@ returns: element in `array` at `height, index` (`array[height, index]`)
 
 ##### array_append(array, value)
 params: array, value  
-results: appends `value` to `array`. arrays are pointers, no need to return array  
+results: appends `value` to `array`  
+note: if `value` is not array, cannot edit by reference. must assign returned array  
 
 ##### array_append(array, height, value)
 params: array, real (natural), value  
-results: appends `value` to `array` at `height`. arrays are pointers, no need to return array  
+results: appends `value` to `array` at `height`  
+note: if `value` is not array, cannot edit by reference. must assign returned array  
 
-### [array_equal](/scripts/extension_array.gml#L178)
+### [array_equal](/scripts/extension_array.gml#L186)
 
 ##### array_equal(array1, array2)
 params: array, array  
 returns: true if the content of `array1` and `array2` are equal  
 
-### [array_split](/scripts/extension_array.gml#L216)
+### [array_split](/scripts/extension_array.gml#L224)
 
 ##### array_split(string, separator)
 params: string, string  
 returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)  
 
-### [array_sub](/scripts/extension_array.gml#L255)
+### [array_sub](/scripts/extension_array.gml#L263)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L276)
+### [array_reverse](/scripts/extension_array.gml#L284)
 
 ##### array_reverse(array)
 params: array (1D)  
 results: `array` with items in reverse order  
 
-### [array_find](/scripts/extension_array.gml#L295)
+### [array_find](/scripts/extension_array.gml#L303)
 
 ##### array_find(array, value, [nth = 1])
 params: array, real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L322)
+### [array_count](/scripts/extension_array.gml#L330)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L347)
+### [array_exists](/scripts/extension_array.gml#L355)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L370)
+### [array_expand](/scripts/extension_array.gml#L378)
 
 ##### array_expand(array)
 params: array (1D)  
 results: `array` becomes all elements of nested arrays  
 
-### [array_length](/scripts/extension_array.gml#L413)
+### [array_length](/scripts/extension_array.gml#L421)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L427)
+### [array_height](/scripts/extension_array.gml#L435)
 
 ##### array_height(array)
 params: value  
 retruns: height of `array`  
 
-### [array_insert](/scripts/extension_array.gml#L434)
+### [array_insert](/scripts/extension_array.gml#L442)
 
 ##### array_insert(array, index, value)
 params: array, real (natural), value  
@@ -176,20 +178,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L482)
+### [array_string](/scripts/extension_array.gml#L490)
 
 ##### array_string(string)
 params: string  
 retruns: array with each item as string characters  
 
-### [array_sort](/scripts/extension_array.gml#L500)
+### [array_sort](/scripts/extension_array.gml#L508)
 
 ##### array_sort(array, [ascending = true])
 params: array, [real (bool)]  
 results: `array` sorted. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L550)
+### [array_replace](/scripts/extension_array.gml#L558)
 
 ##### array_replace(array, index, value)
 params: array, real (natural), value  
@@ -199,7 +201,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap](/scripts/extension_array.gml#L585)
+### [array_swap](/scripts/extension_array.gml#L593)
 
 ##### array_swap_item(array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -209,7 +211,7 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L625)
+### [array_is_1d](/scripts/extension_array.gml#L633)
 
 ##### array_is_1d(array)
 params: value  

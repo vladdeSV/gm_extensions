@@ -147,10 +147,12 @@ else if(argument_count == 3)
 #define array_append
 ///array_append(array, value)
 //params: array, value
-//results: appends `value` to `array`. arrays are pointers, no need to return array
+//results: appends `value` to `array`
+//note: if `value` is not array, cannot edit by reference. must assign returned array
 ///array_append(array, height, value)
 //params: array, real (natural), value
-//results: appends `value` to `array` at `height`. arrays are pointers, no need to return array
+//results: appends `value` to `array` at `height`
+//note: if `value` is not array, cannot edit by reference. must assign returned array
 
 _gme_arguments(array_append, argument_count, 2, 3);
 
@@ -167,13 +169,19 @@ else if(argument_count == 3)
     var value = argument[2];
 }
 
-assert(is_array(array), "array_append(...): `array` must be array.");
 assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
 var length = array_length(array, height);
-assert(length > 0, "array_append(...): `array[height, ...]` must be initialized in order to append.");
 
-array[@height, length] = value;
+if(!is_array(array))
+{
+    array[height, 0] = value;
+}
+else
+{
+    array[@height, length] = value;    
+}
 
+return array;
 
 #define array_equal
 ///array_equal(array1, array2)
