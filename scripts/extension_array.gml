@@ -274,45 +274,23 @@ for(var n = 0; n < length; ++n)
 return sub_array;
 
 #define array_reverse
-///array_reverse(array, [inplace = false])
-//params: array, [real (bool)]
-//results: `array` with items in reverse order. modifies original array if `inplace` == true
+///array_reverse(array)
+//params: array (1D)
+//results: `array` with items in reverse order
 
-_gme_arguments(array_reverse, argument_count, 1, 2);
-
-var array = argument[0];
-var inplace = false;
-if(argument_count == 2)
-{
-    inplace = argument[1];
-}
+var array = argument0;
 
 assert(is_array(array) && array_is_1d(array), "array_reverse(...): `array` must be 1D array.");
-assert(real_is_natural(inplace), "array_reverse(...): `inplace` must be bool.");
 
 var length = array_length(array);
+for(var n = 0; n < floor(length/2); ++n)
+{
+    var temp = array[@n];
+    array[@n] = array[@(length - 1 - n)];
+    array[@(length - 1 - n)] = temp;
+}
 
-if(inplace)
-{
-    for(var n = 0; n < floor(length/2); ++n)
-    {
-        var temp = array[@n];
-        array[@n] = array[@(length - 1 - n)];
-        array[@(length - 1 - n)] = temp;
-    }
-}
-else
-{
-    var array = array_copy(array);
-    var return_array = array_init(length);
-    
-    for(var i = 0; i < length; ++i)
-    {
-        return_array[i] = array[@(length - 1 - i)];
-    }
-    
-    return return_array;
-}
+return array;
 
 #define array_find
 ///array_find(array, value, [nth = 1])
@@ -390,22 +368,13 @@ for(var h = 0; h < height; ++h)
 return false;
 
 #define array_expand
-///array_expand(array, [deep = -1])
-//params: array, [real (natural)]
-//returns: returns array of all elements of nested arrays, to `deep` layers down. if `deep` == -1, expand all
+///array_expand(array)
+//params: array (1D)
+//results: `array` becomes all elements of nested arrays
 
-_gme_arguments(array_expand, argument_count, 1, 2);
+var array = argument0;
 
-var array = argument[0];
-var deep = -1;
-
-if(argument_count == 2)
-{
-    deep = argument[1];
-}
-
-assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array. Only 1D arrays can be expanded.");
-assert(is_real(deep) && (deep >= -1) && (deep mod 1 == 0), "array_expand(...): `deep` must be natural number or -1.");
+assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array.");
 
 var al = array_length_1d(array);
 var return_array = 0;
@@ -416,10 +385,9 @@ for(var i = 0; i < al; ++i)
     var arg = array[i];
     var pos = i + offset;
     
-    if(is_array(arg) && (deep == -1 || deep > 0))
+    if(is_array(arg))
     {
-        if(deep > 0) --deep;
-        var narr = array_expand(arg, deep);
+        var narr = array_expand(arg);
         var nl = array_length_1d(narr);
         
         for(var j = 0; j < nl; ++j)
@@ -435,7 +403,12 @@ for(var i = 0; i < al; ++i)
     }
 }
 
-return return_array;
+for(var i = 0; i < array_length(return_array); ++i)
+{
+    array[@i] = return_array[@i];
+}
+
+return array;
 
 #define array_length
 ///array_length(array, [height = 0])
@@ -445,9 +418,7 @@ return return_array;
 _gme_arguments(array_length, argument_count, 1, 2);
 
 var array = argument[0];
-var height = 0;
-
-if(argument_count == 2) height = argument[1];
+var height = 0; if(argument_count == 2) height = argument[1];
 
 assert(real_is_natural(height), "array_length(...): `height` must be natural number.");
 
@@ -461,43 +432,51 @@ return array_length_2d(array, height);
 return array_height_2d(argument0);
 
 #define array_insert
-///array_insert(array, position, value, [inplace = false])
-//params: array, real (natural), value, [real (bool)]
-//returns: `array` with `value` inserted at `array[position]`. modifies original if `inplace` == true
+///array_insert(array, index, value)
+//params: array, real (natural), value
+//results: `array` with `value` inserted at `array[index]`, pushing back all items one step
+///array_insert(array, height, index, value)
+//params: array, real (natural), real (natural), value
+//results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step
+
+_gme_arguments(array_insert, argument_count, 3, 4);
 
 var array = argument[0];
-var position = argument[1];
-var value = argument[2];
-var inplace = false;
+var height = 0;
+var index;
+var value;
 
-if(argument_count == 4) inplace = argument[3];
-
-assert(is_array(array) && array_is_1d(array), "array_insert(...): `array` must be 1D array.");
-assert(is_real(position) and ((position mod 1) == 0) and position >= 0, "array_insert(...): `position` must be positive integer");
-assert(real_is_natural(inplace), "array_insert(...): `inplace` must be bool.");
-var length = array_length(array);
-assert(real_within(position, 0, length), string_text("array_insert(...): `position` must be between 0 and ", length, ", but `position` == ", position, "."));
-
-//if not modifying original, copy array
-if(!inplace)
+if(argument_count == 3)
 {
-    array = array_copy(array);
+    index = argument[1];
+    value = argument[2];
+}
+else
+{
+    height = argument[1];
+    index = argument[2];
+    value = argument[3];
 }
 
-var half_end = array_slice(array, position, length);
+assert(is_array(array) && array_is_1d(array), "array_insert(...): `array` must be 1D array.");
+assert(real_is_natural(height), "array_insert(...): `height` must be natural number.");
+assert(real_is_natural(index), "array_insert(...): `index` must be natural number.");
+var length = array_length(array);
+assert(real_within(index, 0, length), "array_insert(...): `index` is out of bounds.");
+
+var half_end = array_slice(array_sub(array, height), index, length);
 if(is_array(half_end))
 {
     //shift array one step left
-    for(var i = length; i > position; --i)
+    for(var i = length; i > index; --i)
     {
-        array[@i] = array[@(i - 1)];
+        array[@height, i] = array[@height, (i - 1)];
     }
 }
 
-array[@position] = value;
+array[@height, index] = value;
 
-//if not modifying original, return array
-if(!inplace) return array;
+return array;
 
 
 #define array_string
@@ -519,22 +498,18 @@ for(var i = 0; i < str_length; ++i)
 
 return return_array;
 #define array_sort
-///array_sort(array, [ascending = true, inplace = false])
-//params: array, [real (bool), real (bool)]
-//retruns: array with elements sorted. all items in `array` must be same type
+///array_sort(array, [ascending = true])
+//params: array, [real (bool)]
+//results: `array` sorted. if sorting string: sorted alphabetically
+//note: all items in `array` must be same type
 
-_gme_arguments(array_sort, argument_count, 1, 2, 3);
+_gme_arguments(array_sort, argument_count, 1, 2);
 
 var array = argument[0];
-var ascending = true;
-var inplace = false;
-
-if(argument_count >= 2) ascending = argument[1];
-if(argument_count >= 3) inplace = argument[2];
+var ascending = true; if(argument_count == 2) ascending = argument[1];
 
 assert(is_array(array) && array_is_1d(array), "array_sort(...): `array` must be 1D array.");
 assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
-assert(real_is_natural(inplace), "array_sort(...): `inplace` must be bool.");
 
 //check array all same type
 var array_type = type_of(array[0]);
@@ -542,8 +517,7 @@ var max_string_length = 0;
 var length = array_length(array);
 for(var i = 0; i < length; ++i)
 {
-    var type = type_of(array[i]);
-    assert(array_type == type, string_text("array_sort(...): All types in array must be the same. ", array[i], " at poition ", i, " is of type ", type, "."));
+    assert(array_type == type_of(array[i]), string_text("array_sort(...): All types in array must be the same."));
     
     if(array_type = "string")
     {
@@ -563,42 +537,50 @@ else
 {
     //Quick Sort
     sorted = _gme_quick_sort(array);
-    if(ascending) array_reverse(sorted, true);
+    if(ascending) array_reverse(sorted);
 }
 
-if(inplace)
+for(var i = 0; i < length; ++i)
 {
-    for(var i = 0; i < length; ++i)
-    {
-        array[@i] = sorted[i];
-    }
+    array[@i] = sorted[i];
 }
-else
-{
-    return sorted;
-}
+
+return sorted;
 
 #define array_replace
-///array_replace(array, index, value, [inplace = false])
-//params: array, real (natural), value, [real (bool)]
-//returns: array with `index`th elememt replaced by `value`
+///array_replace(array, index, value)
+//params: array, real (natural), value
+//results: `array[index]` replaced by `value`
+///array_replace(array, height, index, value)
+//params: array, real (natural), real (natural), value
+//results: `array[height, index]` replaced by `value`
 
 _gme_arguments(array_replace, argument_count, 3, 4);
 
 var array = argument[0];
-var index = argument[1];
-var value = argument[2];
-var inplace = false; if(argument_count == 4) inplace = argument[3];
+var height = 0;
+var index;
+var value;
+
+if(argument_count == 3)
+{
+    index = argument[1];
+    value = argument[2];
+}
+else
+{
+    height = argument[1];
+    index = argument[2];
+    value = argument[3];
+}
 
 assert(is_array(array), "array_replace(...): `array` must be array.");
+assert(real_is_natural(height), "array_replace(...): `height` must be natural number.");
 assert(real_is_natural(index), "array_replace(...): `index` must be natural number.");
-assert(real_is_natural(inplace), "array_replace(...): `inplace` must be natural number.");
 
-if(!inplace) array = array_copy(array);
+array[@height, index] = value;
 
-array[@ index] = value;
-
-if(!inplace) return array;
+return array;
 
 #define array_swap
 ///array_swap_item(array, index1, index2)
@@ -637,6 +619,8 @@ assert(real_is_natural(index2), "array_swap(...): `index2` must be natural numbe
 var temp = array[@height, index2];
 array[@height, index2] = array[@height, index1];
 array[@height, index1] = temp;
+
+return array;
 
 #define array_is_1d
 ///array_is_1d(array)

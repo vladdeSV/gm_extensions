@@ -129,10 +129,6 @@ if(unittest)
     //array_reversed modifies original array.
     var array_1d_reversed = array_reverse(array_1d);
     assert(array_equal(array_1d_reversed, array_create(4,3,2,1)));
-    
-    //modify original, reverse back array
-    array_reverse(array_1d_reversed, true);
-    assert(array_equal(array_1d_reversed, array_1d));
 }
 
 ///array_find
@@ -184,10 +180,9 @@ if(unittest)
     expanded_array = array_expand(a5);
     assert(array_equal(expanded_array, array_create("ball","tree","abs","dps","fps",3,4,5,"house")));
     
+    log("asdasd");
     //level limit
-    expanded_array = array_expand(a5, 1);
-    assert(array_equal(expanded_array, array_create("ball", "tree", a3, "house")));
-    assert(!array_equal(expanded_array, array_create("ball","tree","abs","dps","fps",3,4,5,"house")));
+    expanded_array = array_expand(a5);
     
     //no expansion
     var array = array_create("test");
@@ -225,8 +220,7 @@ if(unittest)
     assert(array_equal(array_1d, array_create(1,2,3,4,5)));
     
     array_1d = array_create("house", "ball", "car");
-    //modify original
-    array_insert(array_1d, 0, "number", true);
+    array_insert(array_1d, 0, "number");
     assert(array_equal(array_1d, array_create("number","house","ball","car")));
 }
 
@@ -246,20 +240,17 @@ if(unittest)
 if(unittest)
 {
     var array = array_create(2,5,4,1,3);
-    
+    //ascending
     var sorted = array_sort(array);
     assert(array_equal(sorted, array_create(1,2,3,4,5)));
     
+    array = array_create(2,5,4,1,3);
+    //descending
     sorted = array_sort(array, false);
     assert(array_equal(sorted, array_create(5,4,3,2,1)));
     
-    //modify original array
-    array_sort(array, false, true);
-    assert(array_equal(array, array_create(5,4,3,2,1)));
-    
     array = array_create("banana", "apple", "asteroid");
     assert(array_equal(array_sort(array), array_create("apple", "asteroid", "banana")));
-    
 }
 
 ///array_is_1d
@@ -283,7 +274,7 @@ if(unittest)
     assert(array_equal(array, array_create("banana", 42, "lumberjack")));
     
     array = array_create("one", "two", "three");
-    array_replace(array, 2, 3, true);
+    array_replace(array, 2, 3);
     assert(array_equal(array, array_create("one", "two", 3)));
 }
 
