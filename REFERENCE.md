@@ -23,12 +23,12 @@
 1. [array_string](#array_string)
 1. [array_sort](#array_sort)
 1. [array_replace](#array_replace)
-1. [array_swap](#array_swap)
+1. [array_swap_item](#array_swap_item)
 1. [array_is_1d](#array_is_1d)
 
 ### extension_ds_list
 
-1. [ds_list_swap](#ds_list_swap)
+1. [ds_list_swap_item](#ds_list_swap_item)
 
 ### extension_misc
 
@@ -201,7 +201,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap](/scripts/extension_array.gml#L593)
+### [array_swap_item](/scripts/extension_array.gml#L593)
 
 ##### array_swap_item(array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -219,9 +219,9 @@ retruns: true if `array` height == 1.
 
 ## extension_ds_list
 
-### [ds_list_swap](/scripts/extension_ds_list.gml#L4)
+### [ds_list_swap_item](/scripts/extension_ds_list.gml#L4)
 
-##### ds_list_swap(id, index_1, index_2)
+##### ds_list_swap_item(id, index_1, index_2)
 params: ds_list, real (natural), real (natural)  
 results: swaps two elements, `index_1` and `index_2`, in a ds_list  
 
