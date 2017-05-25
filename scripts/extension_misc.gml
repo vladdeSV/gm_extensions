@@ -51,7 +51,7 @@ else if(argument[0] == false)
 
 #define type_of
 ///type_of(variable)
-//value
+//params: value
 //retruns: type of argument, as string
 
 var variable = argument0;
