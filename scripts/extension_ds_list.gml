@@ -1,8 +1,8 @@
 #define extension_ds_list
 
 
-#define ds_list_swap
-///ds_list_swap(id, index_1, index_2)
+#define ds_list_swap_item
+///ds_list_swap_item(id, index_1, index_2)
 //params: ds_list, real (natural), real (natural)
 //results: swaps two elements, `index_1` and `index_2`, in a ds_list
 

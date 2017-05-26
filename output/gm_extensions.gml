@@ -592,7 +592,7 @@ array[@height, index] = value;
 
 return array;
 
-#define array_swap
+#define array_swap_item
 ///array_swap_item(array, index1, index2)
 //params: array, real (natural), real (natural)
 //results: modifies `array` by switching items at `index1` and `index2`
@@ -641,8 +641,8 @@ return array;
 return (array_height_2d(argument0) == 1);
 
 
-#define ds_list_swap
-///ds_list_swap(id, index_1, index_2)
+#define ds_list_swap_item
+///ds_list_swap_item(id, index_1, index_2)
 //params: ds_list, real (natural), real (natural)
 //results: swaps two elements, `index_1` and `index_2`, in a ds_list
 
@@ -656,6 +656,7 @@ assert(real_is_natural(index_1) && real_is_natural(index_2), "ds_list_swap(...):
 var temp = ds_list_find_value(argument0, argument1);
 ds_list_replace(argument0, argument1, ds_list_find_value(argument0, argument2));
 ds_list_replace(argument0, argument2, temp);
+
 
 
 #define log
@@ -1099,4 +1100,3 @@ for(var i = 0; i < array_height(bucket); ++i)
 }
 
 return return_array;
-

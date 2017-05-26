@@ -590,7 +590,7 @@ array[@height, index] = value;
 
 return array;
 
-#define array_swap
+#define array_swap_item
 ///array_swap_item(array, index1, index2)
 //params: array, real (natural), real (natural)
 //results: modifies `array` by switching items at `index1` and `index2`
