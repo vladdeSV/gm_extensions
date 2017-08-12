@@ -602,7 +602,7 @@ return array;
 #define array_is_1d
 ///array_is_1d(array)
 //params: value
-//retruns: true if `array` is array and has height == 1.
+//retruns: true if `array` is array and has height of 1.
 
 //array[0,n] == array[n]
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));

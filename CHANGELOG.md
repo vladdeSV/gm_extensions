@@ -7,18 +7,19 @@
 * Change: Removed `deep` variable in `array_expand(...)`.
 * Change: Swapping functions have their names changed to minimize confusion. `*_swap(...)` -> `*_swap_item(...)`.
 * Change: `extensions_gme` -> `_gme`.
-* Add: `array_is_1d(array)`, returns `true` if is array, else false.
+* Add: `array_is_1d(array)`, returns `true` if is 1D array, else false.
 * Add: `array_sort(array, [ascending = true])`, sorts numbers by size, strings alphabetically.
 * Add: `array_replace(array, index, value)`, replaces `array[index]` with `value`.
-    * array_replace(array, height, index, value), for 2D arrays.
+    * `array_replace(array, height, index, value)`, for 2D arrays.
 * Add: `array_swap_item(array, index1, index2)`, swaps values at `index1` and `index2` in `array`.
+    * `array_swap_item(array, height, index1, index2)`, for 2D arrays.
 * Add: `ternary(comparison, true_value, false_value)`, if `comparison` is true, returns `true_value`, else `false_value`.
     * Compromise for `comparison ? true_value : false_value`.
 * Remove: `array_equal(array1, array2)`, use default GML `array_equals` instead.
 * Fix: `type_of(variable)` now supports data structures (`ds_*`).
 * Fix: `array_at(height, index)` now appends correctly.
 * Fix: `log(...)` now properly displays text.
-* Fix: Typos.
+* Fix: Clarified many parameters in functions.
 
 ### v1.0.1
 * Change: For `//params: `, optional arguments are now surrounded with `[ ]`.

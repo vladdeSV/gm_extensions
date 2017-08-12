@@ -11,6 +11,7 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\_unittests.gml</script>
     <script>scripts\_gme.gml</script>
     <script>scripts\extension_array.gml</script>
     <script>scripts\extension_string.gml</script>

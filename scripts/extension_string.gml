@@ -36,12 +36,14 @@ for(var n = 0; n < argument_count; ++n)
 return text;
 
 #define string_join
-///string_join(array, joiner)
-//params: array, string
+///string_join(array, [joiner = ""])
+//params: array, [string]
 //returns: string with items in `array` joined by `joiner`
 
-var array = argument0;
-var joiner = argument1;
+_gme_arguments(string_join, argument_count, 1, 2);
+
+var array = argument[0];
+var joiner = ""; if(argument_count == 2) joiner = argument[0];
 
 assert(is_array(array) && array_is_1d(array), "string_join(...): `array` must be 1D array.");
 assert(is_string(joiner), "string_join(...): `joiner` must be string.");
