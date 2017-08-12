@@ -6,7 +6,9 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites"/>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background0</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\_gme.gml</script>

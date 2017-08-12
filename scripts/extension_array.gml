@@ -2,15 +2,16 @@
 
 
 #define array_init
-///array_init()
-//returns: empty array
-///array_init(length)
-//params: real (natural)
-//returns: array with `length` items
-//note: alias for `array_create`
 ///array_init(height, length)
 //params: real (natural), real (natural)
 //retruns: array with `height` * `length` items
+///array_init(length)
+//params: real (natural)
+//returns: array with `length` items
+//note: alias for `array_create(length)`
+///array_init()
+//returns: empty array
+//note: alias for `array_create(0)`
 
 _gme_arguments(array_init, argument_count, 0, 1, 2);
 
@@ -43,7 +44,7 @@ for(var h = 0; h < height; ++h)
 return array;
 
 #define array_of
-///array_cof(...)
+///array_of(...)
 //params: value...
 //returns: creates an array from arguments
 
@@ -60,8 +61,8 @@ return return_array;
 
 #define array_slice
 ///array_slice(array, from, to)
-//params: array, real (natural), real (natural)
-//retruns: portion of `array`. `from` (inclusive), `to` (exclusive). if `from` == `to`, returns 0
+//params: array (1D), real (natural), real (natural)
+//retruns: portion of `array`. `from` (inclusive), `to` (exclusive).
 
 var array = argument0;
 var from = argument1;
@@ -75,13 +76,12 @@ assert(from <= to, string_text("array_slice(...): `from`/`to` missmatch. `from` 
 assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: [", from, " .. ", to, "], `array` is [0 .. ", length, "]."));
 
 //if slice of length 0, return 0
-if(from == to) return 0;
+if(from == to) return array_create(0);
 
-var return_array = array_init(to - from);
-for(var i = from; i < to; ++i)
-{
-    return_array[i - from] = array[@i];
-}
+var delta = to - from;
+var return_array = array_create(0);// = array_create(delta);
+
+array_copy(return_array, 0, array, from, delta);
 
 return return_array;
 
@@ -163,17 +163,21 @@ else if(argument_count == 3)
 
 _gme_arguments(array_append, argument_count, 2, 3);
 
+var array = 0;
+var height = 0;
+var value = 0;
+
 if(argument_count == 2)
 {
-    var array = argument[0];
-    var height = 0;
-    var value = argument[1];
+    array = argument[0];
+    height = 0;
+    value = argument[1];
 }
-else if(argument_count == 3)
+else
 {
-    var array = argument[0];
-    var height = argument[1];
-    var value = argument[2];
+    array = argument[0];
+    height = argument[1];
+    value = argument[2];
 }
 
 assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
@@ -181,7 +185,7 @@ var length = array_length(array, height);
 
 if(!is_array(array))
 {
-    array[height, 0] = value;
+    array[0] = value;
 }
 else
 {
@@ -203,7 +207,7 @@ var source = string(argument0);
 var separator = string(argument1);
 
 //initialize array
-var splits = array_init(string_count(separator, source));
+var splits = array_create(string_count(separator, source));
 var splits_position = 0;
 
 //temporary split
@@ -383,10 +387,7 @@ for(var i = 0; i < al; ++i)
     }
 }
 
-for(var i = 0; i < array_length(return_array); ++i)
-{
-    array[@i] = return_array[@i];
-}
+array_copy(array, 0, return_array, 0, array_length(return_array));
 
 return array;
 
@@ -423,8 +424,8 @@ _gme_arguments(array_insert, argument_count, 3, 4);
 
 var array = argument[0];
 var height = 0;
-var index;
-var value;
+var index = 0;
+var value = 0;
 
 if(argument_count == 3)
 {
@@ -462,7 +463,7 @@ return array;
 #define array_string
 ///array_string(string)
 //params: string
-//retruns: array with each element in array as a character
+//retruns: array with each all characters as items
 
 var str = argument0;
 
@@ -492,18 +493,14 @@ var ascending = true; if(argument_count == 2) ascending = argument[1];
 assert(is_array(array) && array_is_1d(array), "array_sort(...): `array` must be 1D array.");
 assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
 
+if(array_length_1d(array) == 0) return array;
+
 //check array all same type
 var array_type = type_of(array[0]);
-var max_string_length = 0;
 var length = array_length(array);
 for(var i = 0; i < length; ++i)
 {
     assert(array_type == type_of(array[i]), string_text("array_sort(...): All types in array must be the same."));
-
-    if(array_type = "string")
-    {
-        max_string_length = max(max_string_length, string_length(array[i]));
-    }
 }
 
 //sorted array
@@ -523,10 +520,7 @@ else
 }
 
 //move item to original
-for(var i = 0; i < length; ++i)
-{
-    array[@i] = sorted[i];
-}
+array_copy(array, 0, sorted, 0, length);
 
 return sorted;
 

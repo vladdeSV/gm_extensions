@@ -126,3 +126,22 @@ else if(ds_exists(variable, ds_type_priority))
 }
 
 return "unknown";
+#define ternary
+///ternary(comparison, true_value, false_value)
+//params: real (bool), value, value
+//returns: if `comparison` is true, `true_value`, else `false_value`
+
+var comparison = argument0;
+var true_value = argument1;
+var false_value = argument2;
+
+assert(real_is_integer(comparison), "ternary(...): `comparison` must be a boolean.");
+
+if(comparison)
+{
+    return true_value;
+}
+else
+{
+    return false_value;
+}

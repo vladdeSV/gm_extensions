@@ -35,6 +35,7 @@
 1. [assert](#assert)
 1. [noop](#noop)
 1. [type_of](#type_of)
+1. [ternary](#ternary)
 
 ### extension_object
 
@@ -59,29 +60,30 @@
 
 ### [array_init](/scripts/extension_array.gml#L4)
 
-##### array_init()
-returns: empty array  
-
-##### array_init(length)
-params: real (natural)  
-returns: array with `length` items  
-note: alias for `array_create`  
-
 ##### array_init(height, length)
 params: real (natural), real (natural)  
 retruns: array with `height` * `length` items  
 
-### [array_of](/scripts/extension_array.gml#L45)
+##### array_init(length)
+params: real (natural)  
+returns: array with `length` items  
+note: alias for `array_create(length)`  
 
-##### array_cof(...)
+##### array_init()
+returns: empty array  
+note: alias for `array_create(0)`  
+
+### [array_of](/scripts/extension_array.gml#L46)
+
+##### array_of(...)
 params: value...  
 returns: creates an array from arguments  
 
-### [array_slice](/scripts/extension_array.gml#L61)
+### [array_slice](/scripts/extension_array.gml#L62)
 
 ##### array_slice(array, from, to)
-params: array, real (natural), real (natural)  
-retruns: portion of `array`. `from` (inclusive), `to` (exclusive). if `from` == `to`, returns 0  
+params: array (1D), real (natural), real (natural)  
+retruns: portion of `array`. `from` (inclusive), `to` (exclusive).  
 
 ### [array_clone](/scripts/extension_array.gml#L88)
 
@@ -111,61 +113,61 @@ params: array, real (natural), value
 results: appends `value` to `array` at `height`  
 note: if `value` is not array, cannot edit by reference. must assign returned array  
 
-### [array_split](/scripts/extension_array.gml#L193)
+### [array_split](/scripts/extension_array.gml#L197)
 
 ##### array_split(string, separator)
 params: string, string  
 returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)  
 
-### [array_sub](/scripts/extension_array.gml#L232)
+### [array_sub](/scripts/extension_array.gml#L236)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L255)
+### [array_reverse](/scripts/extension_array.gml#L259)
 
 ##### array_reverse(array)
 params: array (1D)  
 results: `array` with items in reverse order  
 
-### [array_find](/scripts/extension_array.gml#L274)
+### [array_find](/scripts/extension_array.gml#L278)
 
 ##### array_find(array, value, [nth = 1])
 params: array (1D), real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L302)
+### [array_count](/scripts/extension_array.gml#L306)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L327)
+### [array_exists](/scripts/extension_array.gml#L331)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L350)
+### [array_expand](/scripts/extension_array.gml#L354)
 
 ##### array_expand(array)
 params: array (1D)  
 results: `array` becomes all elements of nested arrays  
 
-### [array_length](/scripts/extension_array.gml#L393)
+### [array_length](/scripts/extension_array.gml#L394)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L407)
+### [array_height](/scripts/extension_array.gml#L408)
 
 ##### array_height(array)
 params: value  
 retruns: height of `array`  
 
-### [array_insert](/scripts/extension_array.gml#L414)
+### [array_insert](/scripts/extension_array.gml#L415)
 
 ##### array_insert(array, index, value)
 params: array, real (natural), value  
@@ -175,20 +177,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L462)
+### [array_string](/scripts/extension_array.gml#L463)
 
 ##### array_string(string)
 params: string  
-retruns: array with each element in array as a character  
+retruns: array with each all characters as items  
 
-### [array_sort](/scripts/extension_array.gml#L481)
+### [array_sort](/scripts/extension_array.gml#L482)
 
 ##### array_sort(array, [ascending = true])
 params: array, [real (bool)]  
 results: `array` sorted. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L533)
+### [array_replace](/scripts/extension_array.gml#L527)
 
 ##### array_replace(array, index, value)
 params: array, real (natural), value  
@@ -198,7 +200,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap_item](/scripts/extension_array.gml#L568)
+### [array_swap_item](/scripts/extension_array.gml#L562)
 
 ##### array_swap_item(array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -208,7 +210,7 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L608)
+### [array_is_1d](/scripts/extension_array.gml#L602)
 
 ##### array_is_1d(array)
 params: value  
@@ -246,6 +248,12 @@ results: nothing. noop is shorthand for "no operation"
 ##### type_of(variable)
 params: value  
 retruns: type of argument, as string  
+
+### [ternary](/scripts/extension_misc.gml#L129)
+
+##### ternary(comparison, true_value, false_value)
+params: real (bool), value, value  
+returns: if `comparison` is true, `true_value`, else `false_value`  
 
 ## extension_object
 
