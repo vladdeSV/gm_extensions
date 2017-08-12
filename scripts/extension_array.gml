@@ -2,28 +2,35 @@
 
 
 #define array_init
+///array_init()
+//returns: empty array
 ///array_init(length)
 //params: real (natural)
 //returns: array with `length` items
+//note: alias for `array_create`
 ///array_init(height, length)
 //params: real (natural), real (natural)
 //retruns: array with `height` * `length` items
 
-_gme_arguments(array_init, argument_count, 1, 2);
+_gme_arguments(array_init, argument_count, 0, 1, 2);
 
 var height = 1;
 var length = 1;
 
-if(argument_count == 1)
+if(argument_count == 0)
 {
-    length = argument[0];
+    return array_create(0);
+}
+else if(argument_count == 1)
+{
+    return array_create(argument[0]);
 }
 else if(argument_count == 2)
 {
     height = argument[0];
     length = argument[1];
-}    
-    
+}
+
 assert(real_is_natural(height) && height > 0, "array_init(...): `height` must be natural number greater than 0.");
 assert(real_is_natural(length) && length > 0, "array_init(...): `length` must be natural number greater than 0.");
 
@@ -35,13 +42,13 @@ for(var h = 0; h < height; ++h)
 
 return array;
 
-#define array_create
-///array_create(arg, ...)
+#define array_of
+///array_cof(arg, ...)
 //params: value, value...
 //returns: creates an array from arguments
 
 //array from arguments
-var return_array = array_init(argument_count);;
+var return_array = array_create(argument_count);;
 
 //copy all arguments to array
 for(var i = 0; i < argument_count; ++i)
@@ -78,15 +85,15 @@ for(var i = from; i < to; ++i)
 
 return return_array;
 
-#define array_copy
-///array_copy(array)
+#define array_clone
+///array_clone(array)
 //params: array
 //returns: deep copy of `array`, both 1D and 2D arrays
 
 //store array pointer
 var array = argument0;
 
-assert(is_array(array), "array_copy(...): `array` must be array.");
+assert(is_array(array), "array_clone(...): `array` must be array.");
 
 var copy = 0;
 
@@ -95,11 +102,11 @@ for(var i = 0; i < array_height_2d(array); ++i)
 {
     //init the length of the array
     var length = array_length_2d(array, i);
-    
+
     if(length)
     {
         copy[i, length - 1] = 0;
-    
+
         //iterate over all items
         for(var j = 0; j < length; ++j)
         {
@@ -125,10 +132,10 @@ if(argument_count == 2)
 {
     var array = argument[0];
     var index = argument[1];
-    
+
     assert(is_array(array), "array_at(...): `array` must be array.");
     assert(real_is_natural(index), "array_at(...): `index` must be natural number.");
-    
+
     return array[@index];
 }
 else if(argument_count == 3)
@@ -136,11 +143,11 @@ else if(argument_count == 3)
     var array = argument[0];
     var height = argument[1];
     var index = argument[2];
-    
+
     assert(is_array(array), "array_at(...): `array` must be array.");
     assert(real_is_natural(index), "array_at(...): `height` must be natural number.");
     assert(real_is_natural(index), "array_at(...): `index` must be natural number.");
-    
+
     return array[@height, index];
 }
 
@@ -178,48 +185,10 @@ if(!is_array(array))
 }
 else
 {
-    array[@height, length] = value;    
+    array[@height, length] = value;
 }
 
 return array;
-
-#define array_equal
-///array_equal(array1, array2)
-//params: array, array
-//returns: true if the content of `array1` and `array2` are equal
-
-var array1 = argument0;
-var array2 = argument1;
-
-assert(is_array(array1) && is_array(array2), "array_equal(...): `array1` and `array2` must be arrays.");
-
-//if the heights are different, they are not equal
-if(array_height_2d(array1) != array_height_2d(array2)) return false;
-
-//store the height of both arrays (array1 length == array2 length)
-var height = array_height_2d(array1);
-
-//check lengths of all subarrays
-for(var h = 0; h < height; ++h)
-{
-    //if lengths of arrays are different, they are not equal
-    if(array_length_2d(array1, h) != array_length_2d(array2, h)) return false;
-}
-
-//check the contents of all arrays
-for(var h = 0; h < height; ++h)
-{
-    //store both subarrays length
-    var length = array_length_2d(array1, h);
-    
-    for(var l = 0; l < length; ++l)
-    {
-        //if content not equal, return false
-        if(array1[@h, l] != array2[@h, l]) return false;
-    }
-}
-
-return true;
 
 #define array_split
 ///array_split(string, separator)
@@ -271,8 +240,10 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
+var sub_array = 0;
+
 var length = array_length_2d(array, height);
-var sub_array = array_init(length);
+var sub_array = array_create(length);
 
 for(var n = 0; n < length; ++n)
 {
@@ -302,7 +273,7 @@ return array;
 
 #define array_find
 ///array_find(array, value, [nth = 1])
-//params: array, real (natural), [real (natural)]
+//params: array (1D), real (natural), [real (natural)]
 //returns: nth position where value is found in 1D array. if not found, returns -1
 
 _gme_arguments(array_find, argument_count, 2, 3);
@@ -326,6 +297,7 @@ for(var n = 0; n < length; ++n)
 }
 
 return -1;
+
 
 #define array_count
 ///array_count(array, value)
@@ -392,17 +364,17 @@ for(var i = 0; i < al; ++i)
 {
     var arg = array[i];
     var pos = i + offset;
-    
+
     if(is_array(arg))
     {
         var narr = array_expand(arg);
         var nl = array_length_1d(narr);
-        
+
         for(var j = 0; j < nl; ++j)
         {
             return_array[pos + j] = narr[j];
         }
-        
+
         offset += nl - 1;
     }
     else
@@ -490,14 +462,14 @@ return array;
 #define array_string
 ///array_string(string)
 //params: string
-//retruns: array with each item as string characters
+//retruns: array with each element in array as a character
 
 var str = argument0;
 
 assert(is_string(str), "array_string(...): `string` must be string.");
 
 var str_length = string_length(str);
-var return_array = array_init(str_length);
+var return_array = array_create(str_length);
 
 for(var i = 0; i < str_length; ++i)
 {
@@ -505,6 +477,7 @@ for(var i = 0; i < str_length; ++i)
 }
 
 return return_array;
+
 #define array_sort
 ///array_sort(array, [ascending = true])
 //params: array, [real (bool)]
@@ -526,7 +499,7 @@ var length = array_length(array);
 for(var i = 0; i < length; ++i)
 {
     assert(array_type == type_of(array[i]), string_text("array_sort(...): All types in array must be the same."));
-    
+
     if(array_type = "string")
     {
         max_string_length = max(max_string_length, string_length(array[i]));
@@ -540,6 +513,7 @@ if(array_type == "string")
 {
     //RADIX Sort ('string' Edition)
     sorted = _gme_radix_sort_string(array, 0);
+    if(!ascending) array_reverse(sorted);
 }
 else
 {
@@ -548,6 +522,7 @@ else
     if(ascending) array_reverse(sorted);
 }
 
+//move item to original
 for(var i = 0; i < length; ++i)
 {
     array[@i] = sorted[i];
@@ -633,7 +608,7 @@ return array;
 #define array_is_1d
 ///array_is_1d(array)
 //params: value
-//retruns: true if `array` height == 1.
+//retruns: true if `array` is array and has height == 1.
 
-//if 1D array (array[0,n] == array[n])
-return (array_height_2d(argument0) == 1);
+//array[0,n] == array[n]
+return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));

@@ -63,8 +63,8 @@ if(argument_count == 1 && is_array(argument[0]))
     {
         var a = array[0];
         var b = array[1];
-        if(a > b) return array_create(a, b);
-        else      return array_create(b, a);
+        if(a > b) return array_of(a, b);
+        else      return array_of(b, a);
     }
     else
     {
