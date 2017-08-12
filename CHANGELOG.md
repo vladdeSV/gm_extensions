@@ -16,6 +16,7 @@
 * Add: `ternary(comparison, true_value, false_value)`, if `comparison` is true, returns `true_value`, else `false_value`.
     * Compromise for `comparison ? true_value : false_value`.
 * Remove: `array_equal(array1, array2)`, use default GML `array_equals` instead.
+* Remove: `object_destroy(id)`, use `with(instance) instance_destroy();` instead.
 * Fix: `type_of(variable)` now supports data structures (`ds_*`).
 * Fix: `array_at(height, index)` now appends correctly.
 * Fix: `log(...)` now properly displays text.

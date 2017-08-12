@@ -43,7 +43,7 @@ return text;
 _gme_arguments(string_join, argument_count, 1, 2);
 
 var array = argument[0];
-var joiner = ""; if(argument_count == 2) joiner = argument[0];
+var joiner = ""; if(argument_count == 2) joiner = argument[1];
 
 assert(is_array(array) && array_is_1d(array), "string_join(...): `array` must be 1D array.");
 assert(is_string(joiner), "string_join(...): `joiner` must be string.");

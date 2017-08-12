@@ -37,10 +37,6 @@
 1. [type_of](#type_of)
 1. [ternary](#ternary)
 
-### extension_object
-
-1. [object_destroy](#object_destroy)
-
 ### extension_real
 
 1. [real_within](#real_within)
@@ -214,7 +210,7 @@ results: modifies `array` at `height` by switching items at `index1` and `index2
 
 ##### array_is_1d(array)
 params: value  
-retruns: true if `array` is array and has height == 1.  
+retruns: true if `array` is array and has height of 1.  
 
 ## extension_ds_list
 
@@ -255,13 +251,6 @@ retruns: type of argument, as string
 params: real (bool), value, value  
 returns: if `comparison` is true, `true_value`, else `false_value`  
 
-## extension_object
-
-### [object_destroy](/scripts/extension_object.gml#L4)
-
-##### object_destroy(id)
-results: destroys all instances of `id`. can be both object or instance  
-
 ## extension_real
 
 ### [real_within](/scripts/extension_real.gml#L4)
@@ -298,7 +287,9 @@ returns: converts all arguments to string
 
 ### [string_join](/scripts/extension_string.gml#L38)
 
-##### string_join(array, joiner)
-params: array, string  
+##### string_join(array, [joiner = ""])
+params: array, [string]  
 returns: string with items in `array` joined by `joiner`  
+
+## _unittests
 

@@ -82,8 +82,8 @@ if(unittest)
     array_2d[0,0] = "hello"; array_2d[0,1] = "world"; array_2d[0,2] = "!!!";
     array_2d[1,0] = 1; array_2d[1,1] = 2; array_2d[1,2] = 3;
 
-    //assert(array_equal(array_sub(array_2d, 0), array_of("hello", "world", "!!!")));
-    //assert(array_equal(array_sub(array_2d, 1), array_of(1, 2, 3)));
+    assert(array_equals(array_sub(array_2d, 0), array_of("hello", "world", "!!!")));
+    assert(array_equals(array_sub(array_2d, 1), array_of(1, 2, 3)));
 }
 
 ///array_split
@@ -158,7 +158,6 @@ if(unittest)
     expanded_array = array_expand(a5);
     assert(array_equals(expanded_array, array_of("ball","tree","abs","dps","fps",3,4,5,"house")));
 
-    log("asdasd");
     //level limit
     expanded_array = array_expand(a5);
 
