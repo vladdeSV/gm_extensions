@@ -43,8 +43,8 @@ for(var h = 0; h < height; ++h)
 return array;
 
 #define array_of
-///array_cof(arg, ...)
-//params: value, value...
+///array_cof(...)
+//params: value...
 //returns: creates an array from arguments
 
 //array from arguments

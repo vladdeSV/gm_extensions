@@ -73,8 +73,8 @@ retruns: array with `height` * `length` items
 
 ### [array_of](/scripts/extension_array.gml#L45)
 
-##### array_cof(arg, ...)
-params: value, value...  
+##### array_cof(...)
+params: value...  
 returns: creates an array from arguments  
 
 ### [array_slice](/scripts/extension_array.gml#L61)
