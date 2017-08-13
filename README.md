@@ -1,7 +1,7 @@
 # GameMaker 1.4 Library Extensions
 This library aims to add missing features from the standard GameMaker 1.4 library.
 
-There are currently **30 (and growing) scripts** for general purpose usage!
+There are currently **37 scripts (with overloads!)** for general purpose usage!
 
 ### Download
 1. Go the the [releases page](https://github.com/vladdeSV/gm_extensions/releases).
