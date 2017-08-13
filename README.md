@@ -1,7 +1,9 @@
 # GameMaker 1.4 Library Extensions
+[![img](https://img.shields.io/badge/GM-1.4-green.svg)](#) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/vladdeSV/gm_extensions/master/LICENSE.md)
+
 This library aims to add missing features from the standard GameMaker 1.4 library.
 
-There are currently **30 (and growing) scripts** for general purpose usage!
+There are currently **37 scripts (with overloads!)** for general purpose usage!
 
 ### Download
 1. Go the the [releases page](https://github.com/vladdeSV/gm_extensions/releases).
