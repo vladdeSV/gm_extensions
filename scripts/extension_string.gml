@@ -114,7 +114,7 @@ for(var i = from + 1; i <= to; ++i)
 return return_string;
 
 #define string_substring
-///string_substring(string, from, length);
+///string_substring(string, from, length)
 //params: string, real (natural), real (natural)
 //returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`
 
@@ -132,7 +132,7 @@ return string_slice(source, from, from + length);
 #define string_find
 ///string_find(source, find, [nth = 1])
 //params: string, string, [real (natural)]
-//returns: position of `nth` occurance of `find` in `source`, where first character is at index 0. if not found, returns -1
+//returns: position of `nth` occurence of `find` in `source`, where first character is at index 0. if not found, returns -1
 
 _gme_arguments(string_find, argument_count, 2, 3);
 
