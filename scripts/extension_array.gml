@@ -344,7 +344,9 @@ var array = argument0;
 assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array.");
 
 var al = array_length_1d(array);
-var return_array = 0;
+if(al == 0) return array;
+
+var return_array = array_create(0);
 var offset = 0;
 
 for(var i = 0; i < al; ++i)
@@ -463,18 +465,14 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 
 #define array_sort
-///array_sort(array, [ascending = true])
-//params: array, [real (bool)]
-//results: `array` sorted. if sorting string: sorted alphabetically
+///array_sort(array)
+//params: array
+//results: `array` sorted ascendingly. if sorting string: sorted alphabetically
 //note: all items in `array` must be same type
 
-_gme_arguments(array_sort, argument_count, 1, 2);
-
-var array = argument[0];
-var ascending = true; if(argument_count == 2) ascending = argument[1];
+var array = argument0;
 
 assert(is_array(array) && array_is_1d(array), "array_sort(...): `array` must be 1D array.");
-assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
 
 if(array_length_1d(array) == 0) return array;
 
@@ -493,13 +491,11 @@ if(array_type == "string")
 {
     //RADIX Sort ('string' Edition)
     sorted = _gme_radix_sort_string(array, 0);
-    if(!ascending) array_reverse(sorted);
 }
 else
 {
     //Quick Sort
     sorted = _gme_quick_sort(array);
-    if(ascending) array_reverse(sorted);
 }
 
 //move item to original

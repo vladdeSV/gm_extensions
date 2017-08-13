@@ -33,96 +33,61 @@ for(var i = 0; i < l; ++i)
 
 assert(0, string(script_get_name(script)) + "(...): Incorrect argument count. Expected: " + str + ", got " + string(argument_count) + ".");
 #define _gme_quick_sort
-///_gme_quick_sort(numbers...)
-//params: real...
-//returns: array of reals sorted
 ///_gme_quick_sort(array)
 //params: array (real)
 //returns: array of reals sorted
 
-if(argument_count == 1 && is_array(argument[0]))
+var array = argument0;
+var length = array_length(array);
+
+if(length == 0 || length == 1)
 {
-    var array = argument0;
-    
-    assert(is_array(array) && array_is_1d(array), "quick_sort(...): `array` must be 1D array.");
-    
-    var length = array_length(array);
-    if(length == 0) return array;
-    
-    var array_type = type_of(array[0]);
-    for(var i = 0; i < length; ++i)
+    return array;
+}
+else if(length == 2)
+{
+    var a = array[0];
+    var b = array[1];
+    if(a < b)
     {
-        assert(type_of(array[i]) == array_type, "quick_sort(...): All items in `array` must be of same type.");
-    }
-    
-    if(length == 1)
-    {
-        return array;
-    }
-    else if(length == 2)
-    {
-        var a = array[0];
-        var b = array[1];
-        if(a > b) return array_of(a, b);
-        else      return array_of(b, a);
+        return array_of(a, b);
     }
     else
     {
-        var lhs = 0;
-        var mid = 0;
-        var rhs = 0;
-        var pivot_pos = floor(length/2);
-        var pivot = array[pivot_pos];
-        
-        for(var i = 0; i < length; ++i)
-        {
-            var value = array[i];
-            if(value > pivot)
-            {
-                lhs[array_length(lhs)] = value;
-            }
-            else if(value == pivot)
-            {
-                mid[array_length(mid)] = value;
-            }
-            else if(value < pivot)
-            {
-                rhs[array_length(rhs)] = value;
-            }
-        }
-        
-        if(is_array(lhs)) lhs = _gme_quick_sort(lhs);
-        if(is_array(rhs)) rhs = _gme_quick_sort(rhs);
-        
-        var return_array = 0;
-        
-        for(var i = 0; i < array_length(lhs); ++i)
-        {
-            return_array[array_length(return_array)] = lhs[i];
-        }
-        
-        for(var i = 0; i < array_length(mid); ++i)
-        {
-            return_array[array_length(return_array)] = mid[i];
-        }
-        
-        for(var i = 0; i < array_length(rhs); ++i)
-        {
-            return_array[array_length(return_array)] = rhs[i];
-        }
-        
-        return array_expand(return_array);
+        return array_of(b, a);
     }
 }
 else
 {
-    var sorting_array = array_init(argument_count);
-    for(var i = 0; i < argument_count; ++i)
+
+    var pivot = array[0];
+    
+    var smaller = array_create(0);
+    var same    = array_of(pivot);
+    var bigger  = array_create(0);
+    
+    for(var i = 1; i < length; ++i)
     {
-        sorting_array[i] = argument[i];
+        var item = array[i];
+        
+        if(item < pivot)
+        {
+            array_append(smaller, item);
+        }
+        else if(item == pivot)
+        {
+            array_append(same, item);
+        }
+        else
+        {
+            array_append(bigger, item);
+        }
     }
     
-    return _gme_quick_sort(sorting_array);
+    smaller = _gme_quick_sort(smaller);
+    bigger  = _gme_quick_sort(bigger);
+    
+    return array_expand(array_of(smaller, same, bigger));
 }
 
 #define _gme_radix_sort_string

@@ -142,7 +142,7 @@ if(unittest)
 {
     var a1 = array_of("abs","dps","fps");
     var a2 = array_of(3, 4, 5);
-    var a3 = array_of(a1, a2);
+    var a3 = array_of(a1, array_of(), a2);
     var a4 = array_of("tree", a3);
     var a5 = array_of("ball", a4, "house");
 
@@ -218,18 +218,12 @@ if(unittest)
 ///array_sort
 if(unittest)
 {
-    var array = array_of(2,5,4,1,3);
-    //ascending
-    var sorted = array_sort(array);
-    assert(array_equals(sorted, array_of(1,2,3,4,5)));
+    var array = array_of(2,5,4,100,1,3,5,8);
+    array_sort(array);
+    assert(array_equals(array, array_of(1,2,3,4,5,5,8,100)));
 
-    array = array_of(2,5,4,1,3);
-    //descending
-    sorted = array_sort(array, false);
-    assert(array_equals(sorted, array_of(5,4,3,2,1)));
-
-    array = array_of("banana", "apple", "asteroid");
-    assert(array_equals(array_sort(array), array_of("apple", "asteroid", "banana")));
+    array = array_of("banana", "abs", "coconut", "apple", "asteroid");
+    assert(array_equals(array_sort(array), array_of("abs", "apple", "asteroid", "banana", "coconut")));
 }
 
 ///array_is_1d

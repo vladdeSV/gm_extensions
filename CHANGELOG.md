@@ -9,7 +9,7 @@
 * Change: `real_is_*(number)` can take in non-numbers, but will return false.
 * Change: Removed `deep` variable in `array_expand(...)`.
 * Add: `array_is_1d(array)`, returns `true` if is 1D array, else false.
-* Add: `array_sort(array, [ascending = true])`, sorts numbers by size, strings alphabetically.
+* Add: `array_sort(array)`, sorts numbers ascendingly, strings alphabetically.
 * Add: `array_replace(array, index, value)`, replaces `array[index]` with `value`.
     * `array_replace(array, height, index, value)`, for 2D arrays.
 * Add: `array_swap_item(array, index1, index2)`, swaps values at `index1` and `index2` in `array`.
