@@ -48,6 +48,10 @@
 
 1. [string_text](#string_text)
 1. [string_join](#string_join)
+1. [string_split](#string_split)
+1. [string_slice](#string_slice)
+1. [string_substring](#string_substring)
+1. [string_find](#string_find)
 
 
 ---
@@ -79,7 +83,7 @@ returns: creates an array from arguments
 
 ##### array_slice(array, from, to)
 params: array (1D), real (natural), real (natural)  
-retruns: portion of `array`. `from` (inclusive), `to` (exclusive).  
+retruns: portion of `array`. `from` (inclusive), `to` (exclusive)  
 
 ### [array_clone](/scripts/extension_array.gml#L88)
 
@@ -109,61 +113,61 @@ params: array, real (natural), value
 results: appends `value` to `array` at `height`  
 note: if `value` is not array, cannot edit by reference. must assign returned array  
 
-### [array_split](/scripts/extension_array.gml#L197)
+### [array_split](/scripts/extension_array.gml#L190)
 
-##### array_split(string, separator)
-params: string, string  
-returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)  
+##### array_split(array, value)
+params: array (1D), value  
+returns: 2D array, where each sub array was split by `value`  
 
-### [array_sub](/scripts/extension_array.gml#L236)
+### [array_sub](/scripts/extension_array.gml#L219)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L259)
+### [array_reverse](/scripts/extension_array.gml#L242)
 
 ##### array_reverse(array)
 params: array (1D)  
 results: `array` with items in reverse order  
 
-### [array_find](/scripts/extension_array.gml#L278)
+### [array_find](/scripts/extension_array.gml#L261)
 
 ##### array_find(array, value, [nth = 1])
 params: array (1D), real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L306)
+### [array_count](/scripts/extension_array.gml#L289)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L331)
+### [array_exists](/scripts/extension_array.gml#L314)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L354)
+### [array_expand](/scripts/extension_array.gml#L337)
 
 ##### array_expand(array)
 params: array (1D)  
 results: `array` becomes all elements of nested arrays  
 
-### [array_length](/scripts/extension_array.gml#L394)
+### [array_length](/scripts/extension_array.gml#L377)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L408)
+### [array_height](/scripts/extension_array.gml#L391)
 
 ##### array_height(array)
 params: value  
 retruns: height of `array`  
 
-### [array_insert](/scripts/extension_array.gml#L415)
+### [array_insert](/scripts/extension_array.gml#L398)
 
 ##### array_insert(array, index, value)
 params: array, real (natural), value  
@@ -173,20 +177,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L463)
+### [array_string](/scripts/extension_array.gml#L446)
 
 ##### array_string(string)
 params: string  
 retruns: array with each all characters as items  
 
-### [array_sort](/scripts/extension_array.gml#L482)
+### [array_sort](/scripts/extension_array.gml#L465)
 
 ##### array_sort(array, [ascending = true])
 params: array, [real (bool)]  
 results: `array` sorted. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L527)
+### [array_replace](/scripts/extension_array.gml#L510)
 
 ##### array_replace(array, index, value)
 params: array, real (natural), value  
@@ -196,7 +200,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap_item](/scripts/extension_array.gml#L562)
+### [array_swap_item](/scripts/extension_array.gml#L545)
 
 ##### array_swap_item(array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -206,7 +210,7 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L602)
+### [array_is_1d](/scripts/extension_array.gml#L585)
 
 ##### array_is_1d(array)
 params: value  
@@ -271,7 +275,7 @@ returns: true if number is withing range min/max (exclusive: min < number < max)
 params: real  
 returns: true if `number` is integer (no decimals)  
 
-### [real_is_natural](/scripts/extension_real.gml#L41)
+### [real_is_natural](/scripts/extension_real.gml#L39)
 
 ##### real_is_natural(number)
 params: real  
@@ -290,6 +294,32 @@ returns: converts all arguments to string
 ##### string_join(array, [joiner = ""])
 params: array, [string]  
 returns: string with items in `array` joined by `joiner`  
+
+### [string_split](/scripts/extension_string.gml#L61)
+
+##### string_split(string, separator)
+params: string, string  
+returns: array of strings (`string_split("one,2,five", ",") == ["one", "2", "five"]`)  
+note: automatically converts parameters to strings. `string_split(123456, 4) == ["123", "56"]`  
+
+### [string_slice](/scripts/extension_string.gml#L90)
+
+##### string_slice(string, from, to)
+params: string, real (natural), real (natural)  
+retruns: portion of `string`. `from` (inclusive), `to` (exclusive).  
+note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`  
+
+### [string_substring](/scripts/extension_string.gml#L116)
+
+##### string_substring(string, from, length);
+params: string, real (natural), real (natural)  
+returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`  
+
+### [string_find](/scripts/extension_string.gml#L132)
+
+##### string_find(source, find, [nth = 1])
+params: string, string, [real (natural)]  
+returns: position of `nth` occurance of `find` in `source`, where first character is at index 0. if not found, returns -1  
 
 ## _unittests
 

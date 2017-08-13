@@ -134,8 +134,7 @@ return "unknown";
 var comparison = argument0;
 var true_value = argument1;
 var false_value = argument2;
-
-assert(real_is_integer(comparison), "ternary(...): `comparison` must be a boolean.");
+assert(is_bool(comparison) || real_is_integer(comparison), "ternary(...): `comparison` must be a convertable to boolean.");
 
 if(comparison)
 {

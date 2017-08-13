@@ -34,9 +34,7 @@ return ((minimum < number) && (number < maximum));
 
 var number = argument0;
 
-assert(is_real(number), "real_is_integer(...): `number` must be number.");
-
-return ((number mod 1) == 0);
+return (type_of(number) == "real" && (number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)
@@ -44,7 +42,5 @@ return ((number mod 1) == 0);
 //returns: true if number is natural number (integer and greater or equal to 0)
 
 var number = argument0;
-
-assert(is_real(number), "real_is_natural(...): `number` must be number.");
 
 return (real_is_integer(number) && number >= 0);

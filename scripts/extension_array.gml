@@ -62,7 +62,7 @@ return return_array;
 #define array_slice
 ///array_slice(array, from, to)
 //params: array (1D), real (natural), real (natural)
-//retruns: portion of `array`. `from` (inclusive), `to` (exclusive).
+//retruns: portion of `array`. `from` (inclusive), `to` (exclusive)
 
 var array = argument0;
 var from = argument1;
@@ -180,58 +180,41 @@ else
     value = argument[2];
 }
 
+assert(is_array(array), "array_append(...): `array` must be array.")
 assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
-var length = array_length(array, height);
 
-if(!is_array(array))
-{
-    array[0] = value;
-}
-else
-{
-    array[@height, length] = value;
-}
+array[@height, array_length(array, height)] = value;
 
 return array;
 
 #define array_split
-///array_split(string, separator)
-//params: string, string
-//returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)
+///array_split(array, value)
+//params: array (1D), value
+//returns: 2D array, where each sub array was split by `value`
 
-//todo: split arrays with value
-//eg. array_split([1,2,3,4,5], 3) == [[1,2],[4,5]])
+var array = argument0;
+var value = argument1;
 
-//convert arguments to strings
-var source = string(argument0);
-var separator = string(argument1);
+assert(is_array(array) && array_is_1d(array), "array_split(...): `array` must be 1D array.");
 
-//initialize array
-var splits = array_create(string_count(separator, source));
-var splits_position = 0;
+var height = 0;
+var return_array = 0;
 
-//temporary split
-var split = "";
-//store source string length
-var source_length = string_length(source);
-
-//iterate over all characters in string
-for(var i = 1; i <= source_length + 1; ++i)
+for(var i = 0; i < array_length(array); ++i)
 {
-    var c = string_char_at(source, i);
-    if(c == separator || c == "")
+    var item = array[i];
+    
+    if(item == value)
     {
-        splits[splits_position] = split;
-        split = "";
-        ++splits_position;
+        ++height;
     }
     else
     {
-        split += c;
+        return_array[height, array_length_2d(return_array, height)] = item;
     }
 }
 
-return splits;
+return return_array;
 
 #define array_sub
 ///array_sub(array, height)

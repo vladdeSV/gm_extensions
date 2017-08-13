@@ -64,7 +64,7 @@ return return_array;
 #define array_slice
 ///array_slice(array, from, to)
 //params: array (1D), real (natural), real (natural)
-//retruns: portion of `array`. `from` (inclusive), `to` (exclusive).
+//retruns: portion of `array`. `from` (inclusive), `to` (exclusive)
 
 var array = argument0;
 var from = argument1;
@@ -182,58 +182,41 @@ else
     value = argument[2];
 }
 
+assert(is_array(array), "array_append(...): `array` must be array.")
 assert(real_is_natural(height), "array_append(...): `height` must be natural number.");
-var length = array_length(array, height);
 
-if(!is_array(array))
-{
-    array[0] = value;
-}
-else
-{
-    array[@height, length] = value;
-}
+array[@height, array_length(array, height)] = value;
 
 return array;
 
 #define array_split
-///array_split(string, separator)
-//params: string, string
-//returns: array of strings (`array_split("one,2,five", ",") == ["one", "2", "five"]`)
+///array_split(array, value)
+//params: array (1D), value
+//returns: 2D array, where each sub array was split by `value`
 
-//todo: split arrays with value
-//eg. array_split([1,2,3,4,5], 3) == [[1,2],[4,5]])
+var array = argument0;
+var value = argument1;
 
-//convert arguments to strings
-var source = string(argument0);
-var separator = string(argument1);
+assert(is_array(array) && array_is_1d(array), "array_split(...): `array` must be 1D array.");
 
-//initialize array
-var splits = array_create(string_count(separator, source));
-var splits_position = 0;
+var height = 0;
+var return_array = 0;
 
-//temporary split
-var split = "";
-//store source string length
-var source_length = string_length(source);
-
-//iterate over all characters in string
-for(var i = 1; i <= source_length + 1; ++i)
+for(var i = 0; i < array_length(array); ++i)
 {
-    var c = string_char_at(source, i);
-    if(c == separator || c == "")
+    var item = array[i];
+    
+    if(item == value)
     {
-        splits[splits_position] = split;
-        split = "";
-        ++splits_position;
+        ++height;
     }
     else
     {
-        split += c;
+        return_array[height, array_length_2d(return_array, height)] = item;
     }
 }
 
-return splits;
+return return_array;
 
 #define array_sub
 ///array_sub(array, height)
@@ -610,7 +593,6 @@ return array;
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
 
 
-
 #define ds_list_swap_item
 ///ds_list_swap_item(id, index_1, index_2)
 //params: ds_list, real (natural), real (natural)
@@ -761,8 +743,7 @@ return "unknown";
 var comparison = argument0;
 var true_value = argument1;
 var false_value = argument2;
-
-assert(real_is_integer(comparison), "ternary(...): `comparison` must be a boolean.");
+assert(is_bool(comparison) || real_is_integer(comparison), "ternary(...): `comparison` must be a convertable to boolean.");
 
 if(comparison)
 {
@@ -808,9 +789,7 @@ return ((minimum < number) && (number < maximum));
 
 var number = argument0;
 
-assert(is_real(number), "real_is_integer(...): `number` must be number.");
-
-return ((number mod 1) == 0);
+return (type_of(number) == "real" && (number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)
@@ -819,9 +798,8 @@ return ((number mod 1) == 0);
 
 var number = argument0;
 
-assert(is_real(number), "real_is_natural(...): `number` must be number.");
-
 return (real_is_integer(number) && number >= 0);
+
 
 
 #define string_text
@@ -866,7 +844,7 @@ return text;
 _gme_arguments(string_join, argument_count, 1, 2);
 
 var array = argument[0];
-var joiner = ""; if(argument_count == 2) joiner = argument[0];
+var joiner = ""; if(argument_count == 2) joiner = argument[1];
 
 assert(is_array(array) && array_is_1d(array), "string_join(...): `array` must be 1D array.");
 assert(is_string(joiner), "string_join(...): `joiner` must be string.");
@@ -881,6 +859,104 @@ for(var n = 0; n < length; ++n)
 }
 
 return joined;
+#define string_split
+///string_split(string, separator)
+//params: string, string
+//returns: array of strings (`string_split("one,2,five", ",") == ["one", "2", "five"]`)
+//note: automatically converts parameters to strings. `string_split(123456, 4) == ["123", "56"]`
+
+//convert arguments to strings
+var source = string(argument0);
+var separator = string(argument1);
+
+//initialize array
+var splits = array_create(0); //(string_count(separator, source));
+//get first occurance position in string. (will be 0 (false) if not found)
+var next_find = string_pos(separator, source);
+
+//while `next_find` isn't 0
+while(next_find)
+{
+    //add from start of string to where separator is found to return array 
+    array_append(splits, string_slice(source, 0, next_find - 1));
+    //trim away
+    source = string_slice(source, next_find - 1 + string_length(separator), string_length(source));
+    next_find = string_pos(separator, source);
+}
+
+array_append(splits, source);
+
+return splits;
+
+#define string_slice
+///string_slice(string, from, to)
+//params: string, real (natural), real (natural)
+//retruns: portion of `string`. `from` (inclusive), `to` (exclusive).
+//note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`
+
+var source = argument0;
+var from = argument1;
+var to = argument2;
+
+assert(is_string(source), "string_slice(...): `string` must be string.");
+var length = string_length(source);
+
+assert(real_is_natural(from) && real_is_natural(to), "string_slice(...): `from` and `to` must be natural numbers.");
+assert(from <= to, string_text("string_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
+assert(from >= 0 && to <= length, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [0 .. ", length, "]."));
+
+var return_string = "";
+
+for(var i = from + 1; i <= to; ++i)
+{
+    return_string += string_char_at(source, i);
+}
+
+return return_string;
+
+#define string_substring
+///string_substring(string, from, length);
+//params: string, real (natural), real (natural)
+//returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`
+
+var source = argument0;
+var from = argument1;
+var length = argument2;
+
+assert(is_string(source), "string_substring(...): `string` must be string.");
+assert(real_is_natural(from), "string_substring(...): `from` must be natural number.");
+assert(real_is_natural(length), "string_substring(...): `length` must be natural number.");
+assert((from + length <= string_length(source)), "string_substring(...): `from+length` must be less or equal to `string` length.");
+
+return string_slice(source, from, from + length);
+
+#define string_find
+///string_find(source, find, [nth = 1])
+//params: string, string, [real (natural)]
+//returns: position of `nth` occurance of `find` in `source`, where first character is at index 0. if not found, returns -1
+
+_gme_arguments(string_find, argument_count, 2, 3);
+
+var source = argument[0];
+var find = argument[1];
+var nth = 1; if(argument_count == 3) nth = argument[2];
+
+assert(is_string(source), "string_find(...): `string` must be string.");
+assert(is_string(find), "string_find(...): `find` must be string.");
+assert(real_is_natural(nth) && nth > 0, "string_find(...): `nth` must be natural number greater than 0.");
+
+var offset = 0;
+
+while(--nth)
+{
+    var d = string_pos(find, source) - 1;
+    offset += d + string_length(find);
+    source = string_slice(source, d + string_length(find), string_length(source));
+}
+
+var ret = string_pos(find, source) - 1;
+var success = (ret != -1);
+return ternary(success, ret + offset, -1);
 
 #define _gme
 
@@ -1138,6 +1214,16 @@ if(unittest)
     assert(array_equals(array_1d, array_of(2)));
 }
 
+///array_split
+if(unittest)
+{
+    var array = array_of(1, 2, 3, 4, 5, 6);
+    var splitted_array = array_split(array, 4);
+    
+    assert(array_equals(array_sub(splitted_array, 0), array_of(1, 2, 3)));
+    assert(array_equals(array_sub(splitted_array, 1), array_of(5, 6)));
+}
+
 ///array_clone
 if(unittest)
 {
@@ -1169,22 +1255,8 @@ if(unittest)
     array_2d[0,0] = "hello"; array_2d[0,1] = "world"; array_2d[0,2] = "!!!";
     array_2d[1,0] = 1; array_2d[1,1] = 2; array_2d[1,2] = 3;
 
-    //assert(array_equal(array_sub(array_2d, 0), array_of("hello", "world", "!!!")));
-    //assert(array_equal(array_sub(array_2d, 1), array_of(1, 2, 3)));
-}
-
-///array_split
-if(unittest)
-{
-    var splits = array_split("hello-world-again.", "-");
-    var test = 0;
-    test[0] = "hello";
-    test[1] = "world";
-    test[2] = "again.";
-
-    assert(splits[0] == test[0]);
-    assert(splits[1] == test[1]);
-    assert(splits[2] == test[2]);
+    assert(array_equals(array_sub(array_2d, 0), array_of("hello", "world", "!!!")));
+    assert(array_equals(array_sub(array_2d, 1), array_of(1, 2, 3)));
 }
 
 ///array_reverse
@@ -1245,7 +1317,6 @@ if(unittest)
     expanded_array = array_expand(a5);
     assert(array_equals(expanded_array, array_of("ball","tree","abs","dps","fps",3,4,5,"house")));
 
-    log("asdasd");
     //level limit
     expanded_array = array_expand(a5);
 
@@ -1378,6 +1449,8 @@ if(unittest)
     assert( real_is_integer(0));
     assert( real_is_integer(3));
     assert(!real_is_integer(1.25));
+    assert(!real_is_integer("five"));
+    assert(!real_is_integer(array_of(3, "mud")));
 }
 
 ///real_is_natural
@@ -1401,6 +1474,59 @@ if(unittest)
 {
     assert(string_join(array_of(4,"three",2,1), ", ") == "4, three, 2, 1");
     assert(string_join(array_of("old","folks","home"), " ~ ") == "old ~ folks ~ home");
+}
+
+///string_split
+if(unittest)
+{
+    var splits = string_split("hello--world--again.", "--");
+    assert(splits[0] = "hello");
+    assert(splits[1] = "world");
+    assert(splits[2] = "again.");
+    
+    splits = string_split(123456, 4);
+    assert(splits[0] == "123");
+    assert(splits[1] == "56");
+}
+
+///string_slice
+if(unittest)
+{
+    var str = "HelloYellow!";
+    assert(string_slice(str, 0, 5) == "Hello");
+    assert(string_slice(str, 1, 5) == "ello");
+    assert(string_slice(str, 1, 7) == "elloYe");
+    
+    assert(string_slice(str, 1, 2) == "e");
+    assert(string_slice(str, 0, 0) == "");
+}
+
+///string_substring
+if(unittest)
+{
+    var str = "fire water burn";
+    assert(string_substring(str, 0, 4) == "fire");
+    assert(string_substring(str, 5, 4) == "wate");
+    assert(string_substring(str, 6, 0) == "");
+}
+
+///string_find
+if(unittest)
+{
+    var str = "0123456789";
+    assert(string_find(str, "4") == 4);
+    assert(string_find(str, "6789") == 6);
+    assert(string_find(str, "ABC") == -1);
+    
+    str = "hello world hello earth hello house";
+    assert(string_find(str, "hello", 1) == 0);
+    assert(string_find(str, "hello", 2) == 12);
+    assert(string_find(str, "hello", 3) == 24);
+    assert(string_find(str, "hello", 4) == -1);
+    
+    str = "the roof the roof is on fire";
+    assert(string_find(str, "roof", 1) == 4);
+    assert(string_find(str, "roof", 2) == 13);
 }
 
 ///ds_list_swap
