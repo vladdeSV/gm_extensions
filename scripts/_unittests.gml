@@ -56,7 +56,7 @@ if(unittest)
 {
     var array = array_of(1, 2, 3, 4, 5, 6);
     var splitted_array = array_split(array, 4);
-    
+
     assert(array_equals(array_sub(splitted_array, 0), array_of(1, 2, 3)));
     assert(array_equals(array_sub(splitted_array, 1), array_of(5, 6)));
 }
@@ -184,11 +184,23 @@ if(unittest)
     assert(array_equals(array_slice(array_1d, 0, 3), array_of(0,1,2)));
     assert(array_equals(array_slice(array_1d, 5, 8), array_of(5,6,7)));
     assert(array_equals(array_slice(array_1d, 2, 2), array_of()));
-    
+
     array_1d = array_of("car", "house", 3, "fire");
-    
+
     assert(array_equals(array_slice(array_1d, 1, 2), array_of("house")));
     assert(array_equals(array_slice(array_1d, 0, 3), array_of("car", "house", 3)));
+}
+
+///array_flat
+if(unittest)
+{
+    var array = 0;
+    array[0,0] = 1;
+    array[0,1] = 2;
+    array[1,0] = "at position 1,0";
+    array[1,1] = 3;
+
+    assert(array_equals(array_flat(array), array_of(1, 2, "at position 1,0", 3)));
 }
 
 ///array_insert
@@ -314,7 +326,7 @@ if(unittest)
     assert(splits[0] = "hello");
     assert(splits[1] = "world");
     assert(splits[2] = "again.");
-    
+
     splits = string_split(123456, 4);
     assert(splits[0] == "123");
     assert(splits[1] == "56");
@@ -327,7 +339,7 @@ if(unittest)
     assert(string_slice(str, 0, 5) == "Hello");
     assert(string_slice(str, 1, 5) == "ello");
     assert(string_slice(str, 1, 7) == "elloYe");
-    
+
     assert(string_slice(str, 1, 2) == "e");
     assert(string_slice(str, 0, 0) == "");
 }
@@ -348,13 +360,13 @@ if(unittest)
     assert(string_find(str, "4") == 4);
     assert(string_find(str, "6789") == 6);
     assert(string_find(str, "ABC") == -1);
-    
+
     str = "hello world hello earth hello house";
     assert(string_find(str, "hello", 1) == 0);
     assert(string_find(str, "hello", 2) == 12);
     assert(string_find(str, "hello", 3) == 24);
     assert(string_find(str, "hello", 4) == -1);
-    
+
     str = "the roof the roof is on fire";
     assert(string_find(str, "roof", 1) == 4);
     assert(string_find(str, "roof", 2) == 13);

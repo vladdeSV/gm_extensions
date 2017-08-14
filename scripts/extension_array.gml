@@ -152,11 +152,11 @@ else if(argument_count == 3)
 }
 
 #define array_append
-///array_append(array, value)
+///array_append(&array, value)
 //params: array, value
 //results: appends `value` to `array`
 //note: if `value` is not array, cannot edit by reference. must assign returned array
-///array_append(array, height, value)
+///array_append(&array, height, value)
 //params: array, real (natural), value
 //results: appends `value` to `array` at `height`
 //note: if `value` is not array, cannot edit by reference. must assign returned array
@@ -203,7 +203,7 @@ var return_array = 0;
 for(var i = 0; i < array_length(array); ++i)
 {
     var item = array[i];
-    
+
     if(item == value)
     {
         ++height;
@@ -216,6 +216,29 @@ for(var i = 0; i < array_length(array); ++i)
 
 return return_array;
 
+#define array_flat
+///array_flat(array)
+//params: array
+//returns: 1D array from 2D array "flattened". `array_flat([[1,2,3], [4,5,6]]) == [1,2,3,4,5,6];`
+
+var array = argument0;
+
+assert(is_array(array), "array_flat(...): `array` must be array.");
+
+var height = array_height_2d(array);
+if(height < 2) return array;
+
+var return_array = array_create(0);
+
+for(var i = 0; i < height; ++i)
+{
+    //appends pointers to sub-arrays
+    array_append(return_array, array_sub(array, i));
+}
+
+//return the content of all sub-array pointers
+return array_expand(return_array);
+
 #define array_sub
 ///array_sub(array, height)
 //param: array, real (natural)
@@ -227,7 +250,7 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
-var sub_array = 0;
+var sub_array = array_create(0);
 
 var length = array_length_2d(array, height);
 var sub_array = array_create(length);
@@ -240,7 +263,7 @@ for(var n = 0; n < length; ++n)
 return sub_array;
 
 #define array_reverse
-///array_reverse(array)
+///array_reverse(&array)
 //params: array (1D)
 //results: `array` with items in reverse order
 
@@ -297,7 +320,6 @@ var value = argument1;
 assert(is_array(array), "array_count(...): `array` must be array.");
 
 var height = array_height_2d(array);
-
 var count = 0;
 
 for(var h = 0; h < height; ++h)
@@ -398,10 +420,10 @@ return array_length_2d(array, height);
 return array_height_2d(argument0);
 
 #define array_insert
-///array_insert(array, index, value)
+///array_insert(&array, index, value)
 //params: array, real (natural), value
 //results: `array` with `value` inserted at `array[index]`, pushing back all items one step
-///array_insert(array, height, index, value)
+///array_insert(&array, height, index, value)
 //params: array, real (natural), real (natural), value
 //results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step
 
@@ -465,7 +487,7 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 
 #define array_sort
-///array_sort(array)
+///array_sort(&array)
 //params: array
 //results: `array` sorted ascendingly. if sorting string: sorted alphabetically
 //note: all items in `array` must be same type
@@ -504,10 +526,10 @@ array_copy(array, 0, sorted, 0, length);
 return sorted;
 
 #define array_replace
-///array_replace(array, index, value)
+///array_replace(&array, index, value)
 //params: array, real (natural), value
 //results: `array[index]` replaced by `value`
-///array_replace(array, height, index, value)
+///array_replace(&array, height, index, value)
 //params: array, real (natural), real (natural), value
 //results: `array[height, index]` replaced by `value`
 
@@ -539,10 +561,10 @@ array[@height, index] = value;
 return array;
 
 #define array_swap_item
-///array_swap_item(array, index1, index2)
+///array_swap_item(&array, index1, index2)
 //params: array, real (natural), real (natural)
 //results: modifies `array` by switching items at `index1` and `index2`
-///array_swap_item(array, height, index1, index2)
+///array_swap_item(&array, height, index1, index2)
 //params: array, real (natural), real (natural), real (natural)
 //results: modifies `array` at `height` by switching items at `index1` and `index2`
 
