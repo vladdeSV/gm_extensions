@@ -34,7 +34,7 @@ return ((minimum < number) && (number < maximum));
 
 var number = argument0;
 
-return (type_of(number) == "real" && (number mod 1) == 0);
+return (is_real(number) && (number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)

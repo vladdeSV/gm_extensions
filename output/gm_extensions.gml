@@ -81,7 +81,7 @@ assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: 
 if(from == to) return array_create(0);
 
 var delta = to - from;
-var return_array = array_create(0);// = array_create(delta);
+var return_array = array_create(0);
 
 array_copy(return_array, 0, array, from, delta);
 
@@ -154,11 +154,11 @@ else if(argument_count == 3)
 }
 
 #define array_append
-///array_append(array, value)
+///array_append(&array, value)
 //params: array, value
 //results: appends `value` to `array`
 //note: if `value` is not array, cannot edit by reference. must assign returned array
-///array_append(array, height, value)
+///array_append(&array, height, value)
 //params: array, real (natural), value
 //results: appends `value` to `array` at `height`
 //note: if `value` is not array, cannot edit by reference. must assign returned array
@@ -205,7 +205,7 @@ var return_array = 0;
 for(var i = 0; i < array_length(array); ++i)
 {
     var item = array[i];
-    
+
     if(item == value)
     {
         ++height;
@@ -218,6 +218,29 @@ for(var i = 0; i < array_length(array); ++i)
 
 return return_array;
 
+#define array_flat
+///array_flat(array)
+//params: array
+//returns: 1D array from 2D array "flattened". `array_flat([[1,2,3], [4,5,6]]) == [1,2,3,4,5,6];`
+
+var array = argument0;
+
+assert(is_array(array), "array_flat(...): `array` must be array.");
+
+var height = array_height_2d(array);
+if(height < 2) return array;
+
+var return_array = array_create(0);
+
+for(var i = 0; i < height; ++i)
+{
+    //appends pointers to sub-arrays
+    array_append(return_array, array_sub(array, i));
+}
+
+//return the content of all sub-array pointers
+return array_expand(return_array);
+
 #define array_sub
 ///array_sub(array, height)
 //param: array, real (natural)
@@ -229,7 +252,7 @@ var height = argument1;
 assert(is_array(array), "array_sub(...): `array` must be array.");
 assert(real_is_natural(height), "array_sub(...): `height` must be natural number.");
 
-var sub_array = 0;
+var sub_array = array_create(0);
 
 var length = array_length_2d(array, height);
 var sub_array = array_create(length);
@@ -242,7 +265,7 @@ for(var n = 0; n < length; ++n)
 return sub_array;
 
 #define array_reverse
-///array_reverse(array)
+///array_reverse(&array)
 //params: array (1D)
 //results: `array` with items in reverse order
 
@@ -299,7 +322,6 @@ var value = argument1;
 assert(is_array(array), "array_count(...): `array` must be array.");
 
 var height = array_height_2d(array);
-
 var count = 0;
 
 for(var h = 0; h < height; ++h)
@@ -346,7 +368,9 @@ var array = argument0;
 assert(is_array(array) && array_is_1d(array), "array_expand(...): `array` must be 1D array.");
 
 var al = array_length_1d(array);
-var return_array = 0;
+if(al == 0) return array;
+
+var return_array = array_create(0);
 var offset = 0;
 
 for(var i = 0; i < al; ++i)
@@ -398,10 +422,10 @@ return array_length_2d(array, height);
 return array_height_2d(argument0);
 
 #define array_insert
-///array_insert(array, index, value)
+///array_insert(&array, index, value)
 //params: array, real (natural), value
 //results: `array` with `value` inserted at `array[index]`, pushing back all items one step
-///array_insert(array, height, index, value)
+///array_insert(&array, height, index, value)
 //params: array, real (natural), real (natural), value
 //results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step
 
@@ -465,18 +489,14 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 
 #define array_sort
-///array_sort(array, [ascending = true])
-//params: array, [real (bool)]
-//results: `array` sorted. if sorting string: sorted alphabetically
+///array_sort(&array)
+//params: array
+//results: `array` sorted ascendingly. if sorting string: sorted alphabetically
 //note: all items in `array` must be same type
 
-_gme_arguments(array_sort, argument_count, 1, 2);
-
-var array = argument[0];
-var ascending = true; if(argument_count == 2) ascending = argument[1];
+var array = argument0;
 
 assert(is_array(array) && array_is_1d(array), "array_sort(...): `array` must be 1D array.");
-assert(real_is_natural(ascending), "array_sort(...): `ascending` must be bool.");
 
 if(array_length_1d(array) == 0) return array;
 
@@ -494,14 +514,12 @@ var sorted = 0;
 if(array_type == "string")
 {
     //RADIX Sort ('string' Edition)
-    sorted = _gme_radix_sort_string(array, 0);
-    if(!ascending) array_reverse(sorted);
+    sorted = _gme_string_sort(array, 0);
 }
 else
 {
     //Quick Sort
     sorted = _gme_quick_sort(array);
-    if(ascending) array_reverse(sorted);
 }
 
 //move item to original
@@ -510,10 +528,10 @@ array_copy(array, 0, sorted, 0, length);
 return sorted;
 
 #define array_replace
-///array_replace(array, index, value)
+///array_replace(&array, index, value)
 //params: array, real (natural), value
 //results: `array[index]` replaced by `value`
-///array_replace(array, height, index, value)
+///array_replace(&array, height, index, value)
 //params: array, real (natural), real (natural), value
 //results: `array[height, index]` replaced by `value`
 
@@ -545,10 +563,10 @@ array[@height, index] = value;
 return array;
 
 #define array_swap_item
-///array_swap_item(array, index1, index2)
+///array_swap_item(&array, index1, index2)
 //params: array, real (natural), real (natural)
 //results: modifies `array` by switching items at `index1` and `index2`
-///array_swap_item(array, height, index1, index2)
+///array_swap_item(&array, height, index1, index2)
 //params: array, real (natural), real (natural), real (natural)
 //results: modifies `array` at `height` by switching items at `index1` and `index2`
 
@@ -755,7 +773,6 @@ else
 }
 
 
-
 #define real_within
 ///real_within(number, min, max)
 //params: real, real, real
@@ -789,7 +806,7 @@ return ((minimum < number) && (number < maximum));
 
 var number = argument0;
 
-return (type_of(number) == "real" && (number mod 1) == 0);
+return (is_real(number) && (number mod 1) == 0);
 
 #define real_is_natural
 ///real_is_natural(number)
@@ -799,7 +816,6 @@ return (type_of(number) == "real" && (number mod 1) == 0);
 var number = argument0;
 
 return (real_is_integer(number) && number >= 0);
-
 
 
 #define string_text
@@ -905,19 +921,13 @@ assert(real_is_natural(from) && real_is_natural(to), "string_slice(...): `from` 
 assert(from <= to, string_text("string_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
 assert(from >= 0 && to <= length, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [0 .. ", length, "]."));
 
-var return_string = "";
-
-for(var i = from + 1; i <= to; ++i)
-{
-    return_string += string_char_at(source, i);
-}
-
-return return_string;
+return string_copy(source, from + 1, to - from);;
 
 #define string_substring
-///string_substring(string, from, length);
+///string_substring(string, from, length)
 //params: string, real (natural), real (natural)
-//returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`
+//returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.
+//note: identical to `string_copy(...)`, except first character starts at index 0.
 
 var source = argument0;
 var from = argument1;
@@ -928,12 +938,12 @@ assert(real_is_natural(from), "string_substring(...): `from` must be natural num
 assert(real_is_natural(length), "string_substring(...): `length` must be natural number.");
 assert((from + length <= string_length(source)), "string_substring(...): `from+length` must be less or equal to `string` length.");
 
-return string_slice(source, from, from + length);
+return string_copy(source, from + 1, length);
 
 #define string_find
 ///string_find(source, find, [nth = 1])
 //params: string, string, [real (natural)]
-//returns: position of `nth` occurance of `find` in `source`, where first character is at index 0. if not found, returns -1
+//returns: position of `nth` occurence of `find` in `source`, where first character is at index 0. if not found, returns -1
 
 _gme_arguments(string_find, argument_count, 2, 3);
 
@@ -957,7 +967,6 @@ while(--nth)
 var ret = string_pos(find, source) - 1;
 var success = (ret != -1);
 return ternary(success, ret + offset, -1);
-
 #define _gme
 
 
@@ -993,100 +1002,67 @@ for(var i = 0; i < l; ++i)
 
 assert(0, string(script_get_name(script)) + "(...): Incorrect argument count. Expected: " + str + ", got " + string(argument_count) + ".");
 #define _gme_quick_sort
-///_gme_quick_sort(numbers...)
-//params: real...
-//returns: array of reals sorted
 ///_gme_quick_sort(array)
-//params: array (real)
+//params: array (1D of real)
 //returns: array of reals sorted
 
-if(argument_count == 1 && is_array(argument[0]))
+var array = argument0;
+var length = array_length(array);
+
+if(length == 0 || length == 1)
 {
-    var array = argument0;
-    
-    assert(is_array(array) && array_is_1d(array), "quick_sort(...): `array` must be 1D array.");
-    
-    var length = array_length(array);
-    if(length == 0) return array;
-    
-    var array_type = type_of(array[0]);
-    for(var i = 0; i < length; ++i)
+    return array;
+}
+else if(length == 2)
+{
+    var a = array[0];
+    var b = array[1];
+    if(a < b)
     {
-        assert(type_of(array[i]) == array_type, "quick_sort(...): All items in `array` must be of same type.");
-    }
-    
-    if(length == 1)
-    {
-        return array;
-    }
-    else if(length == 2)
-    {
-        var a = array[0];
-        var b = array[1];
-        if(a > b) return array_of(a, b);
-        else      return array_of(b, a);
+        return array_of(a, b);
     }
     else
     {
-        var lhs = 0;
-        var mid = 0;
-        var rhs = 0;
-        var pivot_pos = floor(length/2);
-        var pivot = array[pivot_pos];
-        
-        for(var i = 0; i < length; ++i)
-        {
-            var value = array[i];
-            if(value > pivot)
-            {
-                lhs[array_length(lhs)] = value;
-            }
-            else if(value == pivot)
-            {
-                mid[array_length(mid)] = value;
-            }
-            else if(value < pivot)
-            {
-                rhs[array_length(rhs)] = value;
-            }
-        }
-        
-        if(is_array(lhs)) lhs = _gme_quick_sort(lhs);
-        if(is_array(rhs)) rhs = _gme_quick_sort(rhs);
-        
-        var return_array = 0;
-        
-        for(var i = 0; i < array_length(lhs); ++i)
-        {
-            return_array[array_length(return_array)] = lhs[i];
-        }
-        
-        for(var i = 0; i < array_length(mid); ++i)
-        {
-            return_array[array_length(return_array)] = mid[i];
-        }
-        
-        for(var i = 0; i < array_length(rhs); ++i)
-        {
-            return_array[array_length(return_array)] = rhs[i];
-        }
-        
-        return array_expand(return_array);
+        return array_of(b, a);
     }
 }
 else
 {
-    var sorting_array = array_init(argument_count);
-    for(var i = 0; i < argument_count; ++i)
+
+    var pivot = array[0];
+    
+    var smaller = array_create(0);
+    var same    = array_of(pivot);
+    var bigger  = array_create(0);
+    
+    for(var i = 1; i < length; ++i)
     {
-        sorting_array[i] = argument[i];
+        var item = array[i];
+        
+        if(item < pivot)
+        {
+            array_append(smaller, item);
+        }
+        else if(item == pivot)
+        {
+            array_append(same, item);
+        }
+        else
+        {
+            array_append(bigger, item);
+        }
     }
     
-    return _gme_quick_sort(sorting_array);
+    smaller = _gme_quick_sort(smaller);
+    bigger  = _gme_quick_sort(bigger);
+    
+    return array_expand(array_of(smaller, same, bigger));
 }
 
-#define _gme_radix_sort_string
-///radix_quick_sort(array, sorting_by_nth_character)
+#define _gme_string_sort
+///_gme_string_sort(array, sorting_by_nth_character)
+//params: array (1D of string)
+//returns: array of strings sorted
 
 var array = argument0;
 var nth = argument1;
@@ -1094,7 +1070,7 @@ var nth = argument1;
 var bucket = 0;
 var max_length = 0;
 
-for(var i = 0; i < array_length(array); ++i)
+for(var i = 0; i < array_length_1d(array); ++i)
 {
     var item = array[i];
     
@@ -1102,23 +1078,23 @@ for(var i = 0; i < array_length(array); ++i)
     max_length = max(max_length, string_length(item));
     var byte = string_byte_at(item, nth + 1);
     
-    bucket[byte, array_length(bucket, byte)] = item;
+    bucket[byte, array_length_2d(bucket, byte)] = item;
 
 }
 
-var return_array = 0;
+var return_array = array_create(0);
 
-for(var i = 0; i < array_height(bucket); ++i)
+for(var i = 0; i < array_height_2d(bucket); ++i)
 {
-    var blen = array_length(bucket, i);
-    if(array_length(bucket, i))
+    var blen = array_length_2d(bucket, i);
+    if(array_length_2d(bucket, i))
     {
         var temp_array = 0;
         
         if(nth <= max_length && blen > 1)
         {
             var ns = array_sub(bucket, i);
-            temp_array = _gme_radix_sort_string(ns, nth + 1);
+            temp_array = _gme_string_sort(ns, nth + 1);
         }
         else
         {
@@ -1128,16 +1104,16 @@ for(var i = 0; i < array_height(bucket); ++i)
         //sort arrays based on length
         
         var strings_sorted_by_length_array = 0;
-        for(var j = 0; j < array_length(temp_array); ++j)
+        for(var j = 0; j < array_length_1d(temp_array); ++j)
         {
             var item = temp_array[j];
-            strings_sorted_by_length_array[string_length(item), array_length(strings_sorted_by_length_array, string_length(item))] = item;
+            strings_sorted_by_length_array[string_length(item), array_length_2d(strings_sorted_by_length_array, string_length(item))] = item;
         }
         
         var n = 0;
-        for(var yy = 0; yy < array_height(strings_sorted_by_length_array); ++yy)
+        for(var yy = 0; yy < array_height_2d(strings_sorted_by_length_array); ++yy)
         {
-            var l = array_length(strings_sorted_by_length_array, yy);
+            var l = array_length_2d(strings_sorted_by_length_array, yy);
             if(l > 0)
             {
                 for(var xx = 0; xx < l; ++xx)
@@ -1153,14 +1129,15 @@ for(var i = 0; i < array_height(bucket); ++i)
             }
         }
         
-        for(var j = 0; j < array_length(temp_array); ++j)
+        for(var j = 0; j < array_length_1d(temp_array); ++j)
         {
-            return_array[array_length(return_array)] = temp_array[j];
+            return_array[array_length_1d(return_array)] = temp_array[j];
         }
     }
 }
 
 return return_array;
+
 ///unittests
 //if-syntax is used to categorize tests
 var unittest = true;
@@ -1219,7 +1196,7 @@ if(unittest)
 {
     var array = array_of(1, 2, 3, 4, 5, 6);
     var splitted_array = array_split(array, 4);
-    
+
     assert(array_equals(array_sub(splitted_array, 0), array_of(1, 2, 3)));
     assert(array_equals(array_sub(splitted_array, 1), array_of(5, 6)));
 }
@@ -1305,7 +1282,7 @@ if(unittest)
 {
     var a1 = array_of("abs","dps","fps");
     var a2 = array_of(3, 4, 5);
-    var a3 = array_of(a1, a2);
+    var a3 = array_of(a1, array_of(), a2);
     var a4 = array_of("tree", a3);
     var a5 = array_of("ball", a4, "house");
 
@@ -1347,11 +1324,23 @@ if(unittest)
     assert(array_equals(array_slice(array_1d, 0, 3), array_of(0,1,2)));
     assert(array_equals(array_slice(array_1d, 5, 8), array_of(5,6,7)));
     assert(array_equals(array_slice(array_1d, 2, 2), array_of()));
-    
+
     array_1d = array_of("car", "house", 3, "fire");
-    
+
     assert(array_equals(array_slice(array_1d, 1, 2), array_of("house")));
     assert(array_equals(array_slice(array_1d, 0, 3), array_of("car", "house", 3)));
+}
+
+///array_flat
+if(unittest)
+{
+    var array = 0;
+    array[0,0] = 1;
+    array[0,1] = 2;
+    array[1,0] = "at position 1,0";
+    array[1,1] = 3;
+
+    assert(array_equals(array_flat(array), array_of(1, 2, "at position 1,0", 3)));
 }
 
 ///array_insert
@@ -1381,18 +1370,12 @@ if(unittest)
 ///array_sort
 if(unittest)
 {
-    var array = array_of(2,5,4,1,3);
-    //ascending
-    var sorted = array_sort(array);
-    assert(array_equals(sorted, array_of(1,2,3,4,5)));
+    var array = array_of(2,5,4,100,1,3,5,8);
+    array_sort(array);
+    assert(array_equals(array, array_of(1,2,3,4,5,5,8,100)));
 
-    array = array_of(2,5,4,1,3);
-    //descending
-    sorted = array_sort(array, false);
-    assert(array_equals(sorted, array_of(5,4,3,2,1)));
-
-    array = array_of("banana", "apple", "asteroid");
-    assert(array_equals(array_sort(array), array_of("apple", "asteroid", "banana")));
+    array = array_of("banana", "abs", "coconut", "apple", "asteroid");
+    assert(array_equals(array_sort(array), array_of("abs", "apple", "asteroid", "banana", "coconut")));
 }
 
 ///array_is_1d
@@ -1483,7 +1466,7 @@ if(unittest)
     assert(splits[0] = "hello");
     assert(splits[1] = "world");
     assert(splits[2] = "again.");
-    
+
     splits = string_split(123456, 4);
     assert(splits[0] == "123");
     assert(splits[1] == "56");
@@ -1496,7 +1479,7 @@ if(unittest)
     assert(string_slice(str, 0, 5) == "Hello");
     assert(string_slice(str, 1, 5) == "ello");
     assert(string_slice(str, 1, 7) == "elloYe");
-    
+
     assert(string_slice(str, 1, 2) == "e");
     assert(string_slice(str, 0, 0) == "");
 }
@@ -1517,13 +1500,13 @@ if(unittest)
     assert(string_find(str, "4") == 4);
     assert(string_find(str, "6789") == 6);
     assert(string_find(str, "ABC") == -1);
-    
+
     str = "hello world hello earth hello house";
     assert(string_find(str, "hello", 1) == 0);
     assert(string_find(str, "hello", 2) == 12);
     assert(string_find(str, "hello", 3) == 24);
     assert(string_find(str, "hello", 4) == -1);
-    
+
     str = "the roof the roof is on fire";
     assert(string_find(str, "roof", 1) == 4);
     assert(string_find(str, "roof", 2) == 13);

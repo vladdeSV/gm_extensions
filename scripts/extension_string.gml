@@ -104,19 +104,13 @@ assert(real_is_natural(from) && real_is_natural(to), "string_slice(...): `from` 
 assert(from <= to, string_text("string_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
 assert(from >= 0 && to <= length, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [0 .. ", length, "]."));
 
-var return_string = "";
-
-for(var i = from + 1; i <= to; ++i)
-{
-    return_string += string_char_at(source, i);
-}
-
-return return_string;
+return string_copy(source, from + 1, to - from);;
 
 #define string_substring
 ///string_substring(string, from, length)
 //params: string, real (natural), real (natural)
-//returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`
+//returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.
+//note: identical to `string_copy(...)`, except first character starts at index 0.
 
 var source = argument0;
 var from = argument1;
@@ -127,7 +121,7 @@ assert(real_is_natural(from), "string_substring(...): `from` must be natural num
 assert(real_is_natural(length), "string_substring(...): `length` must be natural number.");
 assert((from + length <= string_length(source)), "string_substring(...): `from+length` must be less or equal to `string` length.");
 
-return string_slice(source, from, from + length);
+return string_copy(source, from + 1, length);
 
 #define string_find
 ///string_find(source, find, [nth = 1])

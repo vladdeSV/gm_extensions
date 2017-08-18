@@ -79,7 +79,7 @@ assert(from >= 0 && to <= length, string_text("array_slice(...): Out of bounds: 
 if(from == to) return array_create(0);
 
 var delta = to - from;
-var return_array = array_create(0);// = array_create(delta);
+var return_array = array_create(0);
 
 array_copy(return_array, 0, array, from, delta);
 
@@ -512,7 +512,7 @@ var sorted = 0;
 if(array_type == "string")
 {
     //RADIX Sort ('string' Edition)
-    sorted = _gme_radix_sort_string(array, 0);
+    sorted = _gme_string_sort(array, 0);
 }
 else
 {

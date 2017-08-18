@@ -34,7 +34,7 @@ for(var i = 0; i < l; ++i)
 assert(0, string(script_get_name(script)) + "(...): Incorrect argument count. Expected: " + str + ", got " + string(argument_count) + ".");
 #define _gme_quick_sort
 ///_gme_quick_sort(array)
-//params: array (real)
+//params: array (1D of real)
 //returns: array of reals sorted
 
 var array = argument0;
@@ -90,8 +90,10 @@ else
     return array_expand(array_of(smaller, same, bigger));
 }
 
-#define _gme_radix_sort_string
-///radix_quick_sort(array, sorting_by_nth_character)
+#define _gme_string_sort
+///_gme_string_sort(array, sorting_by_nth_character)
+//params: array (1D of string)
+//returns: array of strings sorted
 
 var array = argument0;
 var nth = argument1;
@@ -99,7 +101,7 @@ var nth = argument1;
 var bucket = 0;
 var max_length = 0;
 
-for(var i = 0; i < array_length(array); ++i)
+for(var i = 0; i < array_length_1d(array); ++i)
 {
     var item = array[i];
     
@@ -107,23 +109,23 @@ for(var i = 0; i < array_length(array); ++i)
     max_length = max(max_length, string_length(item));
     var byte = string_byte_at(item, nth + 1);
     
-    bucket[byte, array_length(bucket, byte)] = item;
+    bucket[byte, array_length_2d(bucket, byte)] = item;
 
 }
 
-var return_array = 0;
+var return_array = array_create(0);
 
-for(var i = 0; i < array_height(bucket); ++i)
+for(var i = 0; i < array_height_2d(bucket); ++i)
 {
-    var blen = array_length(bucket, i);
-    if(array_length(bucket, i))
+    var blen = array_length_2d(bucket, i);
+    if(array_length_2d(bucket, i))
     {
         var temp_array = 0;
         
         if(nth <= max_length && blen > 1)
         {
             var ns = array_sub(bucket, i);
-            temp_array = _gme_radix_sort_string(ns, nth + 1);
+            temp_array = _gme_string_sort(ns, nth + 1);
         }
         else
         {
@@ -133,16 +135,16 @@ for(var i = 0; i < array_height(bucket); ++i)
         //sort arrays based on length
         
         var strings_sorted_by_length_array = 0;
-        for(var j = 0; j < array_length(temp_array); ++j)
+        for(var j = 0; j < array_length_1d(temp_array); ++j)
         {
             var item = temp_array[j];
-            strings_sorted_by_length_array[string_length(item), array_length(strings_sorted_by_length_array, string_length(item))] = item;
+            strings_sorted_by_length_array[string_length(item), array_length_2d(strings_sorted_by_length_array, string_length(item))] = item;
         }
         
         var n = 0;
-        for(var yy = 0; yy < array_height(strings_sorted_by_length_array); ++yy)
+        for(var yy = 0; yy < array_height_2d(strings_sorted_by_length_array); ++yy)
         {
-            var l = array_length(strings_sorted_by_length_array, yy);
+            var l = array_length_2d(strings_sorted_by_length_array, yy);
             if(l > 0)
             {
                 for(var xx = 0; xx < l; ++xx)
@@ -158,9 +160,9 @@ for(var i = 0; i < array_height(bucket); ++i)
             }
         }
         
-        for(var j = 0; j < array_length(temp_array); ++j)
+        for(var j = 0; j < array_length_1d(temp_array); ++j)
         {
-            return_array[array_length(return_array)] = temp_array[j];
+            return_array[array_length_1d(return_array)] = temp_array[j];
         }
     }
 }
