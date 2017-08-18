@@ -12,7 +12,6 @@ There are currently **37 scripts (eg. `array_sort`, `array_slice`, `string_join`
 
 ### Resources
 * Check out the [REFERENCE](REFERENCE.md)!
-* If you want to contribute, checkout [CONTRIBUTING](CONTRIBUTING.md).
 
 The target of this is library is primarily aimed at GameMaker 1.4, but will most likely work with GameMaker 2.
 
