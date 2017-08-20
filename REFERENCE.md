@@ -41,7 +41,7 @@
 ### extension_real
 
 1. [real_within](#real_within)
-1. [real_within_exlusive](#real_within_exlusive)
+1. [real_within_exclusive](#real_within_exclusive)
 1. [real_is_integer](#real_is_integer)
 1. [real_is_natural](#real_is_natural)
 
@@ -173,8 +173,9 @@ retruns: length of `array`, at height `height`
 ##### array_height(array)
 params: value  
 retruns: height of `array`  
+note: alias of `array_height_2d(variable)`  
 
-### [array_insert](/scripts/extension_array.gml#L422)
+### [array_insert](/scripts/extension_array.gml#L423)
 
 ##### array_insert(&array, index, value)
 params: array, real (natural), value  
@@ -184,20 +185,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L470)
+### [array_string](/scripts/extension_array.gml#L471)
 
 ##### array_string(string)
 params: string  
 retruns: array with each all characters as items  
 
-### [array_sort](/scripts/extension_array.gml#L489)
+### [array_sort](/scripts/extension_array.gml#L490)
 
 ##### array_sort(&array)
 params: array  
 results: `array` sorted ascendingly. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L528)
+### [array_replace](/scripts/extension_array.gml#L529)
 
 ##### array_replace(&array, index, value)
 params: array, real (natural), value  
@@ -207,7 +208,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap_item](/scripts/extension_array.gml#L563)
+### [array_swap_item](/scripts/extension_array.gml#L564)
 
 ##### array_swap_item(&array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -217,7 +218,7 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L603)
+### [array_is_1d](/scripts/extension_array.gml#L607)
 
 ##### array_is_1d(array)
 params: value  
@@ -270,9 +271,9 @@ returns: if `comparison` is true, `true_value`, else `false_value`
 params: real, real, real  
 returns: true if number is withing range min/max (inclusive: min <= number <= max)  
 
-### [real_within_exlusive](/scripts/extension_real.gml#L17)
+### [real_within_exclusive](/scripts/extension_real.gml#L17)
 
-##### real_within_exlusive(number, min, max)
+##### real_within_exclusive(number, min, max)
 params: real, real, real  
 returns: true if number is withing range min/max (exclusive: min < number < max)  
 

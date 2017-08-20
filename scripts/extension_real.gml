@@ -14,8 +14,8 @@ assert(is_real(number) && is_real(minimum) && is_real(maximum), "`number`, `mini
 
 return ((minimum <= number) && (number <= maximum));
 
-#define real_within_exlusive
-///real_within_exlusive(number, min, max)
+#define real_within_exclusive
+///real_within_exclusive(number, min, max)
 //params: real, real, real
 //returns: true if number is withing range min/max (exclusive: min < number < max)
 

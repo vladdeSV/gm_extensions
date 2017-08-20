@@ -1,5 +1,14 @@
 # Changelog
 
+## [upcoming]
+### Fixes
+* Renamed `real_within_exlusive(...)` -> `real_within_exclusive(...)` (typo).
+* Optimized `array_swap_item(...)` if `index1` and `index2` are the same.
+
+### Added
+* Unittests for all non-misc functions
+* `extractor.d` complains if non-misc function does not have unittests.
+
 ## v1.1.1
 ### Fixes
 * `array_swap_item(...)` now calls `_gme_arguments(...)` correctly.

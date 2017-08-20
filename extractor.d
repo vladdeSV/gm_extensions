@@ -15,6 +15,8 @@ void main()
 
     File reference = File("REFERENCE.md", "w"); reference.writeln("# GameMaker 1.4 Library Extensions Reference\n## Reference\n");
 
+    string unittests = readText("scripts/_unittests.gml");
+
     //bad, initial loop to create list of references
     foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
@@ -27,6 +29,11 @@ void main()
             if(line.canFind("#define ") && !line.canFind("extension_"))
             {
                 auto functionName = line[8 .. $];
+                if(fileName != "extension_misc.gml" && !unittests.canFind("///"~functionName))
+                {
+                    writeln("WARN: ", functionName, " does not have unittests!");
+                }
+
                 reference.writeln("1. [", functionName, "](#", functionName, ")");
             }
         }

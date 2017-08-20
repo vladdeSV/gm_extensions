@@ -416,6 +416,7 @@ return array_length_2d(array, height);
 ///array_height(array)
 //params: value
 //retruns: height of `array`
+//note: alias of `array_height_2d(variable)`
 
 return array_height_2d(argument0);
 
@@ -593,6 +594,9 @@ assert(is_array(array), "array_swap(...): `array` must be array.");
 assert(real_is_natural(height), "array_swap(...): `height` must be natural number.");
 assert(real_is_natural(index1), "array_swap(...): `index1` must be natural number.");
 assert(real_is_natural(index2), "array_swap(...): `index2` must be natural number.");
+
+//if both indexes are the same, simply return
+if(index1 == index2) return array;
 
 var temp = array[@height, index2];
 array[@height, index2] = array[@height, index1];
