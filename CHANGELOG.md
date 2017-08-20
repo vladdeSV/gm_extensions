@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.1
+### Fixes
+* `array_swap_item(...)` now calls `_gme_arguments(...)` correctly.
+
 ## v1.1.0
 
 ### Changed

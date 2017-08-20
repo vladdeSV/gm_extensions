@@ -568,7 +568,7 @@ return array;
 //params: array, real (natural), real (natural), real (natural)
 //results: modifies `array` at `height` by switching items at `index1` and `index2`
 
-_gme_arguments(array_swap, argument_count, 3, 4);
+_gme_arguments(array_swap_item, argument_count, 3, 4);
 
 var array;
 var height = 0;
