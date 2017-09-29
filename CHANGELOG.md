@@ -7,7 +7,7 @@
 
 ### Added
 * Unittests for all non-misc functions
-* `extractor.d` complains if non-misc function does not have unittests.
+* `extractor.d` complains if non-misc function do not have unittests.
 
 ## v1.1.1
 ### Fixes

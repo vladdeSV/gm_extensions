@@ -91,8 +91,8 @@ if(unittest)
     assert(array_at(array_1d, 2) == "lemon");
 
     var array_2d = array_init();
-    array_2d[0, 0] = "01";
-    array_2d[0, 1] = "02";
+    array_2d[0, 0] = "00";
+    array_2d[0, 1] = "01";
     array_2d[1, 0] = "10";
     array_2d[1, 1] = "11";
     array_2d[1, 2] = "12";
@@ -229,7 +229,7 @@ if(unittest)
 if(unittest)
 {
     var array_2d = array_init(2, 3);
-    assert(array_height(array_2d) = 3);
+    assert(array_height(array_2d) = 2);
 }
 
 ///array_insert
