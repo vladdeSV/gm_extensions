@@ -25,6 +25,7 @@
 1. [array_replace](#array_replace)
 1. [array_swap_item](#array_swap_item)
 1. [array_is_1d](#array_is_1d)
+1. [array_filter](#array_filter)
 
 ### extension_ds_list
 
@@ -171,11 +172,11 @@ retruns: length of `array`, at height `height`
 ### [array_height](/scripts/extension_array.gml#L415)
 
 ##### array_height(array)
-params: value  
+params: array  
 retruns: height of `array`  
 note: alias of `array_height_2d(variable)`  
 
-### [array_insert](/scripts/extension_array.gml#L423)
+### [array_insert](/scripts/extension_array.gml#L427)
 
 ##### array_insert(&array, index, value)
 params: array, real (natural), value  
@@ -185,20 +186,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L471)
+### [array_string](/scripts/extension_array.gml#L475)
 
 ##### array_string(string)
 params: string  
 retruns: array with each all characters as items  
 
-### [array_sort](/scripts/extension_array.gml#L490)
+### [array_sort](/scripts/extension_array.gml#L494)
 
 ##### array_sort(&array)
 params: array  
 results: `array` sorted ascendingly. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L529)
+### [array_replace](/scripts/extension_array.gml#L533)
 
 ##### array_replace(&array, index, value)
 params: array, real (natural), value  
@@ -208,7 +209,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap_item](/scripts/extension_array.gml#L564)
+### [array_swap_item](/scripts/extension_array.gml#L568)
 
 ##### array_swap_item(&array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -218,11 +219,17 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L607)
+### [array_is_1d](/scripts/extension_array.gml#L611)
 
 ##### array_is_1d(array)
 params: value  
 retruns: true if `array` is array and has height of 1.  
+
+### [array_filter](/scripts/extension_array.gml#L618)
+
+##### array_filter(array, script)
+params: array (xD), script (script(val), returns bool)  
+results: retruns array of items which validate to true when run with `script` (`script(array[n])`).  
 
 ## extension_ds_list
 
@@ -303,32 +310,32 @@ returns: converts all arguments to string
 params: array, [string]  
 returns: string with items in `array` joined by `joiner`  
 
-### [string_split](/scripts/extension_string.gml#L61)
+### [string_split](/scripts/extension_string.gml#L62)
 
 ##### string_split(string, separator)
 params: string, string  
 returns: array of strings (`string_split("one,2,five", ",") == ["one", "2", "five"]`)  
 note: automatically converts parameters to strings. `string_split(123456, 4) == ["123", "56"]`  
 
-### [string_slice](/scripts/extension_string.gml#L90)
+### [string_slice](/scripts/extension_string.gml#L91)
 
 ##### string_slice(string, from, to)
 params: string, real (natural), real (natural)  
 retruns: portion of `string`. `from` (inclusive), `to` (exclusive).  
 note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`  
 
-### [string_substring](/scripts/extension_string.gml#L109)
+### [string_substring](/scripts/extension_string.gml#L110)
 
 ##### string_substring(string, from, length)
 params: string, real (natural), real (natural)  
 returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.  
-note: identical to `string_copy(...)`, except first character starts at index 0.  
+note: alias for `string_copy(...)`.  
 
-### [string_find](/scripts/extension_string.gml#L126)
+### [string_find](/scripts/extension_string.gml#L127)
 
 ##### string_find(source, find, [nth = 1])
 params: string, string, [real (natural)]  
-returns: position of `nth` occurence of `find` in `source`, where first character is at index 0. if not found, returns -1  
+returns: position of `nth` occurence of `find` in `source`. if not found, returns 0  
 
 ## _unittests
 

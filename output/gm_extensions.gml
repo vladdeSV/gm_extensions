@@ -416,11 +416,15 @@ return array_length_2d(array, height);
 
 #define array_height
 ///array_height(array)
-//params: value
+//params: array
 //retruns: height of `array`
 //note: alias of `array_height_2d(variable)`
 
-return array_height_2d(argument0);
+var array = argument0;
+
+assert(is_array(array), "array_height(...): `array` must be array.");
+
+return array_height_2d(array);
 
 #define array_insert
 ///array_insert(&array, index, value)
@@ -613,6 +617,31 @@ return array;
 
 //array[0,n] == array[n]
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
+#define array_filter
+///array_filter(array, script)
+//params: array (xD), script (script(val), returns bool)
+//results: retruns array of items which validate to true when run with `script` (`script(array[n])`).
+
+var array = argument0;
+var script = argument1;
+
+assert(is_array(array), "array_filter(...): `array` must be array.");
+assert(script_exists(script), "array_filter(...): `script` must be a script.");
+
+var return_array = array_create(0);
+
+for(var i = 0; i < array_length(array); ++i)
+{
+    var val = array[@i];
+    
+    if(script_execute(script, val) == true)
+    {
+        array_append(return_array, val);
+    }
+}
+
+return return_array;
+
 
 
 #define ds_list_swap_item
@@ -879,6 +908,7 @@ for(var n = 0; n < length; ++n)
 }
 
 return joined;
+
 #define string_split
 ///string_split(string, separator)
 //params: string, string
@@ -898,9 +928,9 @@ var next_find = string_pos(separator, source);
 while(next_find)
 {
     //add from start of string to where separator is found to return array 
-    array_append(splits, string_slice(source, 0, next_find - 1));
+    array_append(splits, string_slice(source, 1, next_find));
     //trim away
-    source = string_slice(source, next_find - 1 + string_length(separator), string_length(source));
+    source = string_slice(source, next_find + string_length(separator), string_length(source) + 1);
     next_find = string_pos(separator, source);
 }
 
@@ -923,15 +953,15 @@ var length = string_length(source);
 
 assert(real_is_natural(from) && real_is_natural(to), "string_slice(...): `from` and `to` must be natural numbers.");
 assert(from <= to, string_text("string_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
-assert(from >= 0 && to <= length, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [0 .. ", length, "]."));
+assert(from > 0 && to <= length + 1, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [1 .. ", length + 1, "]."));
 
-return string_copy(source, from + 1, to - from);;
+return string_copy(source, from, to - from);;
 
 #define string_substring
 ///string_substring(string, from, length)
 //params: string, real (natural), real (natural)
 //returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.
-//note: identical to `string_copy(...)`, except first character starts at index 0.
+//note: alias for `string_copy(...)`.
 
 var source = argument0;
 var from = argument1;
@@ -942,12 +972,12 @@ assert(real_is_natural(from), "string_substring(...): `from` must be natural num
 assert(real_is_natural(length), "string_substring(...): `length` must be natural number.");
 assert((from + length <= string_length(source)), "string_substring(...): `from+length` must be less or equal to `string` length.");
 
-return string_copy(source, from + 1, length);
+return string_copy(source, from, length);
 
 #define string_find
 ///string_find(source, find, [nth = 1])
 //params: string, string, [real (natural)]
-//returns: position of `nth` occurence of `find` in `source`, where first character is at index 0. if not found, returns -1
+//returns: position of `nth` occurence of `find` in `source`. if not found, returns 0
 
 _gme_arguments(string_find, argument_count, 2, 3);
 
@@ -963,14 +993,14 @@ var offset = 0;
 
 while(--nth)
 {
-    var d = string_pos(find, source) - 1;
-    offset += d + string_length(find);
+    var d = string_pos(find, source);
+    offset += d + string_length(find) - 1;
     source = string_slice(source, d + string_length(find), string_length(source));
 }
 
-var ret = string_pos(find, source) - 1;
-var success = (ret != -1);
-return ternary(success, ret + offset, -1);
+var ret = string_pos(find, source);
+return ternary(ret, ret + offset, 0);
+
 #define _gme
 
 
@@ -1234,8 +1264,8 @@ if(unittest)
     assert(array_at(array_1d, 2) == "lemon");
 
     var array_2d = array_init();
-    array_2d[0, 0] = "01";
-    array_2d[0, 1] = "02";
+    array_2d[0, 0] = "00";
+    array_2d[0, 1] = "01";
     array_2d[1, 0] = "10";
     array_2d[1, 1] = "11";
     array_2d[1, 2] = "12";
@@ -1371,8 +1401,8 @@ if(unittest)
 ///array_height
 if(unittest)
 {
-    var array_2d = array_init(2, 3);
-    assert(array_height(array_2d) = 3);
+    var array_2d = array_init(2, 7);
+    assert(array_height(array_2d) = 2);
 }
 
 ///array_insert
@@ -1444,6 +1474,15 @@ if(unittest)
     assert(array_is_1d(array));
 }
 
+///array_filter
+if(unittest)
+{
+    var array = array_of(1, 2, 3.14, "four", -42, 666);
+    var natural = array_filter(array, real_is_natural);
+    
+    assert(array_equals(natural, array_of(1, 2, 666)));
+}
+
 ///real_within
 if(unittest)
 {
@@ -1496,6 +1535,7 @@ if(unittest)
 ///string_join
 if(unittest)
 {
+    assert(string_join(array_of(4,"three",2,1))       == "4three21");
     assert(string_join(array_of(4,"three",2,1), ", ") == "4, three, 2, 1");
     assert(string_join(array_of("old","folks","home"), " ~ ") == "old ~ folks ~ home");
 }
@@ -1503,10 +1543,10 @@ if(unittest)
 ///string_split
 if(unittest)
 {
-    var splits = string_split("hello--world--again.", "--");
+    var splits = string_split("hello--world--again12", "--");
     assert(splits[0] = "hello");
     assert(splits[1] = "world");
-    assert(splits[2] = "again.");
+    assert(splits[2] = "again12");
 
     splits = string_split(123456, 4);
     assert(splits[0] == "123");
@@ -1517,46 +1557,54 @@ if(unittest)
 if(unittest)
 {
     var str = "HelloYellow!";
-    assert(string_slice(str, 0, 5) == "Hello");
-    assert(string_slice(str, 1, 5) == "ello");
-    assert(string_slice(str, 1, 7) == "elloYe");
+    assert(string_slice(str, 1, 6) == "Hello");
+    assert(string_slice(str, 2, 6) == "ello");
+    assert(string_slice(str, 2, 8) == "elloYe");
 
-    assert(string_slice(str, 1, 2) == "e");
-    assert(string_slice(str, 0, 0) == "");
+    assert(string_slice(str, 2, 3) == "e");
+    assert(string_slice(str, 2, 2) == "");
 }
 
 ///string_substring
 if(unittest)
 {
     var str = "fire water burn";
-    assert(string_substring(str, 0, 4) == "fire");
-    assert(string_substring(str, 5, 4) == "wate");
-    assert(string_substring(str, 6, 0) == "");
+    assert(string_substring(str, 1, 4) == "fire");
+    assert(string_substring(str, 6, 4) == "wate");
+    assert(string_substring(str, 7, 0) == "");
 }
 
 ///string_find
 if(unittest)
 {
-    var str = "0123456789";
+    var str = "123456789";
+    assert(string_find(str, "4"));
     assert(string_find(str, "4") == 4);
     assert(string_find(str, "6789") == 6);
-    assert(string_find(str, "ABC") == -1);
+    assert(string_find(str, "ABC") == 0);
 
     str = "hello world hello earth hello house";
-    assert(string_find(str, "hello", 1) == 0);
-    assert(string_find(str, "hello", 2) == 12);
-    assert(string_find(str, "hello", 3) == 24);
-    assert(string_find(str, "hello", 4) == -1);
+    assert(string_find(str, "hello", 1) == 1);
+    assert(string_find(str, "hello", 2) == 13);
+    assert(string_find(str, "hello", 3) == 25);
+    assert(string_find(str, "hello", 4) == 0);
 
     str = "the roof the roof is on fire";
-    assert(string_find(str, "roof", 1) == 4);
-    assert(string_find(str, "roof", 2) == 13);
+    assert(string_find(str, "roof", 1) == 5);
+    assert(string_find(str, "roof", 2) == 14);
 }
 
 ///ds_list_swap_item
 if(unittest)
 {
-    //someday...
+    list = ds_list_create();
+    ds_list_add(list, 400, "test");
+    
+    ds_list_swap_item(list, 0, 1);
+    assert(ds_list_find_value(list, 0) == "test");
+    assert(ds_list_find_value(list, 1) == 400);
+    
+    ds_list_destroy(list);
 }
 
 //*/

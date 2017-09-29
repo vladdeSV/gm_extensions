@@ -10,19 +10,23 @@ import std.algorithm : canFind;
 
 void main()
 {
-    File output = File("output/gm_extensions.gml", "w");
-    output.writeln("#define gm_extensions\n///Game Maker 1.4 Library Extensions\n");
+    writeln("Opening file 'gm_extensions.gml'");
+    File output = File("output/gm_extensions.gml", "w"); output.writeln("#define gm_extensions\n///Game Maker 1.4 Library Extensions\n");
 
+    writeln("Opening file 'REFERENCE.md'");
     File reference = File("REFERENCE.md", "w"); reference.writeln("# GameMaker 1.4 Library Extensions Reference\n## Reference\n");
 
+    writeln("Loading all unittests");
     string unittests = readText("scripts/_unittests.gml");
 
+    writeln("Iterating all scripts to get a full list of all the functions");
     //bad, initial loop to create list of references
     foreach(script; dirEntries("scripts/", "extension_*.gml", SpanMode.shallow))
     {
         auto fileName = script.name.split("/")[$-1];
         reference.writeln("### ", fileName.split(".")[0], "\n");
 
+        writeln("Loading script ", fileName);
         auto lines = readText(script.name).replace("\r\n", "\n").split("\n");
         foreach(line; lines)
         {
@@ -45,7 +49,6 @@ void main()
 
     foreach(script; dirEntries("scripts/", "*.gml", SpanMode.shallow))
     {
-
         //write to output file
         auto lines = readText(script.name).replace("\r\n", "\n").split("\n");
         foreach(line; lines)
