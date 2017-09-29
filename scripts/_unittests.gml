@@ -228,7 +228,7 @@ if(unittest)
 ///array_height
 if(unittest)
 {
-    var array_2d = array_init(2, 3);
+    var array_2d = array_init(2, 7);
     assert(array_height(array_2d) = 2);
 }
 
@@ -301,6 +301,15 @@ if(unittest)
     assert(array_is_1d(array));
 }
 
+///array_filter
+if(unittest)
+{
+    var array = array_of(1, 2, 3.14, "four", -42, 666);
+    var natural = array_filter(array, real_is_natural);
+    
+    assert(array_equals(natural, array_of(1, 2, 666)));
+}
+
 ///real_within
 if(unittest)
 {
@@ -353,6 +362,7 @@ if(unittest)
 ///string_join
 if(unittest)
 {
+    assert(string_join(array_of(4,"three",2,1))       == "4three21");
     assert(string_join(array_of(4,"three",2,1), ", ") == "4, three, 2, 1");
     assert(string_join(array_of("old","folks","home"), " ~ ") == "old ~ folks ~ home");
 }
@@ -360,10 +370,10 @@ if(unittest)
 ///string_split
 if(unittest)
 {
-    var splits = string_split("hello--world--again.", "--");
+    var splits = string_split("hello--world--again12", "--");
     assert(splits[0] = "hello");
     assert(splits[1] = "world");
-    assert(splits[2] = "again.");
+    assert(splits[2] = "again12");
 
     splits = string_split(123456, 4);
     assert(splits[0] == "123");
@@ -374,46 +384,54 @@ if(unittest)
 if(unittest)
 {
     var str = "HelloYellow!";
-    assert(string_slice(str, 0, 5) == "Hello");
-    assert(string_slice(str, 1, 5) == "ello");
-    assert(string_slice(str, 1, 7) == "elloYe");
+    assert(string_slice(str, 1, 6) == "Hello");
+    assert(string_slice(str, 2, 6) == "ello");
+    assert(string_slice(str, 2, 8) == "elloYe");
 
-    assert(string_slice(str, 1, 2) == "e");
-    assert(string_slice(str, 0, 0) == "");
+    assert(string_slice(str, 2, 3) == "e");
+    assert(string_slice(str, 2, 2) == "");
 }
 
 ///string_substring
 if(unittest)
 {
     var str = "fire water burn";
-    assert(string_substring(str, 0, 4) == "fire");
-    assert(string_substring(str, 5, 4) == "wate");
-    assert(string_substring(str, 6, 0) == "");
+    assert(string_substring(str, 1, 4) == "fire");
+    assert(string_substring(str, 6, 4) == "wate");
+    assert(string_substring(str, 7, 0) == "");
 }
 
 ///string_find
 if(unittest)
 {
-    var str = "0123456789";
+    var str = "123456789";
+    assert(string_find(str, "4"));
     assert(string_find(str, "4") == 4);
     assert(string_find(str, "6789") == 6);
-    assert(string_find(str, "ABC") == -1);
+    assert(string_find(str, "ABC") == 0);
 
     str = "hello world hello earth hello house";
-    assert(string_find(str, "hello", 1) == 0);
-    assert(string_find(str, "hello", 2) == 12);
-    assert(string_find(str, "hello", 3) == 24);
-    assert(string_find(str, "hello", 4) == -1);
+    assert(string_find(str, "hello", 1) == 1);
+    assert(string_find(str, "hello", 2) == 13);
+    assert(string_find(str, "hello", 3) == 25);
+    assert(string_find(str, "hello", 4) == 0);
 
     str = "the roof the roof is on fire";
-    assert(string_find(str, "roof", 1) == 4);
-    assert(string_find(str, "roof", 2) == 13);
+    assert(string_find(str, "roof", 1) == 5);
+    assert(string_find(str, "roof", 2) == 14);
 }
 
 ///ds_list_swap_item
 if(unittest)
 {
-    //someday...
+    list = ds_list_create();
+    ds_list_add(list, 400, "test");
+    
+    ds_list_swap_item(list, 0, 1);
+    assert(ds_list_find_value(list, 0) == "test");
+    assert(ds_list_find_value(list, 1) == 400);
+    
+    ds_list_destroy(list);
 }
 
 //*/

@@ -1,15 +1,24 @@
 # Changelog
 
 ## [upcoming]
+
+### Changes
+* `string_*(...)` functions now assume first character index is at 1.
+* `_unittests.gml`, updated accordingly.
+
 ### Fixes
 * Renamed `real_within_exlusive(...)` -> `real_within_exclusive(...)` (typo).
 * Optimized `array_swap_item(...)` if `index1` and `index2` are the same.
-
-### Added
-* Unittests for all non-misc functions
+* Ensured `array_height(array)` checking if argument `array` is array.
+* Add unittests for `ds_list_swap_item(...)`.
 * `extractor.d` complains if non-misc function do not have unittests.
 
+### Added
+* `array_filter(array, script)`, returns array of items, where the items passed through the `script` returns true (if `script(array[n]) == true`).
+* Unittests for all non-misc functions
+
 ## v1.1.1
+
 ### Fixes
 * `array_swap_item(...)` now calls `_gme_arguments(...)` correctly.
 

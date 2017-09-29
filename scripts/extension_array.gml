@@ -414,11 +414,15 @@ return array_length_2d(array, height);
 
 #define array_height
 ///array_height(array)
-//params: value
+//params: array
 //retruns: height of `array`
 //note: alias of `array_height_2d(variable)`
 
-return array_height_2d(argument0);
+var array = argument0;
+
+assert(is_array(array), "array_height(...): `array` must be array.");
+
+return array_height_2d(array);
 
 #define array_insert
 ///array_insert(&array, index, value)
@@ -611,3 +615,27 @@ return array;
 
 //array[0,n] == array[n]
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
+#define array_filter
+///array_filter(array, script)
+//params: array (xD), script (script(val), returns bool)
+//results: retruns array of items which validate to true when run with `script` (`script(array[n])`).
+
+var array = argument0;
+var script = argument1;
+
+assert(is_array(array), "array_filter(...): `array` must be array.");
+assert(script_exists(script), "array_filter(...): `script` must be a script.");
+
+var return_array = array_create(0);
+
+for(var i = 0; i < array_length(array); ++i)
+{
+    var val = array[@i];
+    
+    if(script_execute(script, val) == true)
+    {
+        array_append(return_array, val);
+    }
+}
+
+return return_array;

@@ -58,6 +58,7 @@ for(var n = 0; n < length; ++n)
 }
 
 return joined;
+
 #define string_split
 ///string_split(string, separator)
 //params: string, string
@@ -77,9 +78,9 @@ var next_find = string_pos(separator, source);
 while(next_find)
 {
     //add from start of string to where separator is found to return array 
-    array_append(splits, string_slice(source, 0, next_find - 1));
+    array_append(splits, string_slice(source, 1, next_find));
     //trim away
-    source = string_slice(source, next_find - 1 + string_length(separator), string_length(source));
+    source = string_slice(source, next_find + string_length(separator), string_length(source) + 1);
     next_find = string_pos(separator, source);
 }
 
@@ -102,15 +103,15 @@ var length = string_length(source);
 
 assert(real_is_natural(from) && real_is_natural(to), "string_slice(...): `from` and `to` must be natural numbers.");
 assert(from <= to, string_text("string_slice(...): `from`/`to` missmatch. `from` must be less than or equal `to`. `from`: ", from, ", `to`: ", to, "."));
-assert(from >= 0 && to <= length, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [0 .. ", length, "]."));
+assert(from > 0 && to <= length + 1, string_text("string_slice(...): Out of bounds: [", from, " .. ", to, "], `string` is [1 .. ", length + 1, "]."));
 
-return string_copy(source, from + 1, to - from);;
+return string_copy(source, from, to - from);;
 
 #define string_substring
 ///string_substring(string, from, length)
 //params: string, real (natural), real (natural)
 //returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.
-//note: identical to `string_copy(...)`, except first character starts at index 0.
+//note: alias for `string_copy(...)`.
 
 var source = argument0;
 var from = argument1;
@@ -121,12 +122,12 @@ assert(real_is_natural(from), "string_substring(...): `from` must be natural num
 assert(real_is_natural(length), "string_substring(...): `length` must be natural number.");
 assert((from + length <= string_length(source)), "string_substring(...): `from+length` must be less or equal to `string` length.");
 
-return string_copy(source, from + 1, length);
+return string_copy(source, from, length);
 
 #define string_find
 ///string_find(source, find, [nth = 1])
 //params: string, string, [real (natural)]
-//returns: position of `nth` occurence of `find` in `source`, where first character is at index 0. if not found, returns -1
+//returns: position of `nth` occurence of `find` in `source`. if not found, returns 0
 
 _gme_arguments(string_find, argument_count, 2, 3);
 
@@ -142,11 +143,10 @@ var offset = 0;
 
 while(--nth)
 {
-    var d = string_pos(find, source) - 1;
-    offset += d + string_length(find);
+    var d = string_pos(find, source);
+    offset += d + string_length(find) - 1;
     source = string_slice(source, d + string_length(find), string_length(source));
 }
 
-var ret = string_pos(find, source) - 1;
-var success = (ret != -1);
-return ternary(success, ret + offset, -1);
+var ret = string_pos(find, source);
+return ternary(ret, ret + offset, 0);
