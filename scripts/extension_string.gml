@@ -53,8 +53,8 @@ var joined = "";
 
 for(var n = 0; n < length; ++n)
 {
+    if(n != 0) joined += joiner;
     joined += string(array[@n]);
-    if(n != length - 1) joined += joiner;
 }
 
 return joined;
