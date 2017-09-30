@@ -337,5 +337,3 @@ note: alias for `string_copy(...)`.
 params: string, string, [real (natural)]  
 returns: position of `nth` occurence of `find` in `source`. if not found, returns 0  
 
-## _unittests
-

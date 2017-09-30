@@ -60,8 +60,7 @@ void main()
         }
 
         //write to reference
-
-        if(script.name.split("/")[$ - 1] == "_gme.gml")
+        if(!script.name.split("/")[$ - 1].canFind("extension_"))
         {
             continue;
         }
