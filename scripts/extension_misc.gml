@@ -18,7 +18,7 @@ for(var i = 0; i < argument_count; ++i)
     array[i] = argument[i];
 }
 
-show_debug_message(string_join(array, ", "));
+show_debug_message(string_join(array));
 
 #define assert
 ///assert(comparison, [message])

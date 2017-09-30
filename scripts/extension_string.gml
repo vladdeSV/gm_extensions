@@ -21,7 +21,7 @@ for(var n = 0; n < argument_count; ++n)
     {
         text += current_argument;
     }
-    //array
+    //1D array
     else if(is_array(current_argument) && array_height_2d(current_argument) == 1)
     {
         text += "[" + string_join(current_argument, ", ") + "]";

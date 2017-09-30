@@ -5,6 +5,7 @@
 ### Changes
 * `string_*(...)` functions now assume first character index is at 1.
 * `_unittests.gml`, updated accordingly.
+* `log(...)`, no long comma-separates arguments.
 
 ### Fixes
 * Renamed `real_within_exlusive(...)` -> `real_within_exclusive(...)` (typo).
