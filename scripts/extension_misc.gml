@@ -22,7 +22,7 @@ show_debug_message(string_join(array));
 
 #define assert
 ///assert(comparison, [message])
-//params: real (boolean), string
+//params: real (boolean), [string]
 //results: if `comparison` is false, show `message` and exit
 
 //if arguments are not 1 or 2, exit.

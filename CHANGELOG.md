@@ -4,8 +4,8 @@
 
 ### Changes
 * `string_*(...)` functions now assume first character index is at 1.
-* `_unittests.gml`, updated accordingly.
 * `log(...)`, no long comma-separates arguments.
+* `_unittests.gml`, updated accordingly.
 
 ### Fixes
 * Renamed `real_within_exlusive(...)` -> `real_within_exclusive(...)` (typo).
@@ -13,8 +13,12 @@
 * Ensured `array_height(array)` checking if argument `array` is array.
 * Add unittests for `ds_list_swap_item(...)`.
 * `extractor.d` complains if non-misc function do not have unittests.
+* `assert(...)` optional argument properly documented.
+* `array_append(...)`, removed incorrect documentation.
+* Amount of scripts in the `README.md`.
 
 ### Added
+* Added Marketplace link in `README.md`.
 * `array_filter(array, script)`, returns array of items, where the items passed through the `script` returns true (if `script(array[n]) == true`).
 * Unittests for all non-misc functions
 
