@@ -16,7 +16,8 @@
 
 ### Added
 * `array_filter(array, script)`, returns array of items, where the items passed through the `script` returns true (if `script(array[n]) == true`).
-* Unittests for all non-misc functions
+* `array_2d_of(...)`, possibility to create 2D array....................... not sure this is ready for release........
+* Unittests for all non-misc functions.
 
 ## v1.1.1
 

@@ -617,13 +617,13 @@ return array;
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
 #define array_filter
 ///array_filter(array, script)
-//params: array (xD), script (script(val), returns bool)
+//params: array (1D), script (script(val), returns bool)
 //results: retruns array of items which validate to true when run with `script` (`script(array[n])`).
 
 var array = argument0;
 var script = argument1;
 
-assert(is_array(array), "array_filter(...): `array` must be array.");
+assert(is_array(array) && array_is_1d(array), "array_filter(...): `array` must be 1D array.");
 assert(script_exists(script), "array_filter(...): `script` must be a script.");
 
 var return_array = array_create(0);
@@ -636,6 +636,37 @@ for(var i = 0; i < array_length(array); ++i)
     {
         array_append(return_array, val);
     }
+}
+
+return return_array;
+#define array_2d_of
+///array_2d_of(...)
+//params: array (1D)...
+//results: makes 2d array of arrays.
+
+var return_array = array_create(0);
+
+//iterate all arguments
+for(var h = 0; h < argument_count; ++h)
+{
+    var array = argument[h];
+    
+    assert(is_array(array) && array_is_1d(array), "array_2d_of(...): All arguments must be 1D arrays.");
+    
+    /*//check if current item is an array
+    if(array_is_1d(array))
+    {*/
+        //clone array
+        for(var j = 0; j < array_length_1d(array); ++j)
+        {
+            return_array[h, j] = array[j];
+        }
+    /*}
+    else
+    {
+        //store item
+        return_array[h, 0] = array;
+    }*/
 }
 
 return return_array;
