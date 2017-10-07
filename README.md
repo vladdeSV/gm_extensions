@@ -5,7 +5,7 @@ This library aims to add missing features from the standard GameMaker 1.4 librar
 
 There are around **[40 scripts](REFERENCE.md) (eg. `array_sort`, `array_slice`, `string_join`, `array_split`)** for general purpose usage!
 
-## Download & Installation
+## Download & Usage
 There are multiple ways to get the library extensions.
 
 ### GameMaker: Marketplace
