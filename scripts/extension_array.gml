@@ -155,11 +155,9 @@ else if(argument_count == 3)
 ///array_append(&array, value)
 //params: array, value
 //results: appends `value` to `array`
-//note: if `value` is not array, cannot edit by reference. must assign returned array
 ///array_append(&array, height, value)
 //params: array, real (natural), value
 //results: appends `value` to `array` at `height`
-//note: if `value` is not array, cannot edit by reference. must assign returned array
 
 _gme_arguments(array_append, argument_count, 2, 3);
 
@@ -631,7 +629,7 @@ var return_array = array_create(0);
 for(var i = 0; i < array_length(array); ++i)
 {
     var val = array[@i];
-    
+
     if(script_execute(script, val) == true)
     {
         array_append(return_array, val);

@@ -13,9 +13,9 @@ var text = "";
 for(var n = 0; n < argument_count; ++n)
 {
     var current_argument = argument[n];
-    
+
     //if current argument is...
-    
+
     //string
     if(is_string(current_argument))
     {
@@ -77,7 +77,7 @@ var next_find = string_pos(separator, source);
 //while `next_find` isn't 0
 while(next_find)
 {
-    //add from start of string to where separator is found to return array 
+    //add from start of string to where separator is found to return array
     array_append(splits, string_slice(source, 1, next_find));
     //trim away
     source = string_slice(source, next_find + string_length(separator), string_length(source) + 1);
@@ -92,7 +92,6 @@ return splits;
 ///string_slice(string, from, to)
 //params: string, real (natural), real (natural)
 //retruns: portion of `string`. `from` (inclusive), `to` (exclusive).
-//note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`
 
 var source = argument0;
 var from = argument1;
