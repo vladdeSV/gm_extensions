@@ -24,4 +24,4 @@ The target of this is library is primarily aimed at GameMaker 1.4, but will most
 ## Acknowledgments
 This project is not affiliated GameMaker or YoYoGames, but I definitely feel this should be available to everyone.
 
-Special thanks to @twisterghost (Michael Barrett) for inspiration with his library `[gdash](https://github.com/gm-core/gdash)`.
+Special thanks to @twisterghost (Michael Barrett) for inspiration with his library [gdash](https://github.com/gm-core/gdash).
