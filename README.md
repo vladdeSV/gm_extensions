@@ -8,13 +8,19 @@ There are around **[40 scripts](REFERENCE.md) (eg. `array_sort`, `array_slice`, 
 ## Download & Installation
 There are multiple ways to get the library extensions.
 
-### Method 1 (Easiest)
+### GameMaker: Marketplace
 * Download the library via [the Marketplace](https://marketplace.yoyogames.com/assets/5870/gamemaker-library-extensions).
 
-### Method 2
+### Manually
 1. Go the the [releases page](https://github.com/vladdeSV/gm_extensions/releases).
 1. Find and download the most recent `gm_extensions.gml` file.
 1. In your GameMaker project, include the file.
+
+### Development-build
+1. Install [dmd](https://dlang.org/download.html).
+1. Clone this repository, `git clone https://github.com/vladdeSV/gm_extensions.git`.
+1. Execute the extractor in the project via the *Command Prompt*, `rdmd extractor.d`.
+1. In your GameMaker project, include the file `output/gm_extensions.gml`.
 
 ## Resources
 * Check out the [REFERENCE](REFERENCE.md)!
