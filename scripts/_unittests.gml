@@ -313,13 +313,16 @@ if(unittest)
 ///array_2d_of
 if(unittest)
 {
-    var array_2d = array_create(0);
-    array_2d[0, 0] = "apple";
-    array_2d[0, 1] = "banana";
-    array_2d[1, 0] = 42;
-    array_2d[2, 0] = "car";
+    var array_2d = array_2d_of(array_of("apple", "banana", "clementine"), array_of(42), array_of("car"));
     
-    assert(array_equals(array_2d, array_2d_of(array_of("apple", "banana"), array_of(42), array_of("car"))));
+    var array_2d_2 = array_create(0);
+    array_2d_2[0, 0] = "apple";
+    array_2d_2[0, 1] = "banana";
+    array_2d_2[0, 2] = "clementine";
+    array_2d_2[1, 0] = 42;
+    array_2d_2[2, 0] = "car";
+    
+    assert(array_equals(array_2d, array_2d_2));
     assert(array_height_2d(array_2d) == 3);
     
     assert(array_equals(array_2d_of(), array_create(0)));

@@ -157,11 +157,9 @@ else if(argument_count == 3)
 ///array_append(&array, value)
 //params: array, value
 //results: appends `value` to `array`
-//note: if `value` is not array, cannot edit by reference. must assign returned array
 ///array_append(&array, height, value)
 //params: array, real (natural), value
 //results: appends `value` to `array` at `height`
-//note: if `value` is not array, cannot edit by reference. must assign returned array
 
 _gme_arguments(array_append, argument_count, 2, 3);
 
@@ -619,13 +617,13 @@ return array;
 return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
 #define array_filter
 ///array_filter(array, script)
-//params: array (xD), script (script(val), returns bool)
+//params: array (1D), script (script(val), returns bool)
 //results: retruns array of items which validate to true when run with `script` (`script(array[n])`).
 
 var array = argument0;
 var script = argument1;
 
-assert(is_array(array), "array_filter(...): `array` must be array.");
+assert(is_array(array) && array_is_1d(array), "array_filter(...): `array` must be 1D array.");
 assert(script_exists(script), "array_filter(...): `script` must be a script.");
 
 var return_array = array_create(0);
@@ -633,10 +631,32 @@ var return_array = array_create(0);
 for(var i = 0; i < array_length(array); ++i)
 {
     var val = array[@i];
-    
+
     if(script_execute(script, val) == true)
     {
         array_append(return_array, val);
+    }
+}
+
+return return_array;
+#define array_2d_of
+///array_2d_of(...)
+//params: array (1D)...
+//results: makes 2d array of arrays.
+
+var return_array = array_create(0);
+
+//iterate all arguments
+for(var h = 0; h < argument_count; ++h)
+{
+    var array = argument[h];
+    
+    assert(is_array(array) && array_is_1d(array), "array_2d_of(...): All arguments must be 1D arrays.");
+    
+    //clone array
+    for(var j = 0; j < array_length_1d(array); ++j)
+    {
+        return_array[h, j] = array[j];
     }
 }
 
@@ -678,11 +698,11 @@ for(var i = 0; i < argument_count; ++i)
     array[i] = argument[i];
 }
 
-show_debug_message(string_join(array, ", "));
+show_debug_message(string_join(array));
 
 #define assert
 ///assert(comparison, [message])
-//params: real (boolean), string
+//params: real (boolean), [string]
 //results: if `comparison` is false, show `message` and exit
 
 //if arguments are not 1 or 2, exit.
@@ -806,6 +826,7 @@ else
 }
 
 
+
 #define real_within
 ///real_within(number, min, max)
 //params: real, real, real
@@ -863,15 +884,15 @@ var text = "";
 for(var n = 0; n < argument_count; ++n)
 {
     var current_argument = argument[n];
-    
+
     //if current argument is...
-    
+
     //string
     if(is_string(current_argument))
     {
         text += current_argument;
     }
-    //array
+    //1D array
     else if(is_array(current_argument) && array_height_2d(current_argument) == 1)
     {
         text += "[" + string_join(current_argument, ", ") + "]";
@@ -903,8 +924,8 @@ var joined = "";
 
 for(var n = 0; n < length; ++n)
 {
+    if(n != 0) joined += joiner;
     joined += string(array[@n]);
-    if(n != length - 1) joined += joiner;
 }
 
 return joined;
@@ -927,7 +948,7 @@ var next_find = string_pos(separator, source);
 //while `next_find` isn't 0
 while(next_find)
 {
-    //add from start of string to where separator is found to return array 
+    //add from start of string to where separator is found to return array
     array_append(splits, string_slice(source, 1, next_find));
     //trim away
     source = string_slice(source, next_find + string_length(separator), string_length(source) + 1);
@@ -942,7 +963,6 @@ return splits;
 ///string_slice(string, from, to)
 //params: string, real (natural), real (natural)
 //retruns: portion of `string`. `from` (inclusive), `to` (exclusive).
-//note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`
 
 var source = argument0;
 var from = argument1;
@@ -1000,7 +1020,6 @@ while(--nth)
 
 var ret = string_pos(find, source);
 return ternary(ret, ret + offset, 0);
-
 #define _gme
 
 
@@ -1483,6 +1502,24 @@ if(unittest)
     assert(array_equals(natural, array_of(1, 2, 666)));
 }
 
+///array_2d_of
+if(unittest)
+{
+    var array_2d = array_2d_of(array_of("apple", "banana", "clementine"), array_of(42), array_of("car"));
+    
+    var array_2d_2 = array_create(0);
+    array_2d_2[0, 0] = "apple";
+    array_2d_2[0, 1] = "banana";
+    array_2d_2[0, 2] = "clementine";
+    array_2d_2[1, 0] = 42;
+    array_2d_2[2, 0] = "car";
+    
+    assert(array_equals(array_2d, array_2d_2));
+    assert(array_height_2d(array_2d) == 3);
+    
+    assert(array_equals(array_2d_of(), array_create(0)));
+}
+
 ///real_within
 if(unittest)
 {
@@ -1608,5 +1645,6 @@ if(unittest)
 }
 
 //*/
+
 game_end();
 

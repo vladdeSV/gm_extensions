@@ -26,6 +26,7 @@
 1. [array_swap_item](#array_swap_item)
 1. [array_is_1d](#array_is_1d)
 1. [array_filter](#array_filter)
+1. [array_2d_of](#array_2d_of)
 
 ### extension_ds_list
 
@@ -108,75 +109,73 @@ returns: element in `array` at `height, index` (`array[height, index]`)
 ##### array_append(&array, value)
 params: array, value  
 results: appends `value` to `array`  
-note: if `value` is not array, cannot edit by reference. must assign returned array  
 
 ##### array_append(&array, height, value)
 params: array, real (natural), value  
 results: appends `value` to `array` at `height`  
-note: if `value` is not array, cannot edit by reference. must assign returned array  
 
-### [array_split](/scripts/extension_array.gml#L190)
+### [array_split](/scripts/extension_array.gml#L188)
 
 ##### array_split(array, value)
 params: array (1D), value  
 returns: 2D array, where each sub array was split by `value`  
 
-### [array_flat](/scripts/extension_array.gml#L219)
+### [array_flat](/scripts/extension_array.gml#L217)
 
 ##### array_flat(array)
 params: array  
 returns: 1D array from 2D array "flattened". `array_flat([[1,2,3], [4,5,6]]) == [1,2,3,4,5,6];`  
 
-### [array_sub](/scripts/extension_array.gml#L242)
+### [array_sub](/scripts/extension_array.gml#L240)
 
 ##### array_sub(array, height)
 param: array, real (natural)  
 retruns: 1D array from 2D array at position `height`  
 
-### [array_reverse](/scripts/extension_array.gml#L265)
+### [array_reverse](/scripts/extension_array.gml#L263)
 
 ##### array_reverse(&array)
 params: array (1D)  
 results: `array` with items in reverse order  
 
-### [array_find](/scripts/extension_array.gml#L284)
+### [array_find](/scripts/extension_array.gml#L282)
 
 ##### array_find(array, value, [nth = 1])
 params: array (1D), real (natural), [real (natural)]  
 returns: nth position where value is found in 1D array. if not found, returns -1  
 
-### [array_count](/scripts/extension_array.gml#L312)
+### [array_count](/scripts/extension_array.gml#L310)
 
 ##### array_count(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_exists](/scripts/extension_array.gml#L336)
+### [array_exists](/scripts/extension_array.gml#L334)
 
 ##### array_exists(array, value)
 params: array, value  
 returns: count of how many of value exists in array  
 
-### [array_expand](/scripts/extension_array.gml#L359)
+### [array_expand](/scripts/extension_array.gml#L357)
 
 ##### array_expand(array)
 params: array (1D)  
 results: `array` becomes all elements of nested arrays  
 
-### [array_length](/scripts/extension_array.gml#L401)
+### [array_length](/scripts/extension_array.gml#L399)
 
 ##### array_length(array, [height = 0])
 params: array, [real (natural)]  
 retruns: length of `array`, at height `height`  
 
-### [array_height](/scripts/extension_array.gml#L415)
+### [array_height](/scripts/extension_array.gml#L413)
 
 ##### array_height(array)
 params: array  
 retruns: height of `array`  
 note: alias of `array_height_2d(variable)`  
 
-### [array_insert](/scripts/extension_array.gml#L427)
+### [array_insert](/scripts/extension_array.gml#L425)
 
 ##### array_insert(&array, index, value)
 params: array, real (natural), value  
@@ -186,20 +185,20 @@ results: `array` with `value` inserted at `array[index]`, pushing back all items
 params: array, real (natural), real (natural), value  
 results: `array` with `value` inserted at `array[height, index]`, pushing back all items one step  
 
-### [array_string](/scripts/extension_array.gml#L475)
+### [array_string](/scripts/extension_array.gml#L473)
 
 ##### array_string(string)
 params: string  
 retruns: array with each all characters as items  
 
-### [array_sort](/scripts/extension_array.gml#L494)
+### [array_sort](/scripts/extension_array.gml#L492)
 
 ##### array_sort(&array)
 params: array  
 results: `array` sorted ascendingly. if sorting string: sorted alphabetically  
 note: all items in `array` must be same type  
 
-### [array_replace](/scripts/extension_array.gml#L533)
+### [array_replace](/scripts/extension_array.gml#L531)
 
 ##### array_replace(&array, index, value)
 params: array, real (natural), value  
@@ -209,7 +208,7 @@ results: `array[index]` replaced by `value`
 params: array, real (natural), real (natural), value  
 results: `array[height, index]` replaced by `value`  
 
-### [array_swap_item](/scripts/extension_array.gml#L568)
+### [array_swap_item](/scripts/extension_array.gml#L566)
 
 ##### array_swap_item(&array, index1, index2)
 params: array, real (natural), real (natural)  
@@ -219,17 +218,23 @@ results: modifies `array` by switching items at `index1` and `index2`
 params: array, real (natural), real (natural), real (natural)  
 results: modifies `array` at `height` by switching items at `index1` and `index2`  
 
-### [array_is_1d](/scripts/extension_array.gml#L611)
+### [array_is_1d](/scripts/extension_array.gml#L609)
 
 ##### array_is_1d(array)
 params: value  
 retruns: true if `array` is array and has height of 1.  
 
-### [array_filter](/scripts/extension_array.gml#L618)
+### [array_filter](/scripts/extension_array.gml#L616)
 
 ##### array_filter(array, script)
-params: array (xD), script (script(val), returns bool)  
+params: array (1D), script (script(val), returns bool)  
 results: retruns array of items which validate to true when run with `script` (`script(array[n])`).  
+
+### [array_2d_of](/scripts/extension_array.gml#L640)
+
+##### array_2d_of(...)
+params: array (1D)...  
+results: makes 2d array of arrays.  
 
 ## extension_ds_list
 
@@ -250,7 +255,7 @@ results: shorthand for `show_debug_message`
 ### [assert](/scripts/extension_misc.gml#L23)
 
 ##### assert(comparison, [message])
-params: real (boolean), string  
+params: real (boolean), [string]  
 results: if `comparison` is false, show `message` and exit  
 
 ### [noop](/scripts/extension_misc.gml#L48)
@@ -322,16 +327,15 @@ note: automatically converts parameters to strings. `string_split(123456, 4) == 
 ##### string_slice(string, from, to)
 params: string, real (natural), real (natural)  
 retruns: portion of `string`. `from` (inclusive), `to` (exclusive).  
-note: this function assumes position 0 is the first character, and the last character is at position `string_length(string) - 1`. however, due to the functions nature, the following is allowed `string_slice(string, 0, string_length(string)) == string`  
 
-### [string_substring](/scripts/extension_string.gml#L110)
+### [string_substring](/scripts/extension_string.gml#L109)
 
 ##### string_substring(string, from, length)
 params: string, real (natural), real (natural)  
 returns: string from index `from` to `from + length`. `string_substring("hello world!", 6, 3) == "wor")`.  
 note: alias for `string_copy(...)`.  
 
-### [string_find](/scripts/extension_string.gml#L127)
+### [string_find](/scripts/extension_string.gml#L126)
 
 ##### string_find(source, find, [nth = 1])
 params: string, string, [real (natural)]  

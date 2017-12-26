@@ -2,10 +2,14 @@
 
 ## [upcoming]
 
+* none
+
+## v1.2.0
+
 ### Changes
 * `string_*(...)` functions now assume first character index is at 1.
 * `log(...)`, no long comma-separates arguments.
-* `_unittests.gml`, updated accordingly.
+* `_unittests.gml`, updated accordingly to other changes in this release.
 
 ### Fixes
 * Renamed `real_within_exlusive(...)` -> `real_within_exclusive(...)` (typo).
@@ -20,7 +24,7 @@
 ### Added
 * Added Marketplace link in `README.md`.
 * `array_filter(array, script)`, returns array of items, where the items passed through the `script` returns true (if `script(array[n]) == true`).
-* `array_2d_of(...)`, possibility to create 2D array....................... not sure this is ready for release........
+* `array_2d_of(...)`, possibility to create 2D array. All aguments must be of type `array (1D)`.
 * Unittests for all non-misc functions.
 
 ## v1.1.1

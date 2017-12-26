@@ -651,20 +651,11 @@ for(var h = 0; h < argument_count; ++h)
     
     assert(is_array(array) && array_is_1d(array), "array_2d_of(...): All arguments must be 1D arrays.");
     
-    /*//check if current item is an array
-    if(array_is_1d(array))
-    {*/
-        //clone array
-        for(var j = 0; j < array_length_1d(array); ++j)
-        {
-            return_array[h, j] = array[j];
-        }
-    /*}
-    else
+    //clone array
+    for(var j = 0; j < array_length_1d(array); ++j)
     {
-        //store item
-        return_array[h, 0] = array;
-    }*/
+        return_array[h, j] = array[j];
+    }
 }
 
 return return_array;
