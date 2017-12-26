@@ -14,7 +14,7 @@ void main()
     File output = File("output/gm_extensions.gml", "w"); output.writeln("#define gm_extensions\n///Game Maker 1.4 Library Extensions\n");
 
     writeln("Opening file 'REFERENCE.md'");
-    File reference = File("REFERENCE.md", "w"); reference.writeln("# GameMaker 1.4 Library Extensions Reference\n## Reference\n");
+    File reference = File("REFERENCE.md", "w"); reference.writeln("# GameMaker 1.4 Library Extensions\n## Contents\n");
 
     writeln("Loading all unittests");
     string unittests = readText("scripts/_unittests.gml");
@@ -45,7 +45,7 @@ void main()
         reference.writeln();
     }
 
-    reference.writeln("\n---\n");
+    reference.writeln("\n## Reference\n");
 
     foreach(script; dirEntries("scripts/", "*.gml", SpanMode.shallow))
     {

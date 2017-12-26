@@ -1,5 +1,5 @@
-# GameMaker 1.4 Library Extensions Reference
-## Reference
+# GameMaker 1.4 Library Extensions
+## Contents
 
 ### extension_array
 
@@ -57,7 +57,7 @@
 1. [string_find](#string_find)
 
 
----
+## Reference
 
 ## extension_array
 
