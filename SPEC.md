@@ -1,4 +1,11 @@
-# GameMaker Library Extensions' Function Definition Specification RC1
+# GameMaker Library Extensions' Function Definition Specification - RC1
+
+This document aims to create a unified specification GameMaker Studio function declarations.
+
+> The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+> NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+> "OPTIONAL" in this document are to be interpreted as described in
+> [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 ## Function declarations
 
@@ -16,7 +23,7 @@ Function declaration's argument names must adhere to the [GML definition of a va
 
 Function declarations can be supplemented with comments, which are lines directly followed the function and prefixed with `///`. Example:
 
-```
+```gml
 ///is_array(val: value): real<integer>
 /// Checks if `val` is an array
 /// Returns: bool, true if array, false if not
@@ -40,7 +47,7 @@ The optional type specifier is defined as `{type}<{specifier}>`, and limits the 
 
 * `real<integer>`, whole numbers.
 * `real<boolean>`, boolean value.
-  * This is not strictly equal to the values `1` or `0`. A boolean value is the result of using comparator operators, such as `==`, `>=`, `!=`, etc.
+  * This is not strictly equal to the values `1` or `0`. A boolean value is the result of using comparator operators, such as `==`, `>=`, `!=`, etc. Statments using combining operators, such as `&&`, `^^`, and `||` do not apply.
 * `real<ds_list>`, `ds_list`s.
 * `array<real>`, array (1D) of numbers.
 * `array<real<integer>>`, array of whole numbers.
@@ -48,9 +55,8 @@ The optional type specifier is defined as `{type}<{specifier}>`, and limits the 
 * `array<><real>`, nested (2D) array of numbers.
 * `array<><real<integer>>`, nested (2D) array of whole numbers.
 * `value<pointer<buffer>>`
-  * Note: A `value` type specifier must not be a type defined by [GMETD](gamemaker-libaray-extension-type-definitions). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
+  * Note: A `value` type specifier must not be a type defined by [GMETD](#gamemaker-libaray-extension-type-definitions). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
   * As there is no clear specification of how `value` should be defined, it is up to the developer to ensure the type is clear and consistent with previous implementations of `value` type specifiers.
-
 
 ## Examples of function definitions
 
@@ -61,6 +67,7 @@ The optional type specifier is defined as `{type}<{specifier}>`, and limits the 
 ```gml
 ///scr1(): real<integer>
 /// Get a number
+///also a comment
 ```
 
 ```gml
@@ -70,3 +77,8 @@ The optional type specifier is defined as `{type}<{specifier}>`, and limits the 
 ```gml
 ///scr3(f: any, [s: value = 1])
 ```
+
+---
+
+Author: Vladimirs Nordholm  
+Last revision: 14th of June, 2018
