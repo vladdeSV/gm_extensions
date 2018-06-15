@@ -43,15 +43,17 @@ Types followed by `<*>` can have an optional type specifier. Read more about [Ty
 
 ### Type specifiers
 
-The optional type specifier is defined as `{type}<{specifier}>`, and limits the value type to a certain gategory. The purpose of the specifier is to signify the intent of. Examples of type specifiers are:
+The optional type specifier is defined as `{type}<{specifier}>`, and limits the value type to a certain gategory. The purpose of the specifier is to signify the intent of the type. Examples of type specifiers are:
 
 * `real<integer>`, whole numbers.
 * `real<boolean>`, boolean value.
   * This is not strictly equal to the values `1` or `0`. A boolean value is the result of using comparator operators, such as `==`, `>=`, `!=`, etc. Statments using combining operators, such as `&&`, `^^`, and `||` do not apply.
 * `real<ds_list>`, `ds_list`s.
+* `array<>`, one dimensional array.
 * `array<real>`, array (1D) of numbers.
 * `array<real<integer>>`, array of whole numbers.
 * `array<real<ds_list>>`, array of `ds_list`s.
+* `array<><>`, nested (2D) array
 * `array<><real>`, nested (2D) array of numbers.
 * `array<><real<integer>>`, nested (2D) array of whole numbers.
 * `value<pointer<buffer>>`
