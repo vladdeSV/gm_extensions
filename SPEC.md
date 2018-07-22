@@ -1,4 +1,4 @@
-# GameMaker Library Extensions' Function Definition Specification  [[ in development ]]
+# GameMaker Library Extensions' Function Declaration Specification  [[ in development ]]
 
 This document aims to create a unified specification GameMaker Studio function declarations.
 
@@ -9,7 +9,7 @@ This document aims to create a unified specification GameMaker Studio function d
 
 ## Function declarations
 
-All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Definition Specification funciton declaration. The first line of a script defines the function declarattion of a function, must follow the following syntax:
+All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Declaration Specification funciton declaration. The first line of a script defines the function declarattion of a function, must follow the following syntax:
 
 ```gml
 ///{function name}({arguments}): {return type}
@@ -27,7 +27,7 @@ See the [Examples of function declarations](#examples-of-function-declarations) 
 
 ### Function argument names
 
-Function declaration's argument names must adhere to the [GML definition of a variable name](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/variables/index.html):
+Function declaration's argument names must adhere to the [GML declaration of a variable name](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/variables/index.html):
 
 > [...] must start with a letter and can contain only letters, numbers, and the underscore symbol '_' with a maximum length of 64 symbols.
 
@@ -46,9 +46,9 @@ Function declarations can be supplemented with comments, which are lines directl
 /// Returns: bool, true if array, false if not
 ```
 
-## GameMaker Libaray Extension Type Definitions
+## GameMaker Libaray Extension Type Declarations
 
-All function declarations' value types must be defined as either of the following GameMaker Libaray Extension Type Definitions (GMETD):
+All function declarations' value types must be defined as either of the following GameMaker Libaray Extension Type Declarations (GMETD):
 
 * `real`, any number.
 * `string`.
@@ -111,7 +111,7 @@ The `value` type must not specify any type which is defined by GMETD, but rather
 * `array<><real>`, 2D array of numbers.
 * `array<><real<integer>>`, 2D array of whole numbers.
 * `value<pointer<buffer>>`
-  * Note: A `value` type specifier must not be a type defined by [GMETD](#gamemaker-libaray-extension-type-definitions). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
+  * Note: A `value` type specifier must not be a type defined by [GMETD](#gamemaker-libaray-extension-type-declarations). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
   * As there is no clear specification of how `value` should be defined, it is up to the developer to ensure the type is clear and consistent with previous implementations of `value` type specifiers.
 
 ## Examples of function declarations
