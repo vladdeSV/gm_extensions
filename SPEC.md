@@ -9,7 +9,7 @@ This document aims to create a unified specification GameMaker Studio function d
 
 ## Function declarations
 
-All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Declaration Specification funciton declaration. The first line of a script defines the function declarattion of a function, must follow the following syntax:
+All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Declaration Specification funciton declaration. The first line of a script defines the functions declaration, must follow the following syntax:
 
 ```gml
 ///{function name}({arguments}): {return type}
@@ -62,7 +62,7 @@ The types `real`, `array`, and `value` can have an optional type specifier. Read
 
 ### Spread operator
 
-Any type suffixed with three dots `...` indicates there can be any number of arguments in its' place. For the function declaration `///log(v: value...)`, all following calls are permitted:
+Any type suffixed with three dots `...` indicates there can be any number of arguments in its place. For the function declaration `///log(v: value...)`, all following calls are permitted:
 
 * `log();`.
 * `log(1);`.
@@ -92,7 +92,7 @@ It is discouraged to specify the type specifier for arrays as only `value` (`arr
 
 #### Value type specifiers
 
-The `value` type must not specify any type which is defined by GMETD, but rather explicity type not defined my GMETD
+The `value` type must not specify any type which is defined by GMETD, but rather explicity types not defined my GMETD
 
 ## Examples of type specifiers
 
@@ -141,4 +141,4 @@ The `value` type must not specify any type which is defined by GMETD, but rather
 ---
 
 Author: Vladimirs Nordholm  
-Last revision: 23th of June, 2018
+Last revision: 23th of July, 2018
