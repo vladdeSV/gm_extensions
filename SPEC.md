@@ -88,8 +88,6 @@ Two-dimensional (2D) arrays are explicitly defined as `array<><>`, and defining 
 
 It is discouraged to specify the type specifier for arrays as only `value` (`array<value>` and `array<><value>`). If the desired array item type is specifically `value`, the type should be ommited, leaving only `array<>` or `array<><>`.
 
-> Because `array<>` and `array<value>` effectively mean the same, the latter is discouraged and should not be used. The same rule applies for 2D arrays.
-
 #### Value type specifiers
 
 The `value` type must not specify any type which is defined by GMETD, but rather explicity types not defined my GMETD
