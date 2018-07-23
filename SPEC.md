@@ -56,7 +56,7 @@ All function declarations' value types must be defined as either of the followin
 * `value`, any value at all.
 * `undefined`, absence of a value.
 
-All types can be suffixed with the spread operator `...`.
+All types can be suffixed with the spread operator `...`. Read more about the [Spread operator](#spread-operator).
 
 The types `real`, `array`, and `value` can have an optional type specifier. Read more about [Type specifiers](#type-specifiers).
 
@@ -90,7 +90,7 @@ It is discouraged to specify the type specifier for arrays as only `value` (`arr
 
 #### Value type specifiers
 
-The `value` type must not specify any type which is defined by GMETD, but rather explicity types not defined my GMETD
+The `value` type must not specify any type which is defined by GMETD.
 
 ## Examples of type specifiers
 
