@@ -15,11 +15,18 @@ All functions (commonly referred to as "scripts") must be declared with a GameMa
 ///{function name}({arguments}): {return type}
 ```
 
-, where each comma-separated argument in `{arguments}` is any of the following declarations, in order of appearance:
+, where each argument in `{arguments}` is "comma space"-separated (`, `) and any of the following declarations:
 
 1. `{argument name}: {argument type}`.
-2. `[{optional argument name}: {argument type} = {default value}]`.
-3. `{argument name}: {argument type}...`.
+2. `{argument name}: {argument type}...`
+3. `[{optional argument name}: {argument type} = {default value}]`.
+
+, with the following restrictions:
+
+* All arguments following an optional argument must also be declared optional.
+* No arguments may come after a type using the spread operator. Read more about the [Spread operator](#spread-operator).
+
+Argument and return types refer to the [GameMaker Libaray Extension Type Declarations](#gamemaker-libaray-extension-type-declarations).
 
 The return type, including the comma (`: {return type}`), must be ommited if the function does not return any value.
 
@@ -31,10 +38,9 @@ Function declaration's argument names must adhere to the [GML declaration of a v
 
 > [...] must start with a letter and can contain only letters, numbers, and the underscore symbol '_' with a maximum length of 64 symbols.
 
-Additional constraints for argument names are:
+, with the additional constraints that all letters must only be letters in the English alphabet.
 
-1. Letters must only contain letters from `a` to `Z`.
-2. Letters should only be lowercase, however uppercase letters are permitted.
+If an argument name contains multiple words, the words should be separated using underscores `_`. Letters should only be lowercase, however uppercase letters are permitted.
 
 ### Function comments
 
@@ -56,9 +62,11 @@ All function declarations' value types must be defined as either of the followin
 * `value`, any value at all.
 * `undefined`, absence of a value.
 
-All types can be suffixed with the spread operator `...`. Read more about the [Spread operator](#spread-operator).
+All types can be suffixed with the spread operator `...`.
 
 The types `real`, `array`, and `value` can have an optional type specifier. Read more about [Type specifiers](#type-specifiers).
+
+The type `array` can be prefixed with an ampersand (`&`) to indicate that variable will be used as a reference. Read more about the [Array reference marker](#array-reference-marker).
 
 ### Spread operator
 
@@ -92,7 +100,7 @@ It is discouraged to specify the type specifier for arrays as only `value` (`arr
 
 The `value` type must not specify any type which is defined by GMETD.
 
-## Examples of type specifiers
+### Examples of type specifiers
 
 * `real<integer>`, whole numbers.
 * `real<boolean>`, boolean value.
@@ -111,6 +119,10 @@ The `value` type must not specify any type which is defined by GMETD.
 * `value<pointer<buffer>>`
   * Note: A `value` type specifier must not be a type defined by [GMETD](#gamemaker-libaray-extension-type-declarations). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
   * As there is no clear specification of how `value` should be defined, it is up to the developer to ensure the type is clear and consistent with previous implementations of `value` type specifiers.
+
+### Array reference marker
+
+If an argument of the type `array` will be be modified by reference, then the type must be prefixed with an ampersand `&`. If the type is not modified by reference then it should not be declared with an array reference marker.
 
 ## Examples of function declarations
 
@@ -136,7 +148,11 @@ The `value` type must not specify any type which is defined by GMETD.
 ///scr4(f: real<integer>, s: value...)
 ```
 
+```gml
+///scr4(arr: &array)
+```
+
 ---
 
 Author: Vladimirs Nordholm  
-Last revision: 23th of July, 2018
+Last revision: 24th of July, 2018
