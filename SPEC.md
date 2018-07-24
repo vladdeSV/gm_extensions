@@ -1,6 +1,6 @@
 # GameMaker Library Extensions' Function Declaration Specification  [[ in development ]]
 
-This document aims to create a unified specification GameMaker Studio function declarations.
+This document aims to create a unified specification for GameMaker Studio function declarations.
 
 > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 > NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
