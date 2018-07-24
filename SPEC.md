@@ -1,6 +1,6 @@
 # GameMaker Library Extensions' Function Declaration Specification  [[ in development ]]
 
-This document aims to create a unified specification for GameMaker Studio function declarations.
+This document aims to create a unified specification for GameMaker Studio (GMS) function declarations.
 
 > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 > NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
@@ -71,6 +71,8 @@ The types `real`, `array`, and `value` can have an optional type specifier. Read
 
 The type `array` can be prefixed with an ampersand `&` to indicate that variable will be used as a reference. Read more about the [Array reference marker](#array-reference-marker).
 
+Any type prefixed with a question mark `?` may be assigned the GMS predefined value `undefined`. Read more about the [Nullable marker](#nullable-marker).
+
 ### Spread operator
 
 Any type suffixed with three dots `...` indicates there can be any number of arguments in its place. For the function declaration `///log(v: value...)`, all following calls are permitted:
@@ -126,6 +128,16 @@ The `value` type must not specify any type which is defined by GMETD.
 ### Array reference marker
 
 If an argument of the type `array` will be be modified by reference, then the type must be prefixed with an ampersand `&`. If the type is not modified by reference then it should not be declared with an array reference marker.
+
+### Nullable marker
+
+All types can be prefixed with a question mark signify that the value of the type can also be the built-in value `undefined`, representing an absense of a value. The value `undefined` is equivalent to many other programming languages `null` type, hence the markers name.
+
+#### Exmaples of nullable arguments
+
+* `name: ?string`, nullable string
+* `age: ?real<integer>`, nullable number
+* `names: ?&array<string>...`, nullable array references
 
 ## Examples of function declarations
 
