@@ -64,7 +64,6 @@ All function declarations' value types must be defined as either of the followin
 * `string`.
 * `array`.
 * `value`, any value at all.
-* `undefined`, absence of a value.
 
 All types can be suffixed with the spread operator `...`.
 
