@@ -70,7 +70,7 @@ All types can be suffixed with the spread operator `...`.
 
 The types `real`, `array`, and `value` can have an optional type specifier. Read more about [Type specifiers](#type-specifiers).
 
-The type `array` can be prefixed with an ampersand (`&`) to indicate that variable will be used as a reference. Read more about the [Array reference marker](#array-reference-marker).
+The type `array` can be prefixed with an ampersand `&` to indicate that variable will be used as a reference. Read more about the [Array reference marker](#array-reference-marker).
 
 ### Spread operator
 
