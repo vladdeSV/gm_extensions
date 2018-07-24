@@ -9,7 +9,7 @@ This document aims to create a unified specification GameMaker Studio function d
 
 ## Function declarations
 
-All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Declaration Specification funciton declaration. The first line of a script defines the functions declaration, must follow the following syntax:
+All functions (commonly referred to as "scripts") must be declared with a GameMaker Library Extensions' Function Declaration Specification funciton declaration. The first line of a script defines the functions declaration, and must follow the following syntax:
 
 ```gml
 ///{function name}({arguments}): {return type}
