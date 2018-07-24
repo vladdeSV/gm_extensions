@@ -26,7 +26,7 @@ All functions (commonly referred to as "scripts") must be declared with a GameMa
 * All arguments following an optional argument must also be declared optional.
 * No arguments may come after a type using the spread operator. Read more about the [Spread operator](#spread-operator).
 
-Argument and return types refer to the [GameMaker Libaray Extension Type Declarations](#gamemaker-libaray-extension-type-declarations).
+Argument and return types may only be declared as a single type, of which described in the [GameMaker Libaray Extension Type Declarations](#gamemaker-libaray-extension-type-declarations).
 
 The return type, including the comma (`: {return type}`), must be ommited if the function does not return any value.
 
@@ -40,7 +40,11 @@ Function declaration's argument names must adhere to the [GML declaration of a v
 
 , with the additional constraints that all letters must only be letters in the English alphabet.
 
-If an argument name contains multiple words, the words should be separated using underscores `_`. Letters should only be lowercase, however uppercase letters are permitted.
+If an argument name contains multiple words, the words should be separated using underscores `_`, to better fit with the already existing GMS library. Letters should only be lowercase, however uppercase letters are permitted.
+
+### Return type
+
+Any function which returns a value with the `return` keyword (ex. `return 42;`) must declare the type of the return value.
 
 ### Function comments
 
@@ -135,7 +139,8 @@ If an argument of the type `array` will be be modified by reference, then the ty
 ```
 
 ```gml
-///scr2(f: value, [s: string = ""])
+///scr2(f: value, [s: string = ""], [n: real = 42])
+/// multiple optional arguments
 ```
 
 ```gml
