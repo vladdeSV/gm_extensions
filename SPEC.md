@@ -19,16 +19,15 @@ All functions (commonly referred to as "scripts") must be declared with a GameMa
 
 1. `{argument name}: {argument type}`.
 2. `{argument name}: {argument type}...`
-3. `[{optional argument name}: {argument type} = {default value}]`.
+3. `{optional argument name}: {argument type} = {default value}`.
 
 , with the following restrictions:
 
 * All arguments following an optional argument must also be declared optional.
 * No arguments may come after a type using the spread operator. Read more about the [Spread operator](#spread-operator).
+* The return type, including the comma (`: {return type}`), must be ommited if the function does not return any value.
 
 Argument and return types may only be declared as a single type, of which described in the [GameMaker Libaray Extension Type Declarations](#gamemaker-libaray-extension-type-declarations).
-
-The return type, including the comma (`: {return type}`), must be ommited if the function does not return any value.
 
 See the [Examples of function declarations](#examples-of-function-declarations) for different variations of the declaration syntax.
 
@@ -123,7 +122,7 @@ The `value` type must not specify any type which is defined by GMETD.
 * `array<><real<integer>>`, 2D array of whole numbers.
 * `value<pointer<buffer>>`
   * Note: A `value` type specifier must not be a type defined by [GMETD](#gamemaker-libaray-extension-type-declarations). Usage of a `value` type specifier should not be used unless strictly required by the function, such as a pointer to a buffer or [any other type used by GMS](https://docs.yoyogames.com/source/dadiospice/002_reference/001_gml%20language%20overview/typeof.html).
-  * As there is no clear specification of how `value` should be defined, it is up to the developer to ensure the type is clear and consistent with previous implementations of `value` type specifiers.
+  * As there is no clear specification of how `value` should be defined, it is up to the developer to ensure the type is clear and consistent with previous implementations, if any, of `value` type specifiers.
 
 ### Array reference marker
 
@@ -150,12 +149,12 @@ All types can be prefixed with a question mark signify that the value of the typ
 ```
 
 ```gml
-///scr2(f: value, [s: string = ""], [n: real = 42])
+///scr2(f: value, s: string = "", n: real = 42)
 /// multiple optional arguments
 ```
 
 ```gml
-///scr3(f: value, [s: real = 1], [t: real<integer> = 2]): array<><real<integer>>
+///scr3(f: value, s: real = 1, t: real<integer> = 2): array<><real<integer>>
 /// a comment
 ///another comment
 ```
@@ -166,6 +165,10 @@ All types can be prefixed with a question mark signify that the value of the typ
 
 ```gml
 ///scr4(arr: &array)
+```
+
+```gml
+///scr5(input: real, errors: ?&array)
 ```
 
 ---
