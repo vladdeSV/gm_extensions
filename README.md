@@ -24,7 +24,6 @@ There are multiple ways to get the library extensions.
 
 ## Resources
 * Check out the [REFERENCE](REFERENCE.md)
-* Check out the [SPECIFICATION](SPEC.md)
 
 The target of this is library is primarily aimed at GameMaker 1.4, but will most likely work with GameMaker 2.
 
