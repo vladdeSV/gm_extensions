@@ -2,51 +2,41 @@
 
 
 #define array_init
-///array_init(height, length)
-//params: real (natural), real (natural)
-//retruns: array with `height` * `length` items
-///array_init(length)
-//params: real (natural)
-//returns: array with `length` items
-//note: alias for `array_create(length)`
-///array_init()
-//returns: empty array
-//note: alias for `array_create(0)`
+///array_init(length: real<integer>, height: real<integer> = 1): array
+/// Returns: array of `width` and `height`
 
 _gme_arguments(array_init, argument_count, 0, 1, 2);
 
+var length = 0;
 var height = 1;
-var length = 1;
 
-if(argument_count == 0)
+if(argument_count >= 1)
 {
-    return array_create(0);
-}
-else if(argument_count == 1)
-{
-    return array_create(argument[0]);
-}
-else if(argument_count == 2)
-{
-    height = argument[0];
-    length = argument[1];
+    length = argument[0];
 }
 
+if(argument_count >= 2)
+{
+    height = argument[1];
+}
+
+assert(real_is_natural(length) && length >= 0, "array_init(...): `length` must be natural number greater or equal to than 0.");
 assert(real_is_natural(height) && height > 0, "array_init(...): `height` must be natural number greater than 0.");
-assert(real_is_natural(length) && length > 0, "array_init(...): `length` must be natural number greater than 0.");
 
-var array = 0;
+var array = array_create(0);
 for(var h = 0; h < height; ++h)
 {
-    array[h, length - 1] = 0;
+    for(var l = 0; l < length; ++l)
+    {
+        array[h, l] = undefined;
+    }
 }
 
 return array;
 
 #define array_of
-///array_of(...)
-//params: value...
-//returns: creates an array from arguments
+///array_of(...values: value): array
+/// Returns: array from arguments
 
 //array from arguments
 var return_array = array_create(argument_count);;
@@ -60,9 +50,8 @@ for(var i = 0; i < argument_count; ++i)
 return return_array;
 
 #define array_slice
-///array_slice(array, from, to)
-//params: array (1D), real (natural), real (natural)
-//retruns: portion of `array`. `from` (inclusive), `to` (exclusive)
+///array_slice(array: array, from: real<integer>, to: real<integer>): array
+/// Retruns: `array[from .. to]`, `from` (inclusive), `to` (exclusive)
 
 var array = argument0;
 var from = argument1;
@@ -86,9 +75,8 @@ array_copy(return_array, 0, array, from, delta);
 return return_array;
 
 #define array_clone
-///array_clone(array)
-//params: array
-//returns: deep copy of `array`, both 1D and 2D arrays
+///array_clone(array: array): array
+/// Returns: Deep copy of `array`
 
 //store array pointer
 var array = argument0;
@@ -119,37 +107,26 @@ for(var i = 0; i < array_height_2d(array); ++i)
 return copy;
 
 #define array_at
-///array_at(array, index)
-//params: array, real (natural)
-//returns: element in `array` at `index` (`array[subindex, index]`)
-///array_at(array, height, index)
-//params: array, real (natural), real (natural)
-//returns: element in `array` at `height, index` (`array[height, index]`)
+///array_at(array: array, index: real<integer>, height: real<integer> = 0): value
+/// Returns: Value at `array[subindex, index]`
 
 _gme_arguments(array_at, argument_count, 2, 3);
 
-if(argument_count == 2)
+var array = argument[0];
+var index = argument[1];
+var height = 0;
+
+if(argument_count >= 3)
 {
-    var array = argument[0];
-    var index = argument[1];
-
-    assert(is_array(array), "array_at(...): `array` must be array.");
-    assert(real_is_natural(index), "array_at(...): `index` must be natural number.");
-
-    return array[@index];
+    height = argument[2];
 }
-else if(argument_count == 3)
-{
-    var array = argument[0];
-    var height = argument[1];
-    var index = argument[2];
 
-    assert(is_array(array), "array_at(...): `array` must be array.");
-    assert(real_is_natural(index), "array_at(...): `height` must be natural number.");
-    assert(real_is_natural(index), "array_at(...): `index` must be natural number.");
+assert(is_array(array), "array_at(...): `array` must be array.");
+assert(real_is_natural(index), "array_at(...): `index` must be natural number.");
+assert(real_is_natural(index), "array_at(...): `height` must be natural number.");
 
-    return array[@height, index];
-}
+return array[@height, index];
+
 
 #define array_append
 ///array_append(&array, value)
@@ -186,9 +163,8 @@ array[@height, array_length(array, height)] = value;
 return array;
 
 #define array_split
-///array_split(array, value)
-//params: array (1D), value
-//returns: 2D array, where each sub array was split by `value`
+///array_split(array: array<>, value: value): array<><>
+/// Returns: 2D array where each sub array is split by `value`
 
 var array = argument0;
 var value = argument1;
@@ -215,9 +191,8 @@ for(var i = 0; i < array_length(array); ++i)
 return return_array;
 
 #define array_flat
-///array_flat(array)
-//params: array
-//returns: 1D array from 2D array "flattened". `array_flat([[1,2,3], [4,5,6]]) == [1,2,3,4,5,6];`
+///array_flat(array: array): array<>
+/// Returns: "flattened" array. `array_flat([[1,2,3], [4,5,6]]) == [1,2,3,4,5,6];`
 
 var array = argument0;
 
@@ -238,9 +213,8 @@ for(var i = 0; i < height; ++i)
 return array_expand(return_array);
 
 #define array_sub
-///array_sub(array, height)
-//param: array, real (natural)
-//retruns: 1D array from 2D array at position `height`
+///array_sub(array: array<><>, height: real<integer>): array<>
+/// Retruns: 1D array from 2D array at position `height`
 
 var array = argument0;
 var height = argument1;
@@ -261,9 +235,7 @@ for(var n = 0; n < length; ++n)
 return sub_array;
 
 #define array_reverse
-///array_reverse(&array)
-//params: array (1D)
-//results: `array` with items in reverse order
+///array_reverse(&array: array)
 
 var array = argument0;
 
@@ -280,9 +252,8 @@ for(var n = 0; n < floor(length/2); ++n)
 return array;
 
 #define array_find
-///array_find(array, value, [nth = 1])
-//params: array (1D), real (natural), [real (natural)]
-//returns: nth position where value is found in 1D array. if not found, returns -1
+///array_find(array: array<>, value: value, nth: real<natural> = 1)
+/// Returns: nth position where value is found in 1D array. if not found, returns -1
 
 _gme_arguments(array_find, argument_count, 2, 3);
 
@@ -308,9 +279,8 @@ return -1;
 
 
 #define array_count
-///array_count(array, value)
-//params: array, value
-//returns: count of how many of value exists in array
+///array_count(array: array, value: value): real<integer>
+/// Returns: count of how many of value exists in array
 
 var array = argument0;
 var value = argument1;
@@ -332,9 +302,8 @@ for(var h = 0; h < height; ++h)
 return count;
 
 #define array_exists
-///array_exists(array, value)
-//params: array, value
-//returns: count of how many of value exists in array
+///array_exists(array: array, value: value): real<boolean>
+/// Returns: How many of `value` in `array`
 
 var array = argument0;
 var value = argument1;
@@ -348,16 +317,15 @@ for(var h = 0; h < height; ++h)
     var length = array_length_2d(array, h);
     for(var n = 0; n < length; ++n)
     {
-        if(array[@h, n] == value) return true;
+        if(array[@h, n] == value) return bool(true);
     }
 }
 
-return false;
+return (false);
 
 #define array_expand
-///array_expand(array)
-//params: array (1D)
-//results: `array` becomes all elements of nested arrays
+///array_expand(array: array<>): array<>
+/// Results: `array` becomes all elements of nested arrays
 
 var array = argument0;
 
@@ -397,9 +365,8 @@ array_copy(array, 0, return_array, 0, array_length(return_array));
 return array;
 
 #define array_length
-///array_length(array, [height = 0])
-//params: array, [real (natural)]
-//retruns: length of `array`, at height `height`
+///array_length(array: array, height = 0): real<integer>
+/// Retruns: length of `array`, at height `height`
 
 _gme_arguments(array_length, argument_count, 1, 2);
 
@@ -411,10 +378,9 @@ assert(real_is_natural(height), "array_length(...): `height` must be natural num
 return array_length_2d(array, height);
 
 #define array_height
-///array_height(array)
-//params: array
-//retruns: height of `array`
-//note: alias of `array_height_2d(variable)`
+///array_height(array: array): real<integer>
+/// Retruns: height of `array`
+/// Note: alias of `array_height_2d(variable)`
 
 var array = argument0;
 
@@ -471,9 +437,7 @@ return array;
 
 
 #define array_string
-///array_string(string)
-//params: string
-//retruns: array with each all characters as items
+///array_string(string: string): array<>
 
 var str = argument0;
 
@@ -490,10 +454,9 @@ for(var i = 0; i < str_length; ++i)
 return return_array;
 
 #define array_sort
-///array_sort(&array)
-//params: array
-//results: `array` sorted ascendingly. if sorting string: sorted alphabetically
-//note: all items in `array` must be same type
+///array_sort(&array: array<>)
+/// Results: `array` sorted ascendingly. if sorting string: sorted alphabetically
+/// Note: All items in `array` must be same type
 
 var array = argument0;
 
@@ -607,16 +570,14 @@ array[@height, index1] = temp;
 return array;
 
 #define array_is_1d
-///array_is_1d(array)
-//params: value
-//retruns: true if `array` is array and has height of 1.
+///array_is_1d(value: value): real<boolean>
 
 //array[0,n] == array[n]
-return (array_height_2d(argument0) == 1 || (is_array(argument0) && array_height_2d(argument0) == 0));
+return bool(array_height_2d(argument0) == 1 || ( is_array(argument0) && array_height_2d(argument0) == 0));
+
 #define array_filter
-///array_filter(array, script)
-//params: array (1D), script (script(val), returns bool)
-//results: retruns array of items which validate to true when run with `script` (`script(array[n])`).
+///array_filter(array: array<>, script: value<script>): array<>
+/// Returns: retruns array of items which validate to true when run with `script` (`script(array[n])`).
 
 var array = argument0;
 var script = argument1;
@@ -637,10 +598,10 @@ for(var i = 0; i < array_length(array); ++i)
 }
 
 return return_array;
+
 #define array_2d_of
-///array_2d_of(...)
-//params: array (1D)...
-//results: makes 2d array of arrays.
+///array_2d_of(arrays: array<>...): array<><>
+/// Returns: 2D array of 1D arrays.
 
 var return_array = array_create(0);
 
