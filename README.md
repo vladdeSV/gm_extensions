@@ -1,5 +1,5 @@
 # GameMaker Library Extensions
-[![img](https://img.shields.io/badge/GM-1.4-green.svg)](#) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/vladdeSV/gm_extensions/master/LICENSE.md)
+[![version 1.4](https://img.shields.io/badge/GM-1.4-green.svg)](#) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/vladdeSV/gm_extensions/master/LICENSE.md)
 
 This library aims to add missing features from the standard GameMaker 1.4 library.
 
