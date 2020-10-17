@@ -1,7 +1,7 @@
 # GameMaker Library Extensions
 [![version 1.4](https://img.shields.io/badge/GM-1.4-green.svg)](#) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/vladdeSV/gm_extensions/master/LICENSE.md)
 
-This library aims to add missing features from the standard GameMaker 1.4 library.
+This library aims to add missing features from the standard GameMaker 1.4.9999 library.
 
 There are around **[40 scripts](REFERENCE.md) (eg. `array_sort`, `array_slice`, `string_join`, `array_split`)** for general purpose usage!
 
